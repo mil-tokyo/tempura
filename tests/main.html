@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="">
+<!--[if lt IE 9]>
+<script src="//cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="shortcut icon" href="">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="../agent_smith/src/agent_smith.js"></script>
+<script src="../agent_smith/src/agent_smith_cl.js"></script>
+<script src="./main.js"></script>
+<script src="./loader_test.js"></script>
+<script>
+$(function() {
+	TestMain.Tester.setNotifier(function(msg) {
+		$('#notifier').html(
+			$('#notifier').html()
+			+ msg
+			+ '<br />'
+		);
+		$('#notifier').scrollTop($('#notifier').get(0).scrollHeight);
+	});
+	var test_names = TestMain.Tester.getTestNames();
+	for (var i = 0; i < test_names.length; i++) {
+		var li = $('<li>').html(test_names[i]);
+		li.click(function() {
+			TestMain.Tester.doTest($(this).html());
+		});
+		$('#tests').append(li);
+	}
+});
+</script>
+<style type="text/css">
+#notifier {
+	border : 1px solid #555;
+	width : 800px;
+	height : 500px;
+	overflow-y : scroll; 
+}
+.float_box {
+	float : left;
+}
+</style>
+</head>
+<body>
+<h1>AgentSmith ML Test</h1>
+<div id='container'>
+	<div class='float_box'>
+		<div id='notifier'>
+		</div>
+	</div>
+	<div class='float_box'>
+		<ul id='tests'></ul>
+	</div>
+</div>
+</body>
+</html>
