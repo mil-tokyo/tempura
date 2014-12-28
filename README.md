@@ -1,4 +1,4 @@
-agent_smith_ml
+AgentSmithML
 ==============
 
 Machine Learning Library for AgentSmith
