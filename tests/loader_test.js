@@ -1,9 +1,8 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
-	TestMain = require('./main');
+	var TestMain = require('./main');
+	var MNISTLoader = require('../utils/mnist_loader');
 }
-
-var MNISTLoader = require('../utils/mnist_loader');
 
 var data = null;
 
