@@ -3,8 +3,8 @@ var TestMain = {};
 (function() {
 	var nodejs = (typeof window === 'undefined');
 	if (nodejs) {
-		AgentSmith = require('../agent_smith/agent_smith');
-		require('../agent_smith/agent_smith_cl');
+		AgentSmith = require('../agent_smith/src/agent_smith');
+		require('../agent_smith/src/agent_smith_cl');
 	}
 	var $M = AgentSmith.Matrix;
 	
@@ -76,5 +76,30 @@ var TestMain = {};
 	
 	if (nodejs) {
 		module.exports = TestMain;
+		var files = require('fs').readdirSync('./');
+		var js_regex = new RegExp('.*\.js');
+		for (var i = 0; i < files.length; i++) {
+			if (js_regex.test(files[i])) {
+				require('./' + files[i]);
+			}
+		}
+		setImmediate(function() {
+			var test_names = TestMain.Tester.getTestNames();
+			console.log('Choose the test to execute(0 ~ ' + (test_names.length - 1) + ')');
+			for (var i = 0; i < test_names.length; i++) {
+				console.log(i + ' : ' + test_names[i]);
+			}
+			var readline = require("readline").createInterface(process.stdin, process.stdout);
+			readline.question("> ", function(value){
+				value = parseInt(value);
+				console.log('');
+				if (isNaN(value) || value < 0 || value >= test_names.length) {
+					console.log('Invalid input');
+				} else {
+					TestMain.Tester.doTest(test_names[value]);
+				}
+			    readline.close();
+			});
+		});
 	}
 })();
