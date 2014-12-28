@@ -5,17 +5,23 @@ if (nodejs) {
 
 var MNISTLoader = require('../utils/mnist_loader');
 
+var data = null;
+
 TestMain.Tester.addTest('LoaderTest', [
 	{
-		name : 'Synchronous',
+		name : 'Load',
 		test : function(callback) {
-			return true;
+			MNISTLoader.load('../dataset/mnist/train-images-idx3-ubyte', '../dataset/mnist/train-labels-idx1-ubyte', 10, function(tmp_data) {
+				data = tmp_data;
+				callback(true);
+			});
 		}
 	},
 	{
-		name : 'Asynchronous',
-		test : function(callback) {
-			setTimeout(callback.bind(null, true), 1000);
+		name : 'CreateBatches',
+		test : function() {
+			var batches = MNISTLoader.createBatches(data.images, data.labels, 5);
+			return true;
 		}
-	}
+	},
 ]);
