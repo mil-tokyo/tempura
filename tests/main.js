@@ -42,17 +42,8 @@ var TestMain = {};
 					return;
 				}
 				var start_time = (new Date()).getTime();
-				var result = false;
-				this.notify('- TEST CASE : ' + test_cases[idx].name);
-				try {
-					var result = test_cases[idx].test();
-				} catch (exception) {
-					this.notify('-- exception catched');
-					console.error(exception);
-				} finally {
-					if (result === void 0) {
-						this.notify('-- RESULT : benchmark');
-					} else if (result === null) {
+				var callback = function(result) {
+					if (result === null) {
 						this.notify('-- RESULT : N/A')
 					} else {
 						this.notify('-- RESULT : ' + result);
@@ -66,9 +57,21 @@ var TestMain = {};
 					if (result === true || result === false) {
 						all++;
 					}
+					idx++;
+					setTimeout(doNextTest.bind(this), 0);
 				};
-				idx++;
-				setTimeout(doNextTest.bind(this), 0);
+				var result = false;
+				this.notify('- TEST CASE : ' + test_cases[idx].name);
+				try {
+					var result = test_cases[idx].test(callback.bind(this));
+				} catch (exception) {
+					this.notify('-- exception catched');
+					console.error(exception);
+				} finally {
+					if (result !== void 0) {
+						callback.call(this, result);
+					}
+				}
 			};
 			doNextTest.call(this);
 		}
