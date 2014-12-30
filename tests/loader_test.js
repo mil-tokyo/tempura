@@ -91,7 +91,6 @@ TestMain.Tester.addTest('LoaderTest', [
 			if (!batches.label_batches[1].equals(AgentSmith.Matrix.fromArray([[2], [1], [3], [1], [4]]))) {
 				return false;
 			}
-			batches.label_batches[1].print();
 			return true;
 		}
 	},
