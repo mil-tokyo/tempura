@@ -53,7 +53,6 @@ MNISTLoader.load = function(path_image, path_label, limit, callback) {
 					return;
 				}
 				var images_num = this.images_dataview.getInt32(4);
-				console.log(images_num);
 				this.rows = this.images_dataview.getInt32(8);
 				this.cols = this.images_dataview.getInt32(12);
 				this.limit = this.limit ? Math.min(this.limit, images_num) : images_num;
