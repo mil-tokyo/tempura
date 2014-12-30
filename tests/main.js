@@ -37,7 +37,7 @@ var TestMain = {};
 			var doNextTest = function() {
 				if (idx === test_cases.length) {
 					this.notify('FINISH TEST');
-					this.notify('SUCCESS : ' + success + ' / ' + all + ' (' + na + ')');
+					this.notify('SUCCESS : ' + success + ' / ' + all + ' (N/A ' + na + ')');
 					this.notify('');
 					return;
 				}
