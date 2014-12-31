@@ -1,7 +1,7 @@
 (function() {
 
 	// namespace
-	if (typeof AgentSmithML.LinearModel.LinearRegression !== 'undefined') {
+	if (typeof AgentSmithML.LinearModel.Ridge !== 'undefined') {
 		return;
 	}
 
@@ -17,17 +17,21 @@
 	var $Base = AgentSmithML.LinearModel.Base;
 
 
-	/* --- linear regression --- */
+	/* --- ridge regression --- */
 
 	// init
-    AgentSmithML.LinearModel.LinearRegression = function(args) {
+    AgentSmithML.LinearModel.Ridge = function(args) {
+		this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 		this.center = (typeof args.center === 'undefined') ? true : args.center;
-		this.normalize = (typeof args.normalize === 'undefined') ? flase : args.normalize;
+		this.normalize = (typeof args.normalize === 'undefined') ? false : args.normalize;
+		this.solver = (typeof args.solver === 'undefined') ? 'lsqr' : args.solver;
+		this.maxIter = (typeof args.maxIter === 'undefined') ? 1000 : args.maxIter;
+		this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
 	};
-	var $LinReg = AgentSmithML.LinearModel.LinearRegression.prototype;
+	var $LinReg = AgentSmithML.LinearModel.Ridge.prototype;
 
 	// fit
-	$LinReg.fit = function(X, y) {
+	$RidReg.fit = function(X, y) {
 		// check data property
 		$Base.checkArgc( arguments.length, 2 );
 		var instList = [X,y];
@@ -37,9 +41,16 @@
 		$Base.checkHasNan( instList );
 		// make data centered
 		var meanStd = $Base.meanStd( this.center, this.normalize, X, y);
-		// nomal equation
-		var tmp = $M.mul( X.t(), X);
-		var w = $M.mul( $M.mul( tmp.inverse(), X.t() ), y );
+		// solver
+		if (this.solver === 'lsqr') {
+			var identity = new $M(X.cols, X.cols); identity.zeros(1.0);
+			var tmp = $M.add( identity.times(this.lambda), $M.mul( X.t(), X) );
+			var w = $M.mul( $M.mul( tmp.inverse(), X.t() ), y );
+		} else if ( this.solver === 'cg') {
+			var w = $Base.coordinateDescent( X, y, this.lambda, 0.0, this.maxIter, this.tolerance);
+		} else {
+			throw new Error('solver should be lsqr or cg, and others have not implemented');
+		}
 		// store variables
 		this.weight = (this.center) ? $M.divEach( w, meanStd.X_std.t() ) : w;
 		if (this.center) {
@@ -48,7 +59,7 @@
 			var tmp = new $M( 1, y.cols );
 			this.intercept = tmp.zeros();
 		}
-
+		// dev
 		X.print()
 		y.print()
 		return this
@@ -56,7 +67,7 @@
 
 
 	// predict
-	$LinReg.predict = function(X) {
+	$RidReg.predict = function(X) {
 		// check data property
 		var instList = [X];
 		$Base.checkInstance( instList );
@@ -73,5 +84,5 @@
 
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
-	module.exports = AgentSmithML.LinearModel.LinearRegression;
+	module.exports = AgentSmithML.LinearModel.Ridge;
 }

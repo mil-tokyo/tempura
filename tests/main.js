@@ -66,6 +66,7 @@ var TestMain = {};
 					var result = test_cases[idx].test(callback.bind(this));
 				} catch (exception) {
 					this.notify('-- exception catched');
+					this.notify('hogehoge');
 					console.error(exception);
 				} finally {
 					if (result !== void 0) {
