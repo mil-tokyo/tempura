@@ -140,19 +140,4 @@ function euclidian_distance(mat1, mat2){
     return dist
 }
 
-var kmeans = new AgentSmithML.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
-var X = $M.fromArray([
-    [1, 1, 3],
-    [0, 1, 1],
-    [1, 1, 0],
-    [1, 2, 1],
-    [1, 2, -1],
-    [9, 7, 8],
-    [13, 10, 11],
-    [10, 7, 8],
-    [8, 11, 9],
-    [9, 7, 8],
-]);
-
-kmeans.fit(X);
 
