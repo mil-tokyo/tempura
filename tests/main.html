@@ -27,13 +27,16 @@
 <script src="../src/linear_model/lasso.js"></script>
 <script src="../src/cluster/cluster.js"></script>
 <script src="../src/cluster/k_means.js"></script>
+<script src="../src/decomposition/decomposition.js"></script>
+<script src="../src/decomposition/pca.js"></script>
 <!-- Test Libraries -->
 <script src="./main.js"></script>
 <script src="./loader_test.js"></script>
 <script src="./k_means_test.js"></script>
+<script src="./pca_test.js"></script>
 <script>
-$(function() {
-	TestMain.Tester.setNotifier(function(msg) {
+  $(function() {
+  TestMain.Tester.setNotifier(function(msg) {
 		$('#notifier').html(
 			$('#notifier').html()
 			+ msg

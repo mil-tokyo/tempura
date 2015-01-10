@@ -8,6 +8,31 @@ if (nodejs) {
 
 var $M = AgentSmith.Matrix;
 
+function k_means(X, n_clusters, init){
+    var n_samples = X.rows;
+    var n_features = X.cols;
+    var init_mats = init_centroids(X, n_clusters, init);
+    cluster_centers_ = init_mats[0];
+    labels_ = init_mats[1];
+    datanum_hist = init_mats[2];
+    
+    var sample_index_list = _.shuffle(_.range(n_samples));
+    for(var i=0; i<n_samples; i++){
+	var sample_ind = sample_index_list[i];
+	if(labels_.data[sample_ind] != -1){
+	    continue;
+	}
+	sample = get_row(X, sample_ind);
+	var euc_dist = euclidian_distance(cluster_centers_, sample);
+	var cls_ind = $M.argminEachCol(euc_dist).data[0];
+	labels_.data[sample_ind] = cls_ind;
+	var new_cls_mean = calc_new_mean(n_features, cluster_centers_, datanum_hist, sample, cls_ind);
+	set_row(cluster_centers_, new_cls_mean, cls_ind);
+	datanum_hist.data[cls_ind] += 1;
+    }
+    return { cluster_centers_ : cluster_centers_, labels_: labels_}
+}
+
 AgentSmithML.Cluster.Kmeans = function(n_clusters, init) {
     if(n_clusters === undefined) n_clusters = 8;
     if(init === undefined) init = "kmeans++";
@@ -15,42 +40,24 @@ AgentSmithML.Cluster.Kmeans = function(n_clusters, init) {
     this.init = init;
 };
 
+
 AgentSmithML.Cluster.Kmeans.prototype.fit = function(X){
-    console.log("====== method Kmeans ======");
-    console.log("====== initialize ======");
-
-    var n_samples = X.rows;
-    var n_features = X.cols;
-    console.log("n_samples : " + n_samples + ", n_features : " + n_features);
-    var init_mats = init_clusters(this.n_clusters, X, this.init);
-    this.mean_class = init_mats[0];
-    this.assigned_class = init_mats[1];
-    this.datanum_hist = init_mats[2];
-    
-    console.log("====== start calculating k-means ======");
-    var sample_index_list = _.shuffle(_.range(n_samples));
-    for(var i=0; i<n_samples; i++){
-	var sample_ind = sample_index_list[i];
-	console.log("sample (%d / %d)", i, n_samples-1);
-	if(this.assigned_class.data[sample_ind] != -1){
-	    console.log("###skip calculation###");
-	    continue;
-	}
-	sample = get_row(X, sample_ind);
-	var euc_dist = euclidian_distance(this.mean_class, sample);
-	var cls_ind = $M.argminEachCol(euc_dist).data[0];
-	this.assigned_class.data[sample_ind] = cls_ind;
-	var new_cls_mean = calc_new_mean(n_features, this.mean_class, this.datanum_hist, sample, cls_ind);
-	set_row(this.mean_class, new_cls_mean, cls_ind);
-	this.datanum_hist.data[cls_ind] += 1;
-    }
-
-    console.log('====== end calculation ======');
-    console.log()
-    console.log("assigned class");
-    console.log(this.assigned_class.data);
+    X = this._check_fit_data(X);
+    results = k_means(X, n_clusters=this.n_clusters, init=this.init);
+    this.cluster_centers_ = results["cluster_centers_"];
+    this.labels_ = results["labels_"];
+    return this
 }
+
     
+AgentSmithML.Cluster.Kmeans.prototype._check_fit_data = function(X){
+    //Verify that the number of samples given is larger than k
+    if(X.rows < n_clusters){
+	throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + n_clusters);
+    }
+    return X
+}
+
 function calc_new_mean(n_features, mean_class, datanum_hist, sample, cls_ind){
     var cls_datanum = datanum_hist.data[cls_ind];
     var old_cls_mean = get_row(mean_class, cls_ind);
@@ -62,7 +69,7 @@ function calc_new_mean(n_features, mean_class, datanum_hist, sample, cls_ind){
     return new_cls_mean
 }
 
-function init_clusters(n_clusters, X, init){
+function init_centroids(X, n_clusters, init){
     console.log("initializing cluster ...")
     var n_samples = X.rows;
     var n_features = X.cols;
@@ -111,6 +118,10 @@ function init_clusters(n_clusters, X, init){
 	    old_index = index;
 	}
     }
+    else{
+        throw new Error("the init parameter for the k-means should be 'k-means++' or 'random'" + init + "was passed.");
+    }
+    
     return [mean_class, assigned_class, datanum_hist]
 }
 
