@@ -26,8 +26,7 @@ TestMain.Tester.addTest('KmeansTest', [
 		    ]);
 		    kmeans.fit(X);
 		    var result = kmeans.labels_;
-		    console.log(kmeans.labels_);
-		    console.log(result)
+		    result.print();
 		    if (result.nearlyEquals($M.fromArray([[0],[0],[0],[0],[0],[1],[1],[1],[1],[1]])) === true){
                         return true;
 		    }
