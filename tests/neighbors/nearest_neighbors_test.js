@@ -7,7 +7,7 @@ if (nodejs) {
     require('../src/neighbors/nearest_neighbors.js');
 }
 
-var samples = $M.fromArray([[0, 0, 1.3], [1, 0, 0], [0, 0, 1]]);
+var samples = $M.fromArray([[1,1],[2,2]]);
 
 TestMain.Tester.addTest('NearestNeighborTest', [
     {
@@ -29,21 +29,46 @@ TestMain.Tester.addTest('NearestNeighborTest', [
     {
         name: 'kneighbors',
         test: function() {
+            var samples = $M.fromArray([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]);
+
             var neigh = new AgentSmithML.Neighbors.NearestNeighbors(2, 0.4);
             neigh.fit(samples);
 
-            var res = neigh.kneighbors($M.fromArray([0, 0, 1.3]), 2, {'return_distance': false});
-            return $M.fromArray([[2],[0]]).equals(res)
+            var ans = $M.fromArray([
+                [0,1],
+                [1,0],
+                [2,1],
+                [3,4],
+                [4,3],
+                [5,4]
+            ]);
+            var ans_dist = $M.fromArray([
+                [0,1],
+                [0,1],
+                [0,Math.sqrt(2)],
+                [0,1],
+                [0,1],
+                [0,Math.sqrt(2)]
+            ]);
+
+            var res = neigh.kneighbors(samples, {return_distance: false});
+            var res_with_dist = neigh.kneighbors(samples, {return_distance: true});
+
+            return (ans.equals(res) && ans.equals(res_with_dist[1]) && ans_dist.equals(res_with_dist[0]));
         }
     },
     {
-        name: 'radius_neighbors',
+        name: 'radius_neighbors_with_distances',
         test: function() {
-            var neigh = new AgentSmithML.Neighbors.NearestNeighbors(2, 0.4);
+            var samples = $M.fromArray([[0., 0., 0.], [0., .5, 0.], [1., 1., .5]]);
+            var neigh = new AgentSmithML.Neighbors.NearestNeighbors(2, 1.6);
             neigh.fit(samples);
 
-            var res = neigh.radius_neighbors($M.fromArray([0, 0, 1.3], 0.4, {'return_distance': false}));
-            return $M.fromArray([[2]]).equals(res);
+            var ans = $M.fromArray([[Math.sqrt(2.5), 0.5]]);
+            var ans_dist = $M.fromArray([[1,2]]);
+
+            var res = neigh.radius_neighbors($M.fromArray([1,1,1]));
+            return ( ans.equals(res[0]) && ans_dist.equals(res[1]));
         }
     },
     {
