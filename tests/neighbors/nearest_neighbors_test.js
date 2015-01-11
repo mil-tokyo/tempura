@@ -53,19 +53,34 @@ TestMain.Tester.addTest('NearestNeighborTest', [
             try {
                 neigh.fit($M.toArray(samples));
                 return false;
-            } catch(e) {}
+            } catch(e) {
+                if (!(e instanceof TypeError)) {
+                    throw e;
+                    return false;
+                }
+            }
 
             neigh.fit(samples);
 
             try {
                 neigh.kneighbors([0, 0, 1.3], 2, {'return_distance': false});
                 return false;
-            } catch(e) {}
+            } catch(e) {
+                if (!(e instanceof TypeError)) {
+                    throw e;
+                    return false;
+                }
+            }
 
             try {
                 neigh.radius_neighbors([0, 0, 1.3], 0.4, {'return_distance': false});
                 return false;
-            } catch(e) {}
+            } catch(e) {
+                if (!(e instanceof TypeError)) {
+                    throw e;
+                    return false;
+                }
+            }
 
             return true;
         }

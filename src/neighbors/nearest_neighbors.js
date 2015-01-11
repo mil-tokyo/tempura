@@ -17,9 +17,11 @@ AgentSmithML.Neighbors.NearestNeighbors = function(n_neighbors, radius, algorith
 
 AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
     if (typeof X === 'undefined') throw new Error('X must be set');
-    if (!(X instanceof $M)) throw new Error('X must be an instance of AgentSmith.Matrix');
+    if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
     this.X = X;
     this.y = typeof y === 'undefined' ? null : y;
+
+    this._fit_method = this.options.algorithm;
 
     // TODO
     if (this._fit_method === 'auto') {
@@ -30,7 +32,7 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
 }
 
 AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X) {
-    if (!(X instanceof $M)) throw new Error('X must be an instance of AgentSmith.Matrix');
+    if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 
     if (this._fit_method === 'brute') {
         
@@ -43,6 +45,6 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X) {
 }
 
 AgentSmithML.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X) {
-    if (!(X instanceof $M)) throw new Error('X must be an instance of AgentSmith.Matrix');
+    if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
     return $M.fromArray([[2]]);
 }
