@@ -11,15 +11,14 @@ var samples = $M.fromArray([[1,1],[2,2]]);
 
 TestMain.Tester.addTest('NearestNeighborTest', [
     {
-        name : 'Fit',
+        name : 'DefaultOptions',
         test : function() {
             var neigh = new AgentSmithML.Neighbors.NearestNeighbors(2, 0.4);
-            var res = neigh.fit(samples);
 
-            if ( (typeof res.algorithm !== 'undefined' && res.algorithm === 'auto')
-                && (typeof res.leaf_size !== 'undefined' && res.leaf_size == 30)
-                && (typeof res.n_neighbors !== 'undefined' && res.n_neighbors == 2)
-                && (typeof res.radius !== 'undefined' && res.radius == 0.4)) {
+            if ( (typeof neigh.algorithm !== 'undefined' && neigh.algorithm === 'auto')
+                && (typeof neigh.leaf_size !== 'undefined' && neigh.leaf_size == 30)
+                && (typeof neigh.n_neighbors !== 'undefined' && neigh.n_neighbors == 2)
+                && (typeof neigh.radius !== 'undefined' && neigh.radius == 0.4)) {
                 return true;
             } else {
                 return false;
