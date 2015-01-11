@@ -8,28 +8,39 @@ if (nodejs) {
 
 var $M = AgentSmith.Matrix;
 
-function euclidean_distances(X, Y, squared){
-    if(squared === undefined) squared = false;
-    if(squared == false){
-        throw new Error("not implemented");
-    }
-    XX = row_norms(X, squared=true);
-    YY = row_norms(Y, squared=true);
-    var distances = $M.mul(X, Y.t());
-    distances = distances.times(-2);
-    distances = $M.add(distances, XX)
-    distances = $M.add(distances, YY.t())
-    return distances
-}
+AgentSmithML.Metrics.Pairwise = {
+    euclidean_distances : function (X, Y, squared){
+        if(typeof squared === 'undefined') squared = false;
+        if(squared == false){
+            throw new Error("AgentSmithML.Metrics.euclidean_distances with option squared=false is not implemented");
+        }
 
-function row_norms(X, squared){
-    if(squared=true){
-        throw new Error("not implemented");
-    }
-    var norms = $M.sumEachRow($M.mulEach(X, X));
-    return norms
-}
+        // If vectors are given, convert them to matrices
+        if (typeof X.cols === 'undefined') {
+            X = $M.fromArray([$M.toArray(X)]);
+        }
+        if (typeof Y.cols === 'undefined') {
+            Y = $M.fromArray([$M.toArray(Y)]);
+        }
 
+        XX = AgentSmithML.Metrics.Pairwise.row_norms(X, true);
+        YY = AgentSmithML.Metrics.Pairwise.row_norms(Y, true);
+        var distances = $M.mul(X, Y.t());
+        distances = distances.times(-2);
+        distances = $M.add(distances, XX)
+        distances = $M.add(distances, YY.t())
+        return distances
+    },
+
+    row_norms : function(X, squared){
+        if (typeof squared === 'undefined') squared = false;
+        if(squared == false){
+            throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+        }
+        var norms = $M.sumEachRow($M.mulEach(X, X));
+        return norms
+    }
+};
 
 a = $M.fromArray([
     [1, 2, 3],
