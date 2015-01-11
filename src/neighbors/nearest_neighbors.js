@@ -7,11 +7,12 @@ if (nodejs) {
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Neighbors.NearestNeighbors = function(n_neighbors, radius, algorithm, leaf_size) {
-    this.n_neighbors = typeof n_neighbors === 'undefined' ? 5      : n_neighbors;
-    this.radius      = typeof radius      === 'undefined' ? 1.0    : radius;
-    this.algorithm   = typeof algorithm   === 'undefined' ? 'auto' : algorithm;
-    this.leaf_size   = typeof leaf_size   === 'undefined' ? 30     : leaf_size;
+AgentSmithML.Neighbors.NearestNeighbors = function(args) {
+    if (typeof args === 'undefined') args = {};
+    this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5      : args.n_neighbors;
+    this.radius      = typeof args.radius      === 'undefined' ? 1.0    : args.radius;
+    this.algorithm   = typeof args.algorithm   === 'undefined' ? 'auto' : args.algorithm;
+    this.leaf_size   = typeof args.leaf_size   === 'undefined' ? 30     : args.leaf_size;
 }
 
 AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
@@ -32,6 +33,8 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
 
 AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
     if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+
+    if (typeof args === 'undefined') args = {};
     if (typeof args.n_neighbors === 'undefined') args.n_neighbors = this.n_neighbors;
     if (typeof args.return_distance === 'undefined') args.return_distance = true;
 
