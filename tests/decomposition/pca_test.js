@@ -8,7 +8,7 @@ if (nodejs) {
 
 TestMain.Tester.addTest('PCATest', [
 	{
-		name : 'PCA',
+		name : 'PCA n_component number',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
 		    var X = $M.fromArray([[ 1,  2,  6,  3,  4],
@@ -28,14 +28,81 @@ TestMain.Tester.addTest('PCATest', [
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
 					    [ 0.29016429, -0.88217383,  0.30243265, -0.00462311,  0.21467914],
 					    [-0.72480776, -0.23331985, -0.2046507 ,  0.5249886 ,  0.32050059]])
-		    
-		    if(pca.components_.nearlyEquals(res)){
+
+		    var cnt = 0;
+		    for(var i=0; i<res.rows; i++){
+			var a = $M.extract(res, i, 0, 1, res.cols);
+			var b = $M.extract(pca.components_, i, 0, 1, pca.components_.cols);
+			if(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)){
+			    cnt += 1
+			}
+		    }
+
+		    if(cnt == res.rows){
 			return true
 		    }
 		    else{
 			return false
 		    }
-		    
 		}
 	},
+    {
+		name : 'PCA n_component ratio',
+		test : function(callback) {
+		    var $M = AgentSmith.Matrix;
+		    var X = $M.fromArray([[ 1,  2,  6,  3,  4],
+					  [ 3,  4,  5,  4,  2],
+					  [ 3,  5,  1,  6,  8],
+					  [ 2,  5,  4,  6,  5],
+					  [ 3, -1, -3,  2,  5],
+					  [-5,  2,  1,  0, -1],
+					  [-1, -2,  5,  3,  2],
+					  [ 2,  2, -2,  4,  3],
+					  [ 1,  1, -1, -2,  1],
+					  [-1,  2,  3,  2,  1]])
+
+
+		    var test_data = $M.fromArray([[ 1,  2,  5, -1,  0],
+						   [ 1, -1, -2,  2,  1],
+						   [ 1,  1,  2, -3,  1],
+						   [-1, -1,  1,  3,  5],
+						   [ 2,  3,  1,  1,  0],
+						   [ 1, -2, -1, -1,  1],
+						   [ 0,  0,  0,  1,  2],
+						   [ 2,  3,  4,  1,  9],
+						   [-1, -6,  1,  1, -2]])
+		    
+		    var pca = new AgentSmithML.Decomposition.PCA(n_components=2);
+		    pca.fit(X);
+		    trans_res = pca.transform(test_data);
+		    var res = $M.fromArray([[ 3.10080672, -2.95470944],
+					 [ 3.22466724,  3.61592929],
+					 [ 4.54169998,  0.38327068],
+					 [ 0.86143207,  1.13677333],
+					 [ 1.89563803,  0.54476602],
+					 [ 5.04530867,  3.25140267],
+					 [ 2.98115825,  1.7344424 ],
+					 [-3.66134327,  0.03353521],
+					 [ 7.62279846,  0.42357479]])
+
+		    var cnt = 0;
+		    for(var i=0; i<res.rows; i++){
+			var a = $M.extract(res, i, 0, 1, res.cols);
+			var b = $M.extract(trans_res, i, 0, 1, trans_res.cols);
+			b.print()
+
+			console.log(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b))
+			if(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)){
+			    cnt += 1
+			}
+		    }
+
+		    if(cnt == res.rows){
+			return true
+		    }
+		    else{
+			return false
+		    }
+		}
+	}
 ]);
