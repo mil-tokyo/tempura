@@ -34,20 +34,12 @@ AgentSmithML.Metrics.Pairwise = {
 
     row_norms : function(X, squared){
         if (typeof squared === 'undefined') squared = false;
-        if(squared == false){
-            throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
-        }
         var norms = $M.sumEachRow($M.mulEach(X, X));
+        if(squared == false){
+            //throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+	    norms = norms.map(Math.sqrt());
+        }
         return norms
     }
 };
 
-a = $M.fromArray([
-    [1, 2, 3],
-    [4, 5, 6]
-])
-
-b = $M.fromArray([
-    [1, 2, 3],
-    [1, 2, 3]
-])
