@@ -11,9 +11,6 @@ var $M = AgentSmith.Matrix;
 AgentSmithML.Metrics.Pairwise = {
     euclidean_distances : function (X, Y, squared){
         if(typeof squared === 'undefined') squared = false;
-        if(squared == false){
-            throw new Error("AgentSmithML.Metrics.euclidean_distances with option squared=false is not implemented");
-        }
 
         // If vectors are given, convert them to matrices
         if (typeof X.cols === 'undefined') {
@@ -29,25 +26,21 @@ AgentSmithML.Metrics.Pairwise = {
         distances = distances.times(-2);
         distances = $M.add(distances, XX)
         distances = $M.add(distances, YY.t())
+	if(squared == false){
+	    distances = distances.map(Math.sqrt);
+            //throw new Error("AgentSmithML.Metrics.euclidean_distances with option squared=false is not implemented");
+        }
         return distances
     },
 
     row_norms : function(X, squared){
         if (typeof squared === 'undefined') squared = false;
-        if(squared == false){
-            throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
-        }
         var norms = $M.sumEachRow($M.mulEach(X, X));
+        if(squared == false){
+            //throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+	    norms = norms.map(Math.sqrt);
+        }
         return norms
     }
 };
 
-a = $M.fromArray([
-    [1, 2, 3],
-    [4, 5, 6]
-])
-
-b = $M.fromArray([
-    [1, 2, 3],
-    [1, 2, 3]
-])

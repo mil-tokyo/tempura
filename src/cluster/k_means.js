@@ -14,7 +14,7 @@ function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
     X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
     X = $M.sub(X, X_mean);
 
-    x_squared_norms = row_norms(X, squared=true);
+    x_squared_norms = AgentSmithML.Metrics.Pairwise.row_norms(X, squared=true);
 
     if(n_jobs=1){
 	results = _kmeans_single(X=X, n_clusters=n_clusters, squared_norms=x_squared_norms, init=init, maxiter=maxiter, tol=tol);
@@ -38,7 +38,7 @@ function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
     for(var i=0; i<maxiter; i++){
 	labels = _labels_inertia(X, centers);
 	centers = _calc_centers(X, labels, n_clusters);
-	if(row_norms($M.sub(centers, centers_old)) <= 0.001){
+	if(AgentSmithML.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= 0.001){
 	    break
 	}
 	centers_old = centers;
@@ -51,7 +51,7 @@ function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
 function _labels_inertia(X, centers){
     var n_samples = X.rows
     var k = centers.rows
-    var all_distances = euclidean_distances(centers, X, squared=true);
+    var all_distances = AgentSmithML.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
     var mindist = new $M(n_samples, 1);
     mindist.zeros(100000);
     var labels = new $M(n_samples, 1);
@@ -204,26 +204,4 @@ function euclidian_distance(mat1, mat2){
     return dist
 }
 
-
-function euclidean_distances(X, Y, squared){
-    if(squared === undefined) squared = false;
-    if(squared == false){
-        throw new Error("not implemented");
-    }
-    XX = row_norms(X, squared=true);
-    YY = row_norms(Y, squared=true);
-    var distances = $M.mul(X, Y.t());
-    distances = distances.times(-2);
-    distances = $M.add(distances, XX)
-    distances = $M.add(distances, YY.t())
-    return distances
-}
-
-function row_norms(X, squared){
-    if(squared=false){
-        throw new Error("not implemented");
-    }
-    var norms = $M.sumEachRow($M.mulEach(X, X));
-    return norms
-}
 
