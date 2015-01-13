@@ -1,4 +1,4 @@
-/* --- lasso regression --- */
+/* --- ridge regression --- */
 
 // node
 var nodejs = (typeof window === 'undefined');
@@ -14,18 +14,19 @@ var $M = AgentSmith.Matrix;
 var $Base = AgentSmithML.LinearModel.Base;
 
 // init
-AgentSmithML.LinearModel.Lasso = function(args) {
-    if (typeof args === 'undefined') { var args = {}; }
+AgentSmithML.LinearModel.Ridge = function(args) {
+	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
+	this.solver = (typeof args.solver === 'undefined') ? 'cd' : args.solver;
 	this.maxIter = (typeof args.maxIter === 'undefined') ? 1000 : args.maxIter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
 };
-var $Lasso = AgentSmithML.LinearModel.Lasso.prototype;
+var $Ridge = AgentSmithML.LinearModel.Ridge.prototype;
 
 // fit
-$Lasso.fit = function(X, y) {
+$Ridge.fit = function(X, y) {
 	// check data property
 	$Base.checkArgc( arguments.length, 2 );
 	var instList = [X,y];
@@ -35,8 +36,16 @@ $Lasso.fit = function(X, y) {
 	$Base.checkHasNan( instList );
 	// make data centered
 	var meanStd = $Base.meanStd( this.center, this.normalize, X, y);
-	// coorindate descent
-	var w = $Base.coordinateDescent( meanStd.X, meanStd.y, this.lambda, 1.0, this.maxIter, this.tolerance);
+	// solver
+	if (this.solver === 'lsqr') { // normal equation
+		var identity = $M.eye(X.cols);
+		var tmp = $M.add( identity.times(this.lambda), $M.mul( meanStd.X.t(), meanStd.X) );
+		var w = $M.mul( $M.mul( tmp.inverse(), meanStd.X.t() ), meanStd.y );
+	} else if ( this.solver === 'cd') { // coorinate discent
+		var w = $Base.coordinateDescent( meanStd.X, meanStd.y, this.lambda, 0.0, this.maxIter, this.tolerance);
+	} else {
+		throw new Error('solver should be lsqr or cg, and others have not implemented');
+	}
 	// store variables
 	this.weight = (this.center) ? $M.divEach( w, meanStd.X_std.t() ) : w;
 	if (this.center) {
@@ -49,7 +58,7 @@ $Lasso.fit = function(X, y) {
 };
 
 // predict
-$Lasso.predict = function(X) {
+$Ridge.predict = function(X) {
 	// check data property
 	var instList = [X];
 	$Base.checkInstance( instList );
