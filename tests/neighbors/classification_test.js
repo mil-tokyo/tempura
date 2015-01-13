@@ -103,7 +103,6 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
                 }
             });
             Z = clf.predict(mesh);
-            console.log($M.toArray(Z));
             var n_c1=0, n_c2=0;
             Z.forEach(function(row, col){
                 var label = Z.get(row, col);
