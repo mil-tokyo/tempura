@@ -19,12 +19,6 @@ AgentSmithML.Mixture.GMM.prototype.fit = function(X){
     var n_features = X.cols;
 
     this.initParams(X);
-    console.log("===init===");
-    this.means[0].print();
-    this.means[1].print();
-    this.covars[0].print();
-    this.weights.print();
-    console.log("==========");
     var oldLogLikelihood = 0
     var newLogLikelihood = 0
     for(var i=0; i<this.n_iter; i++){
@@ -37,12 +31,7 @@ AgentSmithML.Mixture.GMM.prototype.fit = function(X){
 	}
 	oldLogLikelihood = newLogLikelihood;
     }
-    this.means[0].print();
-    this.means[1].print();
-    this.covars[0].print();
-    this.weights.print();
-
-    
+    this.showParams();
 }
 
 AgentSmithML.Mixture.GMM.prototype.calcLogLikelihood = function(X){
@@ -124,14 +113,23 @@ AgentSmithML.Mixture.GMM.prototype.initParams = function(X){
 	var mean = $M.extract(init_means, k, 0, 1, n_features).t();
 	mean.random();
 	this.means.push(mean);
-
-	var covar = $M.eye(n_features).times(5);//new $M(n_features, n_features);
+	var covar = $M.add(AgentSmithML.Utils.Statistics.cov(X), $M.eye(n_features));//new $M(n_features, n_features);
 	
 	this.covars.push(covar);
     }	
 }
 
-
+AgentSmithML.Mixture.GMM.prototype.showParams= function(){
+    for(var k=0; k<this.n_components; k++){
+	console.log("component " + k);
+	console.log("weight :" + this.weights.data[k])
+	console.log("mean : ");
+	this.means[k].print();
+	console.log("covariance : ");
+	this.covars[k].print();
+	console.log();
+    }
+}
 
 function getGaussProbability(weight, mean, covar, x){
     var m = x.rows;
