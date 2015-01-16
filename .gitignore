@@ -2,3 +2,7 @@ dataset/mnist/t10k-images-idx3-ubyte
 dataset/mnist/t10k-labels-idx1-ubyte
 dataset/mnist/train-images-idx3-ubyte
 dataset/mnist/train-labels-idx1-ubyte
+
+*~
+*.swp
+*.DS_Store
