@@ -8,10 +8,9 @@ if (nodejs) {
 	require('./linear_model');
 }
 
+// tmp get col
 var $M = AgentSmith.Matrix;
 var $P = AgentSmith.Matrix.prototype;
-
-// tmp get col
 $P.getCol = function(col) {
 	if (typeof col === 'undefined') { throw new Error('empty arguments'); }
 	this.syncData();
@@ -30,27 +29,6 @@ $P.getCol = function(col) {
 	}
 	return output;
 };
-
-// tmp get row
-$P.getRow = function(row) {
-	if (typeof row === 'undefined') { throw new Error('empty arguments'); }
-	this.syncData();
-	if (row >= this.rows) {
-		throw new Error('out of range');
-	}
-	var output = new $M(1,this.cols);
-	if (this.row_wise) {
-		for (var col=0; col<this.cols; col++) {
-			output.set(0,col,this.data[row*this.cols+col]);
-		}
-	} else {
-		for (var col=0; col<this.cols; col++) {
-			output.set(0,col,this.data[col*this.rows+row]);
-		}
-	}
-	return output;
-};
-
 // tmp slice
 $P.slice = function(frow,fcol,lrow,lcol) {
 	if (typeof lcol === 'undefined') { throw new Error('empty arguments'); }
@@ -77,7 +55,6 @@ $P.slice = function(frow,fcol,lrow,lcol) {
 	}
 	return output;
 };
-
 // tmp vstack
 $M.vstack = function(instList) {
 	// check col num
@@ -95,6 +72,7 @@ $M.vstack = function(instList) {
 	// store values
 	var offset = 0;
 	for (var i=0; i<instList.length; i++) {
+		console.log(offset);
 		var tmp = instList[i];
 		if (tmp.row_wise) {
 			for (var row=0; row<tmp.rows; row++) {
@@ -110,42 +88,6 @@ $M.vstack = function(instList) {
 			}
 		}
 		offset = offset + tmp.rows;
-	}
-	return output;
-};
-
-// tmp hstack
-$M.hstack = function(instList) {
-	// check row num
-	for (var i=0; i<instList.length-1; i++) {
-		if (instList[i].rows !== instList[i+1].rows) {
-			throw new Error('The number of samples does not match');
-		}
-	}
-	// new martix
-	var newCol = 0;
-	for (var i=0; i<instList.length; i++) {
-		newCol = newCol + instList[i].cols;
-	}
-	var output = new $M(instList[0].rows,newCol);
-	// store values
-	var offset = 0;
-	for (var i=0; i<instList.length; i++) {
-		var tmp = instList[i];
-		if (tmp.row_wise) {
-			for (var row=0; row<tmp.rows; row++) {
-				for (var col=0; col<tmp.cols; col++) {
-					output.set(row,offset+col,tmp.data[row*tmp.cols+col]);
-				}
-			}
-		} else {
-			for (var row=0; row<tmp.rows; row++) {
-				for (var col=0; col<tmp.cols; col++) {
-					output.set(row,offset+col,tmp.data[col*tmp.rows+row]);
-				}
-			}
-		}
-		offset = offset + tmp.cols;
 	}
 	return output;
 };
@@ -302,76 +244,4 @@ $Base.fbSubstitution = function( triangle, target ) {
 		}
 	}
 	return w;
-};
-
-// binary activation
-$Base.binaryActivation = function(pred) { // if prediction is positive, set the value to 1, else set to -1
-	var output = new $M(pred.rows, pred.cols);
-	for (var row=0; row<pred.rows; row++) {
-		for (var col=0; col<pred.cols; col++) {
-			if ( pred.get(row,col) > 0.0 ) {
-				output.set(row,col,1.0);
-			} else {
-				output.set(row,col,-1.0);
-			}
-		}
-	}
-	return output;
-}
-
-// sigmoid
-$Base.sigmoid = function(X) {
-	if (!X instanceof $M) {
-		var output = 1.0 / (1.0 + Math.exp(X));
-	} else {
-		var output = new $M(X.rows, X.cols);
-		if (X.row_wise) {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( X.data[row*X.cols+col] )) );
-				}
-			}
-		} else {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( X.data[col*X.rows+row] )) );
-				}
-			}
-		}
-	}
-	return output;
-};
-
-
-// exp
-$Base.exp = function(X) {
-	if (!X instanceof $M) {
-		var output = Math.exp(X);
-	} else {
-		var output = new $M(X.rows, X.cols);
-		if (X.row_wise) {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, Math.exp( X.data[row*X.cols+col] ));
-				}
-			}
-		} else {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, Math.exp( X.data[col*X.rows+row] ));
-				}
-			}
-		}
-	}
-	return output;
-};
-
-
-// softmax
-/* for given [n_dim, 1 or n_target] matrix */
-$Base.softmax = function(X) {
-	var exp_x = $Base.exp(X);
-	var sum_exp_x = $M.sumEachCol( exp_x );
-	var output = $M.divEach( exp_x, sum_exp_x );
-	return output;
 };

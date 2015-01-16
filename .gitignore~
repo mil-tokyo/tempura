@@ -1,0 +1,20 @@
+# general
+.DS_Store
+*.zip
+*.tar.gz
+*.exe
+*.bz2
+.gitignore
+ 
+# backup
+*~
+ 
+# c/c++/objc
+a.out
+*.o
+*.a
+ 
+# python
+*.pyc
+build/
+*.mo
