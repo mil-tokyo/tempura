@@ -6,3 +6,4 @@ dataset/mnist/train-labels-idx1-ubyte
 *~
 *.swp
 *.DS_Store
+*#*
