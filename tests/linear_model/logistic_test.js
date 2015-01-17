@@ -14,16 +14,16 @@ TestMain.Tester.addTest('LogisticTest', [
 										   name : 'Logistic',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var logistic = new AgentSmithML.LinearModel.Logistic();
+											   var logistic = new AgentSmithML.LinearModel.Logistic({eta:0.01, maxIter:1000});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
 																	  [2, 8, 2],
 																	  [3, 5, 6]] );
-											   var y = $M.fromArray( [[1],
-																	  [-1],
-																	  [1],
-																	  [-1]] );
+											   var y = $M.fromArray( [[1,0],
+																	  [0,1],
+																	  [1,0],
+																	  [0,1]] );
 											   var sample = $M.fromArray( [[3, 3, 6],
 																	  [2, 8, 2],
 																	  [-2, 6, -3]] );
@@ -33,9 +33,9 @@ TestMain.Tester.addTest('LogisticTest', [
 											   console.log('weight');
 											   logistic.weight.print();
 											   pred.print();
-											   if (pred.nearlyEquals($M.fromArray( [[-2.29, 2.60],
-																					[1.23, -0.64],
-																					[3.72, 0.82]] ))) {
+											   if (pred.nearlyEquals($M.fromArray( [[0.06, 0.94],
+																					[0.64, 0.36],
+																					[0.99, 0.01]] ))) {
 												   return true;
 											   }
 											   return false;
