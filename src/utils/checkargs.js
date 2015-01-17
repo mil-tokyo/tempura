@@ -26,18 +26,18 @@ $C.checkArgc = function( argc, num ) {
 };
 
 // typeof input
-$C.checkInstance = function( instList ) {
-	for (var i=0; i<instList.length; i++) {
-		if (!instList[i] instanceof $M) {
+$C.checkInstance = function( inst_list ) {
+	for (var i=0; i<inst_list.length; i++) {
+		if (!inst_list[i] instanceof $M) {
 			throw new Error('Some matrixes are not AgentSmith data format');
 		}
 	}
 };
 
 // sample numbers (row)
-$C.checkSampleNum = function( instList ) {
-	for (var i=0; i<instList.length-1; i++) {
-		if (instList[i].rows !== instList[i+1].rows) {
+$C.checkSampleNum = function( inst_list ) {
+	for (var i=0; i<inst_list.length-1; i++) {
+		if (inst_list[i].rows !== inst_list[i+1].rows) {
 			throw new Error('The number of samples does not match');
 		}
 	}
@@ -51,27 +51,27 @@ $C.checkDataDim = function( left, right ) {
 };
 
 // sample dimensions (col)
-$C.checkSampleDim = function( instList ) {
-	for (var i=0; i<instList.length-1; i++) {
-		if (instList[i].cols !== instList[i+1].cols) {
+$C.checkSampleDim = function( inst_list ) {
+	for (var i=0; i<inst_list.length-1; i++) {
+		if (inst_list[i].cols !== inst_list[i+1].cols) {
 			throw new Error('The number of dimensions does not match');
 		}
 	}
 };
 
 // set data
-$C.checkHasData = function( instList ) {
-	for (var i=0; i<instList.length; i++) {
-		if (instList.data === null) {
+$C.checkHasData = function( inst_list ) {
+	for (var i=0; i<inst_list.length; i++) {
+		if (inst_list.data === null) {
 			throw new Error('No value has set to matrixes');
 		}
 	}
 };
 
 // nan value
-$C.checkHasNan = function( instList ) {
-	for (var i=0; i<instList.length; i++) {
-		if ( $M.hasNaN(instList[i]) ) {
+$C.checkHasNan = function( inst_list ) {
+	for (var i=0; i<inst_list.length; i++) {
+		if ( $M.hasNaN(inst_list[i]) ) {
 			throw new Error('Cannot handle nan values in matrixes');
 		}
 	}
