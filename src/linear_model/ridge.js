@@ -5,12 +5,17 @@ var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	var AgentSmithML = require('../agent_smith_ml');
+	require('../utils/utils.js');
+	require('../utils/statistics.js');
+	require('../utils/checkargs.js');
 	require('./linear_model');
 	require('./base');
 }
 
 // alias
 var $M = AgentSmith.Matrix;
+var $S = AgentSmithML.Utils.Statistics;
+var $C = AgentSmithML.Utils.Check;
 var $Base = AgentSmithML.LinearModel.Base;
 
 // init
@@ -28,14 +33,14 @@ var $Ridge = AgentSmithML.LinearModel.Ridge.prototype;
 // fit
 $Ridge.fit = function(X, y) {
 	// check data property
-	$Base.checkArgc( arguments.length, 2 );
 	var instList = [X,y];
-	$Base.checkInstance( instList );
-	$Base.checkSampleNum( instList );
-	$Base.checkHasData( instList );
-	$Base.checkHasNan( instList );
+	$C.checkArgc( arguments.length, 2 );
+	$C.checkInstance( instList );
+	$C.checkSampleNum( instList );
+	$C.checkHasData( instList );
+	$C.checkHasNan( instList );
 	// make data centered
-	var meanStd = $Base.meanStd( this.center, this.normalize, X, y);
+	var meanStd = $S.meanStd( this.center, this.normalize, X, y);
 	// solver
 	if (this.solver === 'lsqr') { // normal equation
 		var identity = $M.eye(X.cols);
@@ -61,10 +66,10 @@ $Ridge.fit = function(X, y) {
 $Ridge.predict = function(X) {
 	// check data property
 	var instList = [X];
-	$Base.checkInstance( instList );
-	$Base.checkDataDim( X, this.weight );
-	$Base.checkHasData( instList );
-	$Base.checkHasNan( instList );
+	$C.checkInstance( instList );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( instList );
+	$C.checkHasNan( instList );
 	// estimate
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred

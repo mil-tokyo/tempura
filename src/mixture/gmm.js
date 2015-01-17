@@ -8,10 +8,11 @@ if (nodejs) {
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Mixture.GMM = function(n_components, n_iter, thresh) {
+AgentSmithML.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
     this.n_components = typeof n_components === "undefined" ? 1 : n_components;
-    this.n_iter = typeof n_iter === "undefined" ? 1 : n_iter;
-    this.thresh = typeof thresh === "undefined" ? 1 : thresh;
+    this.n_iter = typeof n_iter === "undefined" ? 100 : n_iter;
+    this.thresh = typeof thresh === "undefined" ? 0.01 : thresh;
+    this.min_covar = typeof min_covar === "undefined" ? 0.001 : min_covar;
 };
 
 AgentSmithML.Mixture.GMM.prototype.fit = function(X){
@@ -23,6 +24,10 @@ AgentSmithML.Mixture.GMM.prototype.fit = function(X){
     var newLogLikelihood = 0
     for(var i=0; i<this.n_iter; i++){
 	var responsibility = this.expectationStep(X);
+	if($M.hasNaN(responsibility)){
+	    this.showParams();
+	    throw new Error("responsibility has NaN value")
+	}
 	this.maximizationStep(X, responsibility);
 	newLogLikelihood = this.calcLogLikelihood(X);
 	console.log("LogLikelihood : " + newLogLikelihood)
@@ -67,33 +72,40 @@ AgentSmithML.Mixture.GMM.prototype.expectationStep = function(X){
 }
 
 AgentSmithML.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+    responsibility.print()
     var n_samples = X.rows;
     var n_features = X.cols;
     var Nk = $M.sumEachCol(responsibility);
-    var Nk_copy = Nk.clone();
-    this.weights = Nk_copy.times( 1.0 / n_samples);
+    this.weights = Nk.clone().times( 1.0 / n_samples);
+    Nk.print()
 
+    for(var k=0; k<this.n_components; k++){
+	this.means[k].zeros()
+	this.covars[k].zeros()
+    }
+    
     for(var i=0; i<n_samples; i++){
 	var x = $M.extract(X, i, 0, 1, n_features).t();
 	for(var k=0; k<this.n_components; k++){
-	    this.means[k] = $M.add(this.means[k], x.times(responsibility.get(i, k)))
+	    this.means[k].add(x.clone().times(responsibility.get(i, k)))
 	}
     }
 
     for(var k=0; k<this.n_components; k++){
-	this.means[k] = this.means[k].times( 1.0 / Nk.data[k]);
+	this.means[k].times( 1.0 / Nk.get(0, k));
     }
 
     for(var i=0; i<n_samples; i++){
 	var x = $M.extract(X, i, 0, 1, n_features).t();
 	for(var k=0; k<this.n_components; k++){
 	    var sub = $M.sub(x, this.means[k]);
-	    this.covars[k] = $M.add(this.covars[k], $M.mul(sub, sub.t()).times( responsibility.get(i, k) ))
+	    this.covars[k].add($M.mul(sub, sub.t()).times( responsibility.get(i, k) ))
 	}
+	
     }
-
+    
     for(var k=0; k<this.n_components; k++){
-	this.covars[k] = this.covars[k].times( 1.0 / Nk.data[k]);
+	this.covars[k].times( 1.0 / Nk.data[k]);
     }
 
 }
@@ -108,13 +120,12 @@ AgentSmithML.Mixture.GMM.prototype.initParams = function(X){
 
     var kmeans = new AgentSmithML.Cluster.Kmeans(this.n_components)
     kmeans.fit(X)
-    var init_means = kmeans.cluster_centers_
+    var init_means = kmeans.cluster_centers_;
     for(var k=0; k<this.n_components; k++){
 	var mean = $M.extract(init_means, k, 0, 1, n_features).t();
 	mean.random();
 	this.means.push(mean);
-	var covar = $M.add(AgentSmithML.Utils.Statistics.cov(X), $M.eye(n_features));//new $M(n_features, n_features);
-	
+	var covar = $M.add(AgentSmithML.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
 	this.covars.push(covar);
     }	
 }
