@@ -4,4 +4,4 @@ if (nodejs) {
 	var AgentSmithML = require('../agent_smith_ml');
 }
 
-AgentSmithML.LinearModel = {};
+AgentSmithML.Utils = {};

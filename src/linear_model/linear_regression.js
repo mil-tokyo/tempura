@@ -5,13 +5,16 @@ var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	var AgentSmithML = require('../agent_smith_ml');
+    require('../utils/utils.js');
+    require('../utils/statistics.js');
+	require('../utils/checkargs.js');
 	require('./linear_model');
-	require('./base');
 }
 
 // alias
 var $M = AgentSmith.Matrix;
-var $Base = AgentSmithML.LinearModel.Base;
+var $S = AgentSmithML.Utils.Statistics;
+var $C = AgentSmithML.Utils.Check;
 
 // init
 AgentSmithML.LinearModel.LinearRegression = function(args) {
@@ -25,25 +28,14 @@ var $LinReg = AgentSmithML.LinearModel.LinearRegression.prototype;
 // fit
 $LinReg.fit = function(X, y) {
 	// check data property
-	$Base.checkArgc( arguments.length, 2 );
-	var instList = [X,y];
-	$Base.checkInstance( instList );
-	$Base.checkSampleNum( instList );
-	$Base.checkHasData( instList );
-	$Base.checkHasNan( instList );
+	var inst_list = [X,y];
+	$C.checkArgc( arguments.length, 2 );
+	$C.checkInstance( inst_list );
+	$C.checkSampleNum( inst_list );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// make data centered
-	var meanStd = $Base.meanStd( this.center, this.normalize, X, y);
-
-	/*
-	var a = new $M.fromArray([[1,2,3],[2,4,6],[3,6,9]]);
-	var qr = $M.qr(X);
-	console.log('qr ans');
-	qr.Q.print();
-	qr.R.print();
-	var hoge = $M.mul(qr.Q, qr.R);
-	hoge.print();
-	*/
-
+	var meanStd = $S.meanStd( this.center, this.normalize, X, y);
 	// solver
 	if (this.solver === 'lsqr') { // nomal equation
 		var tmp = $M.mul( meanStd.X.t(), meanStd.X);
@@ -51,13 +43,13 @@ $LinReg.fit = function(X, y) {
 	} else if (this.solver === 'qr') { // qr decomposition
 		if (X.rows >= X.cols) {
 			var qr = $M.qr(meanStd.X);
-			var q1 = qr.Q.slice(0,0,X.rows,X.cols);
-			var r1 = qr.R.slice(0,0,X.cols,X.cols);
-			var w = $Base.fbSubstitution( r1, $M.mul( q1.t(), meanStd.y) );
+			var q1 = $M.extract( qr.Q, 0, 0, X.rows, X.cols);
+			var r1 = $M.extract( qr.R, 0, 0, X.cols, X.cols);
+			var w = $S.fbSubstitution( r1, $M.mul( q1.t(), meanStd.y) );
 		} else {
 			var qr = $M.qr(meanStd.X.t());
-			var r1 = qr.R.slice(0,0,X.rows,X.rows);
-			var tmp = $Base.fbSubstitution( r1.t(), meanStd.y );
+			var r1 = $M.extract( qr.R, 0, 0, X.rows, X.rows);
+			var tmp = $S.fbSubstitution( r1.t(), meanStd.y );
 			var zeromat = new $M(X.cols-X.rows,y.cols); zeromat.zeros();
 			var w = $M.mul( qr.Q, $M.vstack([tmp, zeromat]) );
 		}
@@ -66,7 +58,6 @@ $LinReg.fit = function(X, y) {
 	}
 
 	// store variables
-	// meanStd.X_std.t().print();
 	this.weight = (this.center) ? $M.divEach( w, meanStd.X_std.t() ) : w;
 	if (this.center) {
 		this.intercept = $M.sub(meanStd.y_mean, $M.mul(meanStd.X_mean, this.weight));
@@ -80,11 +71,11 @@ $LinReg.fit = function(X, y) {
 // predict
 $LinReg.predict = function(X) {
 	// check data property
-	var instList = [X];
-	$Base.checkInstance( instList );
-	$Base.checkDataDim( X, this.weight );
-	$Base.checkHasData( instList );
-	$Base.checkHasNan( instList );
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// estimate
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred

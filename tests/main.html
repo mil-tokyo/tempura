@@ -25,11 +25,16 @@
 <script src="../visualizer/agent_smith_visualizer.js"></script>
 <!-- AgentSmithML Main Libraries -->
 <script src="../src/agent_smith_ml.js"></script>
+<script src="../src/utils/utils.js"></script>
+<script src="../src/utils/statistics.js"></script>
+<script src="../src/utils/checkargs.js"></script>
 <script src="../src/linear_model/linear_model.js"></script>
 <script src="../src/linear_model/base.js"></script>
 <script src="../src/linear_model/linear_regression.js"></script>
 <script src="../src/linear_model/lasso.js"></script>
 <script src="../src/linear_model/ridge.js"></script>
+<script src="../src/linear_model/perceptron.js"></script>
+<script src="../src/linear_model/logistic.js"></script>
 <script src="../src/cluster/cluster.js"></script>
 <script src="../src/cluster/k_means.js"></script>
 <script src="../src/decomposition/decomposition.js"></script>
@@ -49,9 +54,11 @@
 <script src="./neighbors/nearest_neighbors_test.js"></script>
 <script src="./neighbors/classification_test.js"></script>
 <script src="./metrics/pairwise_test.js"></script>
-<script src="./linear_regression_test.js"></script>
-<script src="./lasso_test.js"></script>
-<script src="./ridge_test.js"></script>
+<script src="./linear_model/linear_regression_test.js"></script>
+<script src="./linear_model/lasso_test.js"></script>
+<script src="./linear_model/ridge_test.js"></script>
+<script src="./linear_model/perceptron_test.js"></script>
+<script src="./linear_model/logistic_test.js"></script>
 <script>
   $(function() {
   TestMain.Tester.setNotifier(function(msg) {
