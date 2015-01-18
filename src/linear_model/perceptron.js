@@ -38,8 +38,6 @@ $Perceptron.fit = function(X, y) {
 	$C.checkHasData( inst_list );
 	$C.checkHasNan( inst_list );
 	// train
-	// var bias = new $M( X.rows, 1 ); bias.zeros(1.0);
-	// var X_dash = $M.hstack([ bias, X ]);
 	var meanStd = $S.meanStd( this.center, false, X, y );
 	var w = new $M(X.cols,1); w.zeros();
 	for (var iter=0; iter<this.n_iter; iter++) {
@@ -54,37 +52,36 @@ $Perceptron.fit = function(X, y) {
 				flag = false;
 				w.add( tmp.times( this.eta * target ) );
 			}
-			// var tmp = $Base.binaryActivation( $M.mul(meanStd.X, w) );
-		    // tmp.print();
 		}
-		/*
+		// check convergence
 		if (flag) {
 			console.log('train finished (all samples are classified correctly)');
 			break;
-			} */
-		// check convergence
-		// if ($Base.binaryActivation( $M.mul(meanStd.X, w) ) == y) {
+		}
 		if (iter == this.n_iter-1) {
 			console.log('train finished (max_iteration has done)');
 		}
 	}
-	this.weight = w;
+	// store variables
+	this.weight = (this.center) ? $M.divEach( w, meanStd.X_std.t() ) : w;
+	if (this.center) {
+		this.intercept = $M.sub(meanStd.y_mean, $M.mul(meanStd.X_mean, this.weight));
+	} else {
+		var tmp = new $M( 1, y.cols );
+		this.intercept = tmp.zeros();
+	}
 	return this
 };
 
 // predict
 $Perceptron.predict = function(X) {
 	// check data property
-	// var bias = new $M( X.rows, 1 ); bias.zeros(1.0);
-	// var X_dash = $M.hstack([ bias, X ]);
-	// var inst_list = [X_dash];
 	var inst_list = [X];
 	$C.checkInstance( inst_list );
 	$C.checkDataDim( X, this.weight );
 	$C.checkHasData( inst_list );
 	$C.checkHasNan( inst_list );
 	// estimate
-	// var pred = $Base.binaryActivation( $M.mul( X_dash, this.weight ) );
-	var pred = $Base.binaryActivation( $M.mul( X, this.weight ) );
+	var pred = $Base.binaryActivation( $M.add( $M.mul( X, this.weight ),  this.intercept ) );
 	return pred
 };

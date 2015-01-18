@@ -37,15 +37,15 @@ $Logistic.fit = function(X, y) {
 	$C.checkSampleNum( inst_list );
 	$C.checkHasData( inst_list );
 	$C.checkHasNan( inst_list );
-	// train
+	// train ( for now, activation:softmax, loss:cross entropy, optimization:gradient discent )
 	var bias = new $M( X.rows, 1 ); bias.zeros(1.0);
-	var X = $M.hstack([ bias, X ]);
-	var w = new $M( X.cols , y.cols ); w.zeros();
+	var X_dash = $M.hstack([ bias, X ]);
+	var w = new $M( X_dash.cols , y.cols ); w.zeros();
+	var error
 	for (var iter=0; iter<this.n_iter; iter++) {
-		var pred = $M.sub( y, $S.softmax( $M.mul( X, w ) ) );
-		var delta = $M.sub( $M.mul( X.t(), pred ), w.clone().times(this.alpha) );
+		var pred = $M.sub( y, $S.softmax( $M.mul( X_dash, w ) ) );
+		var delta = $M.sub( $M.mul( X_dash.t(), pred ), w.clone().times(this.alpha) );
 		w.add( delta.times( this.eta ) );
-		this.eta = this.eta * 0.99;
 		if (iter == this.n_iter-1) {
 			console.log('train finished (max_iteration has done)');
 		}

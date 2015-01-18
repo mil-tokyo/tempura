@@ -33,9 +33,9 @@ TestMain.Tester.addTest('PerceptronTest', [
 											   console.log('weight');
 											   perceptron.weight.print();
 											   pred.print();
-											   if (pred.nearlyEquals($M.fromArray( [[-2.29, 2.60],
-																					[1.23, -0.64],
-																					[3.72, 0.82]] ))) {
+											   if (pred.nearlyEquals($M.fromArray( [[-1],
+																					[1],
+																					[1]] ))) {
 												   return true;
 											   }
 											   return false;
