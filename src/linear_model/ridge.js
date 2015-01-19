@@ -40,7 +40,7 @@ $Ridge.fit = function(X, y) {
 	$C.checkHasData( inst_list );
 	$C.checkHasNan( inst_list );
 	// make data centered
-	var meanStd = $S.meanStd( this.center, this.normalize, X, y);
+    var meanStd = $S.meanStd( this.center, this.normalize, X, y);
 	// solver
 	if (this.solver === 'lsqr') { // normal equation
 		var identity = $M.eye(X.cols);
