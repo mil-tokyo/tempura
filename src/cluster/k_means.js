@@ -119,8 +119,8 @@ AgentSmithML.Cluster.Kmeans.prototype.fit = function(X){
     
 AgentSmithML.Cluster.Kmeans.prototype._check_fit_data = function(X){
     'Verify that the number of samples given is larger than k'
-    if(X.rows < n_clusters){
-	throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + n_clusters);
+    if(X.rows < this.n_clusters){
+	throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + this.n_clusters);
     }
     console.log("input:")
     X.print();

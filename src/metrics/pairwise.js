@@ -41,6 +41,18 @@ AgentSmithML.Metrics.Pairwise = {
 	    norms = norms.map(Math.sqrt);
         }
         return norms
+    },
+
+    col_norms : function(X, squared){
+        if (typeof squared === 'undefined') squared = false;
+        var norms = $M.sumEachCol($M.mulEach(X, X));
+        if(squared == false){
+            //throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+	    norms = norms.map(Math.sqrt);
+        }
+        return norms
     }
+
+
 };
 
