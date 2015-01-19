@@ -19,13 +19,14 @@ var $S = AgentSmithML.Utils.Statistics;
 /* preprocessing */
 
 // center and normalize
-$S.meanStd = function( center, normalize, X, y ) {
+$S.meanStd = function( center, normalize, X, y, ddof) {
+    var ddof = (typeof ddof === "undefined") ? X.rows - 1 : ddof;
     if (center) {
 	var X_mean = $M.sumEachCol(X).times( 1.0 / X.rows );
 	X = $M.sub( X, X_mean );
 	var X_std = new $M( 1, X.cols );
 	if (normalize) {
-	    var X_var = $M.sumEachCol( $M.mulEach(X,X).times( 1 / X.rows ) );
+	    var X_var = $M.sumEachCol($M.mulEach(X,X)).times( 1.0 / (X.rows - ddof));
 	    for (var i=0; i<X.cols; i++) {
 		var tmp = Math.sqrt( X_var.get(0,i) );
 		if (tmp !== 0) {
@@ -89,27 +90,28 @@ $S.fbSubstitution = function( triangle, target ) {
 /* mathmatics */
 
 // exp
-$S.exp = function(X) {
-	if (!X instanceof $M) {
-		var output = Math.exp(X);
-	} else {
-		var output = new $M(X.rows, X.cols);
-		if (X.row_wise) {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, Math.exp( X.data[row*X.cols+col] ));
-				}
-			}
-		} else {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, Math.exp( X.data[col*X.rows+row] ));
-				}
-			}
-		}
-	}
-	return output;
-};
+
+// $S.exp = function(X) {
+// 	if (!X instanceof $M) {
+// 		var output = Math.exp(X);
+// 	} else {
+// 		var output = new $M(X.rows, X.cols);
+// 		if (X.row_wise) {
+// 			for (var row=0; row<X.rows; row++) {
+// 				for (var col=0; col<X.cols; col++) {
+// 					output.set(row, col, Math.exp( X.data[row*X.cols+col] ));
+// 				}
+// 			}
+// 		} else {
+// 			for (var row=0; row<X.rows; row++) {
+// 				for (var col=0; col<X.cols; col++) {
+// 					output.set(row, col, Math.exp( X.data[col*X.rows+row] ));
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return output;
+// };
 
 // covariance
 $S.cov = function(X, bias){
@@ -127,7 +129,15 @@ $S.cov = function(X, bias){
 
 
 $S.sqrt = function(X){
-    return X.map(Math.sqrt)
+    return X.clone().map(Math.sqrt)
+}
+
+$S.exp = function(X) {
+    return X.clone().map(Math.exp);
+}
+
+$S.sigmoid = function(X) {
+    return X.clone().map(function(datum){ return 1.0 / (1.0 + Math.exp(-datum))})
 }
 
 $S.frac = function(X){
@@ -138,27 +148,27 @@ $S.frac = function(X){
 /* activation funcs */
 
 // sigmoid
-$S.sigmoid = function(X) {
-	if (!X instanceof $M) {
-		var output = 1.0 / (1.0 + Math.exp(-X));
-	} else {
-		var output = new $M(X.rows, X.cols);
-		if (X.row_wise) {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[row*X.cols+col] )) );
-				}
-			}
-		} else {
-			for (var row=0; row<X.rows; row++) {
-				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[col*X.rows+row] )) );
-				}
-			}
-		}
-	}
-	return output;
-};
+// $S.sigmoid = function(X) {
+// 	if (!X instanceof $M) {
+// 		var output = 1.0 / (1.0 + Math.exp(-X));
+// 	} else {
+// 		var output = new $M(X.rows, X.cols);
+// 		if (X.row_wise) {
+// 			for (var row=0; row<X.rows; row++) {
+// 				for (var col=0; col<X.cols; col++) {
+// 					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[row*X.cols+col] )) );
+// 				}
+// 			}
+// 		} else {
+// 			for (var row=0; row<X.rows; row++) {
+// 				for (var col=0; col<X.cols; col++) {
+// 					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[col*X.rows+row] )) );
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return output;
+// };
 
 // softmax
 /* for given [n_sample, n_target] matrix */

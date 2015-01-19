@@ -9,14 +9,6 @@ if (nodejs) {
 var $M = AgentSmith.Matrix;
 var $S = AgentSmithML.Utils.Statistics
 
-function ccaNipals(X, Y, n_components){
-    var Xk = X;
-    var Yk = Y;
-    for(var k=0; k<n_components; k++){	
-	var a = 0;
-    }
-}
-
 // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
 // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
 function cca(X, Y){
@@ -73,16 +65,15 @@ AgentSmithML.CrossDecomposition.CCA.prototype.fit = function(X, Y){
     }
 
     if(this.scale){
-	var X_meanStd = $S.meanStd(true, true, X)
-	X = X_meanStd.X
-	this.X_mean = X_meanStd.X_mean
-	this.X_std = X_meanStd.X_std
-	//$M.mul(X.t(), X).print()
+	var X_meanStd = $S.meanStd(true, true, X, false, 1);
+	X = X_meanStd.X;
+	this.X_mean = X_meanStd.X_mean;
+	this.X_std = X_meanStd.X_std;
 
-	var Y_meanStd = $S.meanStd(true, true, Y)
-	Y = Y_meanStd.X
-	this.Y_mean = Y_meanStd.X_mean
-	this.Y_std = Y_meanStd.X_std
+	var Y_meanStd = $S.meanStd(true, true, Y, false, 1);
+	Y = Y_meanStd.X;
+	this.Y_mean = Y_meanStd.X_mean;
+	this.Y_std = Y_meanStd.X_std;
 
     }
 
