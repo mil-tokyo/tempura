@@ -25,7 +25,7 @@ $S.meanStd = function( center, normalize, X, y ) {
 	X = $M.sub( X, X_mean );
 	var X_std = new $M( 1, X.cols );
 	if (normalize) {
-	    var X_var = $M.sumEachCol( $M.mulEach(X,X) );
+	    var X_var = $M.sumEachCol( $M.mulEach(X,X).times( 1 / X.rows ) );
 	    for (var i=0; i<X.cols; i++) {
 		var tmp = Math.sqrt( X_var.get(0,i) );
 		if (tmp !== 0) {
@@ -206,4 +206,14 @@ $S.vstack = function(matrices, output) {
     }
     
     return newM
+}
+
+
+$S.chomskyDecomposition = function(X){
+    // decompose postive definite symmetric matrix X = QQ^T
+    var svd_result = $M.svd(X);
+    var U = svd_result.U
+    var W = $M.diag($S.sqrt(svd_result.S))
+    var Q = $M.mul(U, W);
+    return Q
 }

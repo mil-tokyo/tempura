@@ -9,26 +9,52 @@ if (nodejs) {
 var $M = AgentSmith.Matrix;
 var $S = AgentSmithML.Utils.Statistics
 
+function ccaNipals(X, Y, n_components){
+    var Xk = X;
+    var Yk = Y;
+    for(var k=0; k<n_components; k++){	
+	var a = 0;
+    }
+}
+
+// http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
+// http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
 function cca(X, Y){
     var X_features = X.cols;
     var Y_features = Y.cols;
     if(X_features > Y_features){
 	throw new Error("X_features should be greater than Y_features");
     }
-
-    var covs = $S.cov($M.hstack([X, Y]));
+    
+    var covs = $S.cov($M.hstack([X, Y]), true);
     var cov11 = $M.extract(covs, 0, 0, X_features, X_features);
     var cov12 = $M.extract(covs, 0, X_features, X_features, Y_features);
     var cov21 = cov12.t();
     var cov22 = $M.extract(covs, X_features, X_features, Y_features, Y_features);
 
-    var svd_results = $M.svd($M.mul($M.mul(cov11.inverse(), cov12), $M.mul(cov22.inverse(), cov21)))
-    var eigen_value = svd_results.S;
-    var lambda = $S.sqrt(eigen_value)
-    var inv_lambda = $M.diag($S.frac(lambda))
-    var A = svd_results.V;
-    var B = $M.mul(cov22.inverse(), $M.mul(cov21, $M.mul(inv_lambda, A)))
+    var R11 = $S.chomskyDecomposition(cov11);
+    var R22 = $S.chomskyDecomposition(cov22);
 
+    var svd_results_A = $M.svd($M.mul($M.mul(R11.inverse(), cov12), R22.t().inverse()).t())
+//    var svd_results_B = $M.svd($M.mul($M.mul(R22.inverse(), cov21), R11.t().inverse()))
+    var lambda = svd_results_A.S;
+    lambda.print();
+
+    var A = $M.mul(R11.t().inverse(), svd_results_A.V);
+    var B = $M.mul(cov22.inverse(), $M.mul(cov21, $M.divEach(A, lambda)))
+//    var B = $M.mul(R22.t().inverse(), svd_results_B.U);
+
+    console.log("== X covariance after projection ==")
+    $M.mul($M.mul(A.t(), cov11), A).print();
+    console.log("== Y covariance after projection ==")
+    $M.mul($M.mul(B.t(), cov22), B).print();
+    console.log("== X, Y covariance after projection ==")
+    $M.mul($M.mul(A.t(), cov12), B).print();    
+    console.log("constraint condition 1")
+    $M.sub($M.mul(cov12, B), $M.mulEach($M.mul(cov11, A), lambda)).print()
+    console.log("constraint condition 2")
+    $M.sub($M.mul(cov21, A), $M.mulEach($M.mul(cov22, B), lambda)).print()
+    
     return { U : A, V : B, lambda : lambda }
 }
 
@@ -51,6 +77,7 @@ AgentSmithML.CrossDecomposition.CCA.prototype.fit = function(X, Y){
 	X = X_meanStd.X
 	this.X_mean = X_meanStd.X_mean
 	this.X_std = X_meanStd.X_std
+	//$M.mul(X.t(), X).print()
 
 	var Y_meanStd = $S.meanStd(true, true, Y)
 	Y = Y_meanStd.X
