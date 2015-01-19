@@ -140,19 +140,19 @@ $S.frac = function(X){
 // sigmoid
 $S.sigmoid = function(X) {
 	if (!X instanceof $M) {
-		var output = 1.0 / (1.0 + Math.exp(X));
+		var output = 1.0 / (1.0 + Math.exp(-X));
 	} else {
 		var output = new $M(X.rows, X.cols);
 		if (X.row_wise) {
 			for (var row=0; row<X.rows; row++) {
 				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( X.data[row*X.cols+col] )) );
+					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[row*X.cols+col] )) );
 				}
 			}
 		} else {
 			for (var row=0; row<X.rows; row++) {
 				for (var col=0; col<X.cols; col++) {
-					output.set(row, col, 1.0 / (1.0 + Math.exp( X.data[col*X.rows+row] )) );
+					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[col*X.rows+row] )) );
 				}
 			}
 		}
@@ -161,11 +161,13 @@ $S.sigmoid = function(X) {
 };
 
 // softmax
-$S.softmax = function(X) { /* for given [n_dim, 1 or n_target] matrix */
-    var exp_x = $Base.exp(X);
-    var sum_exp_x = $M.sumEachCol( exp_x );
-    var output = $M.divEach( exp_x, sum_exp_x );
-    return output;
+/* for given [n_sample, n_target] matrix */
+$S.softmax = function(X) {
+	var max_val = $M.max(X); // avoid overflow
+	var exp_x = $S.exp( X.map(function(datum){return datum-max_val}) );
+	var sum_exp_x = $M.sumEachRow( exp_x );
+	var output = $M.divEach( exp_x, sum_exp_x );
+	return output;
 };
 
 

@@ -28,12 +28,12 @@ var $LinReg = AgentSmithML.LinearModel.LinearRegression.prototype;
 // fit
 $LinReg.fit = function(X, y) {
 	// check data property
-	var instList = [X,y];
+	var inst_list = [X,y];
 	$C.checkArgc( arguments.length, 2 );
-	$C.checkInstance( instList );
-	$C.checkSampleNum( instList );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	$C.checkInstance( inst_list );
+	$C.checkSampleNum( inst_list );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// make data centered
 	var meanStd = $S.meanStd( this.center, this.normalize, X, y);
 	// solver
@@ -71,11 +71,11 @@ $LinReg.fit = function(X, y) {
 // predict
 $LinReg.predict = function(X) {
 	// check data property
-	var instList = [X];
-	$C.checkInstance( instList );
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
 	$C.checkDataDim( X, this.weight );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// estimate
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred

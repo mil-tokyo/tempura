@@ -25,7 +25,7 @@ AgentSmithML.LinearModel.Ridge = function(args) {
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
 	this.solver = (typeof args.solver === 'undefined') ? 'cd' : args.solver;
-	this.maxIter = (typeof args.maxIter === 'undefined') ? 1000 : args.maxIter;
+	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
 };
 var $Ridge = AgentSmithML.LinearModel.Ridge.prototype;
@@ -33,12 +33,12 @@ var $Ridge = AgentSmithML.LinearModel.Ridge.prototype;
 // fit
 $Ridge.fit = function(X, y) {
 	// check data property
-	var instList = [X,y];
+	var inst_list = [X,y];
 	$C.checkArgc( arguments.length, 2 );
-	$C.checkInstance( instList );
-	$C.checkSampleNum( instList );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	$C.checkInstance( inst_list );
+	$C.checkSampleNum( inst_list );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// make data centered
 	var meanStd = $S.meanStd( this.center, this.normalize, X, y);
 	// solver
@@ -47,7 +47,7 @@ $Ridge.fit = function(X, y) {
 		var tmp = $M.add( identity.times(this.lambda), $M.mul( meanStd.X.t(), meanStd.X) );
 		var w = $M.mul( $M.mul( tmp.inverse(), meanStd.X.t() ), meanStd.y );
 	} else if ( this.solver === 'cd') { // coorinate discent
-		var w = $Base.coordinateDescent( meanStd.X, meanStd.y, this.lambda, 0.0, this.maxIter, this.tolerance);
+		var w = $Base.coordinateDescent( meanStd.X, meanStd.y, this.lambda, 0.0, this.n_iter, this.tolerance);
 	} else {
 		throw new Error('solver should be lsqr or cg, and others have not implemented');
 	}
@@ -65,11 +65,11 @@ $Ridge.fit = function(X, y) {
 // predict
 $Ridge.predict = function(X) {
 	// check data property
-	var instList = [X];
-	$C.checkInstance( instList );
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
 	$C.checkDataDim( X, this.weight );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// estimate
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred

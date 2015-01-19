@@ -23,38 +23,43 @@ AgentSmithML.LinearModel.Perceptron = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 1.0 : args.eta;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
-	this.maxIter = (typeof args.maxIter === 'undefined') ? 20 : args.maxIter;
+	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
 };
 var $Perceptron = AgentSmithML.LinearModel.Perceptron.prototype;
 
 // fit
+/* target y as a matrix of [n_samples, 1] */
 $Perceptron.fit = function(X, y) {
 	// check data property
-	var instList = [X,y];
+	var inst_list = [X,y];
 	$C.checkArgc( arguments.length, 2 );
-	$C.checkInstance( instList );
-	$C.checkSampleNum( instList );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	$C.checkInstance( inst_list );
+	$C.checkSampleNum( inst_list );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// train
-	var bias = new $M( X.rows, 1 ); bias.zeros(1.0);
-	var Xdash = $M.hstack([ bias, X ]);
-	var meanStd = $S.meanStd( this.center, false, Xdash, y);
-	var w = new $M( X.cols+1 , y.cols ); w.zeros();
-	// var err = 0;
-	for (var iter=0; iter<this.maxIter; iter++) {
+	var meanStd = $S.meanStd( this.center, false, X, y );
+	var w = new $M(X.cols,1); w.zeros();
+	for (var iter=0; iter<this.n_iter; iter++) {
+		var flag = true;
 		for (var row=0; row<X.rows; row++) {
-			var delta = $M.mul( $M.getRow(meanStd.X,row).t(), $M.getRow(y,row) );
-			w = $M.add( w, delta.times( this.eta ) );
+			var tmp = $M.getRow(meanStd.X,row).t();
+			var pred = $M.dot(tmp, w);
+			var target = y.get(row,0);
+			if (pred*target > 0) { // correct
+				continue;
+			} else { // mistake
+				flag = false;
+				w.add( tmp.times( this.eta * target ) );
+			}
 		}
 		// check convergence
-		//if (err == 0) {
-		//console.log('train finished (all samples are classified correctly)');
-		//break;
-		//}
-		if (iter == this.maxIter-1) {
+		if (flag) {
+			console.log('train finished (all samples are classified correctly)');
+			break;
+		}
+		if (iter == this.n_iter-1) {
 			console.log('train finished (max_iteration has done)');
-			// console.log(err);
 		}
 	}
 	// store variables
@@ -71,14 +76,12 @@ $Perceptron.fit = function(X, y) {
 // predict
 $Perceptron.predict = function(X) {
 	// check data property
-	var bias = new $M( X.rows, 1 ); bias.zeros(1.0);
-	var Xdash = $M.hstack([ bias, X ]);
-	var instList = [Xdash];
-	$C.checkInstance( instList );
-	$C.checkDataDim( Xdash, this.weight );
-	$C.checkHasData( instList );
-	$C.checkHasNan( instList );
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
 	// estimate
-	var pred = $Base.binaryActivation( $M.mul( Xdash, this.weight ) );
+	var pred = $Base.binaryActivation( $M.add( $M.mul( X, this.weight ),  this.intercept ) );
 	return pred
 };

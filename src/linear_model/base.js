@@ -30,11 +30,11 @@ $Base.softThreshold = function( target, gamma ) {
 };
 
 // coorindate descent
-$Base.coordinateDescent = function( X, y, lambda, alpha, maxIter, tolerance ) {
+$Base.coordinateDescent = function( X, y, lambda, alpha, n_iter, tolerance ) {
 	var w = new $M( X.cols, y.cols ); w.zeros();
 	var errors = new $M( X.cols, y.cols );
 	var c = $M.mul( X.t(), y );
-	for (var iter=0; iter<maxIter; iter++) {
+	for (var iter=0; iter<n_iter; iter++) {
 		for (var row=0; row<X.cols; row++) {
 			for (var col=0; col<y.cols; col++) {
 				var tmp = $M.dot( $M.mul( $M.getCol(X,row).t(), X).t(), $M.getCol(w,col));
@@ -58,7 +58,7 @@ $Base.coordinateDescent = function( X, y, lambda, alpha, maxIter, tolerance ) {
 			}
 		}
 	}
-	console.log('loop has repeated maxIter times');
+	console.log('loop has repeated n_iter times');
 	err.print();
 	return w;
 };
