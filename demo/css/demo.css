@@ -1,0 +1,8 @@
+#menu li{
+	cursor : pointer;
+}
+
+#content {
+	width: 640px;
+	height: 480px;
+}
