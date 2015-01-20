@@ -3,7 +3,7 @@ if (nodejs) {
 	var TestMain = require('../main');
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
-	var AgentSmithML = require('../../src/agent_smith_ml');
+	var Neo = require('../../src/neo');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base.js');
 	require('../../src/linear_model/logistic');
@@ -14,7 +14,7 @@ TestMain.Tester.addTest('LogisticTest', [
 										   name : 'Logistic',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var logistic = new AgentSmithML.LinearModel.Logistic({eta:0.01, maxIter:1000});
+											   var logistic = new Neo.LinearModel.Logistic({eta:0.01, maxIter:1000});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

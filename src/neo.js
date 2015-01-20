@@ -1,7 +1,7 @@
 var nodejs = (typeof window === 'undefined');
 
-var AgentSmithML = {};
+var Neo = {};
 
 if (nodejs) {
-	module.exports = AgentSmithML;
+	module.exports = Neo;
 }

@@ -2,13 +2,13 @@ var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./metrics');
 }
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Metrics.Pairwise = {
+Neo.Metrics.Pairwise = {
     euclidean_distances : function (X, Y, squared){
         if(typeof squared === 'undefined') squared = false;
 
@@ -20,15 +20,15 @@ AgentSmithML.Metrics.Pairwise = {
             Y = $M.fromArray([$M.toArray(Y)]);
         }
 
-        XX = AgentSmithML.Metrics.Pairwise.row_norms(X, true);
-        YY = AgentSmithML.Metrics.Pairwise.row_norms(Y, true);
+        XX = Neo.Metrics.Pairwise.row_norms(X, true);
+        YY = Neo.Metrics.Pairwise.row_norms(Y, true);
         var distances = $M.mul(X, Y.t());
         distances = distances.times(-2);
         distances = $M.add(distances, XX)
         distances = $M.add(distances, YY.t())
 	if(squared == false){
 	    distances = distances.map(Math.sqrt);
-            //throw new Error("AgentSmithML.Metrics.euclidean_distances with option squared=false is not implemented");
+            //throw new Error("Neo.Metrics.euclidean_distances with option squared=false is not implemented");
         }
         return distances
     },
@@ -37,7 +37,7 @@ AgentSmithML.Metrics.Pairwise = {
         if (typeof squared === 'undefined') squared = false;
         var norms = $M.sumEachRow($M.mulEach(X, X));
         if(squared == false){
-            //throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+            //throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
 	    norms = norms.map(Math.sqrt);
         }
         return norms
@@ -47,7 +47,7 @@ AgentSmithML.Metrics.Pairwise = {
         if (typeof squared === 'undefined') squared = false;
         var norms = $M.sumEachCol($M.mulEach(X, X));
         if(squared == false){
-            //throw new Error("AgentSmithML.Metrics.row_norms with option squared=false is not implemented");
+            //throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
 	    norms = norms.map(Math.sqrt);
         }
         return norms

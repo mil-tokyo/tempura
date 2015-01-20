@@ -4,7 +4,7 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var AgentSmithML = require('../agent_smith_ml');
+	var Neo = require('../neo');
 	require('../utils/utils.js');
 	require('../utils/statistics.js');
 	require('../utils/checkargs.js');
@@ -14,19 +14,19 @@ if (nodejs) {
 
 // alias
 var $M = AgentSmith.Matrix;
-var $S = AgentSmithML.Utils.Statistics;
-var $C = AgentSmithML.Utils.Check;
-var $Base = AgentSmithML.LinearModel.Base;
+var $S = Neo.Utils.Statistics;
+var $C = Neo.Utils.Check;
+var $Base = Neo.LinearModel.Base;
 
 // init
-AgentSmithML.LinearModel.Logistic = function(args) {
+Neo.LinearModel.Logistic = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 0.01 : args.eta; // learning ratio for delta Error
 	this.alpha = (typeof args.alpha === 'undefined') ? 0.0015 : args.alpha; // l2-regularization strength
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
 };
-var $Logistic = AgentSmithML.LinearModel.Logistic.prototype;
+var $Logistic = Neo.LinearModel.Logistic.prototype;
 
 // fit
 $Logistic.fit = function(X, y) {

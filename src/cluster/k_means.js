@@ -2,7 +2,7 @@ var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./cluster');
 }
 
@@ -14,7 +14,7 @@ function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
     X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
     X = $M.sub(X, X_mean);
 
-    x_squared_norms = AgentSmithML.Metrics.Pairwise.row_norms(X, squared=true);
+    x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
 
     if(n_jobs=1){
 	results = _kmeans_single(X=X, n_clusters=n_clusters, squared_norms=x_squared_norms, init=init, maxiter=maxiter, tol=tol);
@@ -38,7 +38,7 @@ function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
     for(var i=0; i<maxiter; i++){
 	labels = _labels_inertia(X, centers);
 	centers = _calc_centers(X, labels, n_clusters);
-	if(AgentSmithML.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= 0.001){
+	if(Neo.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= 0.001){
 	    break
 	}
 	centers_old = centers;
@@ -51,7 +51,7 @@ function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
 function _labels_inertia(X, centers){
     var n_samples = X.rows
     var k = centers.rows
-    var all_distances = AgentSmithML.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
+    var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
     var mindist = new $M(n_samples, 1);
     mindist.zeros(100000);
     var labels = new $M(n_samples, 1);
@@ -93,7 +93,7 @@ function _calc_centers(X, labels, n_clusters){
 }
 
 
-AgentSmithML.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
+Neo.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
     if(n_clusters === undefined) n_clusters = 8;
     if(init === undefined) init = "kmeans++";
     if(n_jobs === undefined) n_jobs = 1;
@@ -108,7 +108,7 @@ AgentSmithML.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
 };
 
 
-AgentSmithML.Cluster.Kmeans.prototype.fit = function(X){
+Neo.Cluster.Kmeans.prototype.fit = function(X){
     X = this._check_fit_data(X);
     results = k_means(X, n_clusters=this.n_clusters, init=this.init, n_jobs=this.n_jobs, maxiter=this.maxiter, tol=this.tol);
     this.cluster_centers_ = results["cluster_centers_"];
@@ -117,7 +117,7 @@ AgentSmithML.Cluster.Kmeans.prototype.fit = function(X){
 }
 
     
-AgentSmithML.Cluster.Kmeans.prototype._check_fit_data = function(X){
+Neo.Cluster.Kmeans.prototype._check_fit_data = function(X){
     'Verify that the number of samples given is larger than k'
     if(X.rows < this.n_clusters){
 	throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + this.n_clusters);

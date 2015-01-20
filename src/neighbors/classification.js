@@ -1,17 +1,17 @@
 var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./neighbors.js');
     require('./nearest_neighbors.js');
 }
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Neighbors.KNeighborsClassifier = function(args) {
+Neo.Neighbors.KNeighborsClassifier = function(args) {
     if (typeof args === 'undefined') args = {};
 
-    AgentSmithML.Neighbors.NearestNeighbors.apply(this);
+    Neo.Neighbors.NearestNeighbors.apply(this);
 
     this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5         : args.n_neighbors;
     this.algorithm   = typeof args.algorithm   === 'undefined' ? 'auto'    : args.algorithm;
@@ -19,16 +19,16 @@ AgentSmithML.Neighbors.KNeighborsClassifier = function(args) {
     this.weights     = typeof args.weights     === 'undefined' ? 'uniform' : args.weights;
 }
 
-AgentSmithML.Neighbors.KNeighborsClassifier.prototype = Object.create(AgentSmithML.Neighbors.NearestNeighbors.prototype, {
+Neo.Neighbors.KNeighborsClassifier.prototype = Object.create(Neo.Neighbors.NearestNeighbors.prototype, {
     constructor: {
-        value: AgentSmithML.Neighbors.KNeighborsClassifier,
+        value: Neo.Neighbors.KNeighborsClassifier,
         enumerabule: false,
         writable: true,
         configurable: true
     }
 });
 
-AgentSmithML.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
+Neo.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
     if (typeof X === 'undefined') throw new Error('X must be set');
     if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
     if (typeof y === 'undefined') throw new Error('y must be set');
@@ -46,7 +46,7 @@ AgentSmithML.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
     return this;
 }
 
-AgentSmithML.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
+Neo.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
     var neigh = this.kneighbors(X);
     var weights = this._get_weights(neigh[0], self.weights);
 
@@ -62,7 +62,7 @@ AgentSmithML.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
     return res;
 }
 
-AgentSmithML.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
+Neo.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
     var ones = (new $M(dist.rows, dist.cols)).setEach(function(){ return 1;});
     if (weights === 'uniform' || weights === null || typeof weights === 'undefined') {
         return ones;

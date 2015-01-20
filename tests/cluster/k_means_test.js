@@ -10,7 +10,7 @@ TestMain.Tester.addTest('KmeansTest', [
 		name : 'Kmeans',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var kmeans = new AgentSmithML.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -39,7 +39,7 @@ TestMain.Tester.addTest('KmeansTest', [
 	name : 'Kmeans clusternum',
 	test : function(callback) {
 	    var $M = AgentSmith.Matrix;
-		    var kmeans = new AgentSmithML.Cluster.Kmeans(n_clusters=5,  init="kmeans++");
+		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=5,  init="kmeans++");
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],

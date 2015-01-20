@@ -4,7 +4,7 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var AgentSmithML = require('../agent_smith_ml');
+	var Neo = require('../neo');
 	require('../utils/utils.js');
 	require('../utils/statistics.js');
 	require('../utils/checkargs.js');
@@ -14,12 +14,12 @@ if (nodejs) {
 
 // alias
 var $M = AgentSmith.Matrix;
-var $S = AgentSmithML.Utils.Statistics;
-var $C = AgentSmithML.Utils.Check;
-var $Base = AgentSmithML.LinearModel.Base;
+var $S = Neo.Utils.Statistics;
+var $C = Neo.Utils.Check;
+var $Base = Neo.LinearModel.Base;
 
 // init
-AgentSmithML.LinearModel.Ridge = function(args) {
+Neo.LinearModel.Ridge = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
@@ -28,7 +28,7 @@ AgentSmithML.LinearModel.Ridge = function(args) {
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
 };
-var $Ridge = AgentSmithML.LinearModel.Ridge.prototype;
+var $Ridge = Neo.LinearModel.Ridge.prototype;
 
 // fit
 $Ridge.fit = function(X, y) {

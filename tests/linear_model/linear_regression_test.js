@@ -3,7 +3,7 @@ if (nodejs) {
 	var TestMain = require('../main');
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
-	var AgentSmithML = require('../../src/agent_smith_ml');
+	var Neo = require('../../src/neo');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base');
 	require('../../src/linear_model/linear_regression');
@@ -14,7 +14,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 										   name : 'Linear Regression Normal Equation',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var linReg = new AgentSmithML.LinearModel.LinearRegression({solver:'lsqr'});
+											   var linReg = new Neo.LinearModel.LinearRegression({solver:'lsqr'});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
@@ -44,7 +44,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 										   name : 'Linear Regression qr',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var linReg = new AgentSmithML.LinearModel.LinearRegression({solver:'qr'});
+											   var linReg = new Neo.LinearModel.LinearRegression({solver:'qr'});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
@@ -74,7 +74,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 										   name : 'Linear Regression without intercept',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var linReg = new AgentSmithML.LinearModel.LinearRegression({solver:'lsqr',center:false});
+											   var linReg = new Neo.LinearModel.LinearRegression({solver:'lsqr',center:false});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
@@ -104,7 +104,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 										   name : 'Linear Regression with normalization',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var linReg = new AgentSmithML.LinearModel.LinearRegression({solver:'qr',normalize:true});
+											   var linReg = new Neo.LinearModel.LinearRegression({solver:'qr',normalize:true});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

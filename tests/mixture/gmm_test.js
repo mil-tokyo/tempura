@@ -10,7 +10,7 @@ TestMain.Tester.addTest('GMMTest', [
 		name : 'GMM',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var gmm = new AgentSmithML.Mixture.GMM(2, 100, 0.0000001);
+		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],

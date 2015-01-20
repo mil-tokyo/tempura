@@ -1,13 +1,13 @@
 var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./neighbors.js');
 }
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Neighbors.NearestNeighbors = function(args) {
+Neo.Neighbors.NearestNeighbors = function(args) {
     if (typeof args === 'undefined') args = {};
     this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5      : args.n_neighbors;
     this.radius      = typeof args.radius      === 'undefined' ? 1.0    : args.radius;
@@ -15,7 +15,7 @@ AgentSmithML.Neighbors.NearestNeighbors = function(args) {
     this.leaf_size   = typeof args.leaf_size   === 'undefined' ? 30     : args.leaf_size;
 }
 
-AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
+Neo.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
     if (typeof X === 'undefined') throw new Error('X must be set');
     if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
     this._fit_X = X;
@@ -31,7 +31,7 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
     return this;
 }
 
-AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
+Neo.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
     if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 
     if (typeof args === 'undefined') args = {};
@@ -39,7 +39,7 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args)
     if (typeof args.return_distance === 'undefined') args.return_distance = true;
 
     if (this._fit_method === 'brute') {
-        dist = AgentSmithML.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+        dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
         // initialize indices arrays
         var indices = new Array(dist.rows);
@@ -76,14 +76,14 @@ AgentSmithML.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args)
 
 }
 
-AgentSmithML.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
+Neo.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
     if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
     if (typeof radius === 'undefined') radius = this.radius;
     if (typeof return_distance === 'undefined') return_distance = true;
 
     throw new Error('Not implemented');
     if (this._fit_method === 'brute') {
-        dist = AgentSmithML.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+        dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
         // select indices whose distances are smaller than radius
         for (var row=0 ; row<dist.rows ; row++){

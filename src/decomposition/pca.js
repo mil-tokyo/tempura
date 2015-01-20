@@ -2,19 +2,19 @@ var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./decomposition');
 }
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Decomposition.PCA = function(n_components, copy, whiten) {
+Neo.Decomposition.PCA = function(n_components, copy, whiten) {
     this.n_components = typeof n_components === "undefined" ? 1.0 : n_components;
     this.copy = typeof copy === "undefined" ? false : copy
     this.whiten = typeof whiten === "undefined" ? false : whiten
     };
 
-AgentSmithML.Decomposition.PCA.prototype.fit = function(X){
+Neo.Decomposition.PCA.prototype.fit = function(X){
     var n_samples = X.rows;
     var n_features = X.cols;
     this.mean_ = $M.sumEachCol(X).times(1.0 / n_samples).toRowWise();;
@@ -75,7 +75,7 @@ AgentSmithML.Decomposition.PCA.prototype.fit = function(X){
     this.n_components_ = n_components
 }
 
-AgentSmithML.Decomposition.PCA.prototype.transform = function(X){
+Neo.Decomposition.PCA.prototype.transform = function(X){
     if(typeof this.mean_ !== "undefined"){
         X = $M.sub(X,this.mean_);
     }

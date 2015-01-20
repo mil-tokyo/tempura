@@ -16,7 +16,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [ 0,  1, -1,  0],
 				      [-1,  0,  1,  0]])
 
-            var res = AgentSmithML.Utils.Statistics.cov(input);
+            var res = Neo.Utils.Statistics.cov(input);
 
 	    var output = $M.fromArray([[ 1. , -0.5, -0.5,  0. ],
 				       [-0.5,  1. , -0.5,  0. ],
@@ -33,7 +33,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [ 0.5,  2, -5,  -10]])
 				     
 
-            var res = AgentSmithML.Utils.Statistics.frac(input);
+            var res = Neo.Utils.Statistics.frac(input);
 
 	    var output = $M.fromArray([[ 10, -0.1, 1,  -0.5 ],
 				       [2,  0.5 , -0.2,  -0.1 ]])
@@ -62,7 +62,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				       [1, 2, 3]]).t();
 
 	    input.push(input3);
-	    var res = AgentSmithML.Utils.Statistics.vstack(input)
+	    var res = Neo.Utils.Statistics.vstack(input)
 
 	    
 	    var output = $M.fromArray([[ 1, -1,  0,  5],

@@ -4,7 +4,7 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./utils');
 }
 
@@ -12,8 +12,8 @@ if (nodejs) {
 var $M = AgentSmith.Matrix;
 
 // init
-AgentSmithML.Utils.Statistics = {};
-var $S = AgentSmithML.Utils.Statistics;
+Neo.Utils.Statistics = {};
+var $S = Neo.Utils.Statistics;
 
 
 /* preprocessing */

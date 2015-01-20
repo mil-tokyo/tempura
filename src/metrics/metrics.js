@@ -1,8 +1,8 @@
 var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
-        var AgentSmithML = require('../agent_smith_ml');
+        var Neo = require('../neo');
 }
 
-AgentSmithML.Metrics = {};
+Neo.Metrics = {};
 

@@ -29,7 +29,7 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
     {
         name : 'DefaultOptions',
         test : function() {
-            var clf = new AgentSmithML.Neighbors.KNeighborsClassifier();
+            var clf = new Neo.Neighbors.KNeighborsClassifier();
 
             if ( (typeof clf.algorithm !== 'undefined' && clf.algorithm === 'auto')
                 && (typeof clf.weights !== 'undefined' && clf.weights === 'uniform')
@@ -43,7 +43,7 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
     {
         name : 'GetWeights_uniform',
         test : function() {
-            var clf = new AgentSmithML.Neighbors.KNeighborsClassifier();
+            var clf = new Neo.Neighbors.KNeighborsClassifier();
             var dist = new $M(3, 3);
             dist.random();
 
@@ -56,7 +56,7 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
     {
         name : 'GetWeights_distance',
         test : function() {
-            var clf = new AgentSmithML.Neighbors.KNeighborsClassifier();
+            var clf = new Neo.Neighbors.KNeighborsClassifier();
             var dist = $M.fromArray([
                 [1, 2],
                 [0.5, 0.1]
@@ -72,7 +72,7 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
     {
         name : 'Predict',
         test : function() {
-            var clf = new AgentSmithML.Neighbors.KNeighborsClassifier();
+            var clf = new Neo.Neighbors.KNeighborsClassifier();
             clf.fit(samples, labels);
             Z = clf.predict($M.fromArray([
                 [11, 11],
@@ -90,7 +90,7 @@ TestMain.Tester.addTest('KNeighborsClassifierTest', [
     {
         name : 'VisualizePredict',
         test : function() {
-            var clf = new AgentSmithML.Neighbors.KNeighborsClassifier({n_neighbors: 1});
+            var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: 1});
             clf.fit(samples, labels);
 
             // mesh

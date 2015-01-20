@@ -15,7 +15,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
     {
         name : 'DefaultOptions',
         test : function() {
-            var neigh = new AgentSmithML.Neighbors.NearestNeighbors();
+            var neigh = new Neo.Neighbors.NearestNeighbors();
 
             if ( (typeof neigh.algorithm !== 'undefined' && neigh.algorithm === 'auto')
                 && (typeof neigh.leaf_size !== 'undefined' && neigh.leaf_size == 30)
@@ -32,7 +32,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
         test: function() {
             var samples = $M.fromArray([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]);
 
-            var neigh = new AgentSmithML.Neighbors.NearestNeighbors({n_neighbors: 2});
+            var neigh = new Neo.Neighbors.NearestNeighbors({n_neighbors: 2});
             neigh.fit(samples);
 
             var ans = $M.fromArray([
@@ -62,7 +62,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
         name: 'radius_neighbors_with_distances',
         test: function() {
             var samples = $M.fromArray([[0., 0., 0.], [0., .5, 0.], [1., 1., .5]]);
-            var neigh = new AgentSmithML.Neighbors.NearestNeighbors({radius: 1.6});
+            var neigh = new Neo.Neighbors.NearestNeighbors({radius: 1.6});
             neigh.fit(samples);
 
             var ans = $M.fromArray([[Math.sqrt(2.5), 0.5]]);
@@ -75,7 +75,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
     {
         name: 'Functions_throw_exception_if_invalid_instance_given',
         test: function() {
-            var neigh = new AgentSmithML.Neighbors.NearestNeighbors(2, 0.4);
+            var neigh = new Neo.Neighbors.NearestNeighbors(2, 0.4);
             try {
                 neigh.fit($M.toArray(samples));
                 return false;

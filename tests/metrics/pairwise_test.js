@@ -18,7 +18,7 @@ TestMain.Tester.addTest('MetricsTest', [
         name : 'RowNorms_squared_1',
         test : function() {
             var input = $M.fromArray([[0,0]]);
-            var res = AgentSmithML.Metrics.Pairwise.row_norms(input, true);
+            var res = Neo.Metrics.Pairwise.row_norms(input, true);
             return $M.fromArray([[0]]).equals(res);
         }
     },
@@ -26,7 +26,7 @@ TestMain.Tester.addTest('MetricsTest', [
         name : 'RowNorms_squared_2',
         test : function() {
             var input = $M.fromArray([[0,0], [3,4]]);
-            var res = AgentSmithML.Metrics.Pairwise.row_norms(input, true);
+            var res = Neo.Metrics.Pairwise.row_norms(input, true);
             return $M.fromArray([[0], [25]]).equals(res);
         }
     },
@@ -34,7 +34,7 @@ TestMain.Tester.addTest('MetricsTest', [
         name : 'RowNorms_2',
         test : function() {
             var input = $M.fromArray([[0,0], [3,4]]);
-            var res = AgentSmithML.Metrics.Pairwise.row_norms(input, false);
+            var res = Neo.Metrics.Pairwise.row_norms(input, false);
             return $M.fromArray([[0], [5]]).equals(res);
         }
     },
@@ -50,7 +50,7 @@ TestMain.Tester.addTest('MetricsTest', [
                 [5,12]
             ]);
 
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(input_a, input_b, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(input_a, input_b, true);
             return $M.fromArray([
                 [0, 169],
                 [25, 68]
@@ -60,70 +60,70 @@ TestMain.Tester.addTest('MetricsTest', [
     {
         name : 'euclidean_distance_squared_0',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_zero, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_zero, true);
             return $M.fromArray([[0]]).equals(res);
         }
     },
     {
         name : 'euclidean_distance_0',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_zero, false);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_zero, false);
             return $M.fromArray([[0]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_squared_1',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_a, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_a, true);
             return $M.fromArray([[25]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_1',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_a, false);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_a, false);
             return $M.fromArray([[5]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_squared_1_inv',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_a, sample_2d_single_zero, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_a, sample_2d_single_zero, true);
             return $M.fromArray([[25]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_1_inv',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_a, sample_2d_single_zero, false);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_a, sample_2d_single_zero, false);
             return $M.fromArray([[5]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_squared_2',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_b, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_b, true);
             return $M.fromArray([[169]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_2',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_b, false);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_zero, sample_2d_single_b, false);
             return $M.fromArray([[13]]).nearlyEquals(res);
         }
     },
     {
         name : 'EuclideanDistance_squared_2_inv',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_b, sample_2d_single_zero, true);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_b, sample_2d_single_zero, true);
             return $M.fromArray([[169]]).equals(res);
         }
     },
     {
         name : 'EuclideanDistance_2_inv',
         test : function() {
-            var res = AgentSmithML.Metrics.Pairwise.euclidean_distances(sample_2d_single_b, sample_2d_single_zero, false);
+            var res = Neo.Metrics.Pairwise.euclidean_distances(sample_2d_single_b, sample_2d_single_zero, false);
             return $M.fromArray([[13]]).equals(res);
         }
     },
@@ -131,7 +131,7 @@ TestMain.Tester.addTest('MetricsTest', [
         name: 'Functions_throw_exception_if_invalid_instance_given',
         test: function() {
             try {
-                AgentSmithML.Metrics.Pairwise.row_norms([0,0], [0,0], true);
+                Neo.Metrics.Pairwise.row_norms([0,0], [0,0], true);
                 return false;
             } catch(e) {
                 if (!(e instanceof TypeError)) {
@@ -141,7 +141,7 @@ TestMain.Tester.addTest('MetricsTest', [
             }
 
             try {
-                AgentSmithML.Metrics.Pairwise.euclidean_distances([0,0], [0,0], true);
+                Neo.Metrics.Pairwise.euclidean_distances([0,0], [0,0], true);
                 return false;
             } catch(e) {
                 if (!(e instanceof TypeError)) {
@@ -151,7 +151,7 @@ TestMain.Tester.addTest('MetricsTest', [
             }
 
             try {
-                AgentSmithML.Metrics.Pairwise.euclidean_distances([0,0], [1,2], true);
+                Neo.Metrics.Pairwise.euclidean_distances([0,0], [1,2], true);
                 return false;
             } catch(e) {
                 if (!(e instanceof TypeError)) {

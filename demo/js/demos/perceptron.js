@@ -27,7 +27,7 @@ AgentSmithDemo.addDemo('Perceptron', 'A kind of linear classifier', function(){
 	var labels = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]);
 	
 
-	var perceptron = new AgentSmithML.LinearModel.Perceptron();
+	var perceptron = new Neo.LinearModel.Perceptron();
 
 	perceptron.fit(samples,labels.t());
 

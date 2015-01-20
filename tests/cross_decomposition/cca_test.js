@@ -10,7 +10,7 @@ TestMain.Tester.addTest('CCATest', [
 		name : 'CCA',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var cca = new AgentSmithML.CrossDecomposition.CCA(2, true);
+		    var cca = new Neo.CrossDecomposition.CCA(2, true);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -66,7 +66,7 @@ TestMain.Tester.addTest('CCATest', [
 //		     var y_res = $M.fromArray([[-1.07997113, -0.24826875],
 //					       [-1.05191023,  0.59350745],
 //					       [-1.09400158, -0.66915684]])
-		    $MP = AgentSmithML.Metrics.Pairwise;
+		    $MP = Neo.Metrics.Pairwise;
 
 		    var a = $M.divEach(x_rotation_res, $MP.col_norms(x_rotation_res, false));
 		    var b = $M.divEach(cca.X_projection, $MP.col_norms(cca.X_projection, false));

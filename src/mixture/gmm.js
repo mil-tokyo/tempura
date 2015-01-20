@@ -2,20 +2,20 @@ var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./mixture');
 }
 
 var $M = AgentSmith.Matrix;
 
-AgentSmithML.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
+Neo.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
     this.n_components = typeof n_components === "undefined" ? 1 : n_components;
     this.n_iter = typeof n_iter === "undefined" ? 100 : n_iter;
     this.thresh = typeof thresh === "undefined" ? 0.01 : thresh;
     this.min_covar = typeof min_covar === "undefined" ? 0.001 : min_covar;
 };
 
-AgentSmithML.Mixture.GMM.prototype.fit = function(X){
+Neo.Mixture.GMM.prototype.fit = function(X){
     var n_samples = X.rows;
     var n_features = X.cols;
 
@@ -39,7 +39,7 @@ AgentSmithML.Mixture.GMM.prototype.fit = function(X){
     this.showParams();
 }
 
-AgentSmithML.Mixture.GMM.prototype.calcLogLikelihood = function(X){
+Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
     var n_samples = X.rows;
     var n_features = X.cols;
     loglikelihood = 0;
@@ -54,7 +54,7 @@ AgentSmithML.Mixture.GMM.prototype.calcLogLikelihood = function(X){
     return loglikelihood
 }
 
-AgentSmithML.Mixture.GMM.prototype.expectationStep = function(X){
+Neo.Mixture.GMM.prototype.expectationStep = function(X){
     var n_samples = X.rows;
     var n_features = X.cols;
     var responsibility = new $M(n_samples, this.n_components)
@@ -71,7 +71,7 @@ AgentSmithML.Mixture.GMM.prototype.expectationStep = function(X){
     return responsibility
 }
 
-AgentSmithML.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+Neo.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
     responsibility.print()
     var n_samples = X.rows;
     var n_features = X.cols;
@@ -110,7 +110,7 @@ AgentSmithML.Mixture.GMM.prototype.maximizationStep = function(X, responsibility
 
 }
 
-AgentSmithML.Mixture.GMM.prototype.initParams = function(X){
+Neo.Mixture.GMM.prototype.initParams = function(X){
     var n_features = X.cols
     this.weights = new $M(1, this.n_components);
     this.weights.zeros( 1.0 / this.n_components );
@@ -118,19 +118,19 @@ AgentSmithML.Mixture.GMM.prototype.initParams = function(X){
     this.means = [];
     this.covars = [];
 
-    var kmeans = new AgentSmithML.Cluster.Kmeans(this.n_components)
+    var kmeans = new Neo.Cluster.Kmeans(this.n_components)
     kmeans.fit(X)
     var init_means = kmeans.cluster_centers_;
     for(var k=0; k<this.n_components; k++){
 	var mean = $M.extract(init_means, k, 0, 1, n_features).t();
 	mean.random();
 	this.means.push(mean);
-	var covar = $M.add(AgentSmithML.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
+	var covar = $M.add(Neo.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
 	this.covars.push(covar);
     }	
 }
 
-AgentSmithML.Mixture.GMM.prototype.showParams= function(){
+Neo.Mixture.GMM.prototype.showParams= function(){
     for(var k=0; k<this.n_components; k++){
 	console.log("component " + k);
 	console.log("weight :" + this.weights.data[k])

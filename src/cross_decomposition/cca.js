@@ -2,12 +2,12 @@ var nodejs = (typeof window === 'undefined');
 
 if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
-    var AgentSmithML = require('../agent_smith_ml');
+    var Neo = require('../neo');
     require('./cross_decomposition');
 }
 
 var $M = AgentSmith.Matrix;
-var $S = AgentSmithML.Utils.Statistics
+var $S = Neo.Utils.Statistics
 
 // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
 // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
@@ -50,12 +50,12 @@ function cca(X, Y){
     return { U : A, V : B, lambda : lambda }
 }
 
-AgentSmithML.CrossDecomposition.CCA = function(n_components, scale) {
+Neo.CrossDecomposition.CCA = function(n_components, scale) {
     this.n_components = typeof n_components === "undefined" ? 2 : n_components;
     this.scale = typeof scale === "undefined" ? true : scale;
 };
 
-AgentSmithML.CrossDecomposition.CCA.prototype.fit = function(X, Y){
+Neo.CrossDecomposition.CCA.prototype.fit = function(X, Y){
     if(this.n_components > Math.min(X.cols, Y.cols)){
 	throw new Error("n_components should be smaller than the number of features.");
     }
@@ -90,7 +90,7 @@ AgentSmithML.CrossDecomposition.CCA.prototype.fit = function(X, Y){
     return this
 }
 
-AgentSmithML.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
+Neo.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
     if(X.rows != Y.rows){
 	throw new Error("the number of samples in X and Y should be the same.")
     }
