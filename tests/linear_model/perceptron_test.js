@@ -5,7 +5,7 @@ if (nodejs) {
 	require('../../agent_smith/src/agent_smith_cl');
 	var AgentSmithML = require('../../src/agent_smith_ml');
 	require('../../src/linear_model/linear_model');
-	requre('../../src/linear_model/base.js');
+	require('../../src/linear_model/base.js');
 	require('../../src/linear_model/perceptron');
 }
 

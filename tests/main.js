@@ -79,12 +79,9 @@ var TestMain = {};
 	
 	if (nodejs) {
 		module.exports = TestMain;
-		var files = require('fs').readdirSync('./');
-		var js_regex = new RegExp('.*\.js');
-		for (var i = 0; i < files.length; i++) {
-			if (js_regex.test(files[i])) {
-				require('./' + files[i]);
-			}
+		var files = getJSFiles('./');
+		for (var i =  0; i < files.length; i++) {
+			require(files[i]);
 		}
 		setImmediate(function() {
 			var test_names = TestMain.Tester.getTestNames();
@@ -104,5 +101,20 @@ var TestMain = {};
 			    readline.close();
 			});
 		});
+
+		function getJSFiles(dir) {
+			var fs = require('fs');
+			var files = [];
+			var files_all = fs.readdirSync(dir);
+			var js_regex = new RegExp('.*\.js$');
+			for (var i = 0; i < files_all.length; i++) {
+				if (fs.statSync(dir + files_all[i]).isDirectory()) {
+					files = files.concat(getJSFiles(dir + files_all[i] + '/'));
+				} else if (js_regex.test(files_all[i])) {
+					files.push(dir + files_all[i])
+				}
+			}
+			return files;
+		}
 	}
 })();

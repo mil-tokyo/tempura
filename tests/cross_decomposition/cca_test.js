@@ -1,9 +1,8 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
-	var TestMain = require('./main');
-	var MNISTLoader = require('../utils/mnist_loader');
-	var AgentSmith = require('../agent_smith/src/agent_smith');
-	require('../agent_smith/src/agent_smith_cl');
+	var TestMain = require('../main');
+	var AgentSmith = require('../../agent_smith/src/agent_smith');
+	require('../../agent_smith/src/agent_smith_cl');
 }
 
 TestMain.Tester.addTest('CCATest', [

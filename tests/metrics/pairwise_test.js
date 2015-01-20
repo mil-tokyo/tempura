@@ -1,11 +1,13 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
     var TestMain = require('../main');
-    var AgentSmith = require('../agent_smith/src/agent_smith');
+    var AgentSmith = require('../../agent_smith/src/agent_smith');
     require('../../agent_smith/src/agent_smith_cl');
     require('../../src/metrics/metrics.js');
     require('../../src/metrics/pairwise.js');
 }
+
+var $M = AgentSmith.Matrix;
 
 var sample_2d_single_zero = $M.fromArray([[0,0]]);
 var sample_2d_single_a = $M.fromArray([[3,4]]);

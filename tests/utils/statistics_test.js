@@ -1,7 +1,7 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
     var TestMain = require('../main');
-    var AgentSmith = require('../agent_smith/src/agent_smith');
+    var AgentSmith = require('../../agent_smith/src/agent_smith');
     require('../../agent_smith/src/agent_smith_cl');
     require('../../src/utils/utils.js');
     require('../../src/utils/statistics.js');
