@@ -5,6 +5,10 @@ if (nodejs) {
     require('../../agent_smith/src/agent_smith_cl');
     require('../../src/metrics/metrics.js');
     require('../../src/metrics/pairwise.js');
+    
+	var Neo = require('../../src/neo');
+	require('../../src/metrics/metrics');
+	require('../../src/metrics/pairwise');
 }
 
 var $M = AgentSmith.Matrix;

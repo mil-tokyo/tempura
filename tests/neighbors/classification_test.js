@@ -3,6 +3,8 @@ if (nodejs) {
     var TestMain = require('../main');
     var AgentSmith = require('../../agent_smith/src/agent_smith');
     require('../../agent_smith/src/agent_smith_cl');
+    
+	var Neo = require('../../src/neo');
     require('../../src/neighbors/neighbors.js');
     require('../../src/neighbors/nearest_neighbors.js');
     require('../../src/neighbors/classification.js');

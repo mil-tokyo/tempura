@@ -48,7 +48,7 @@ Neo.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
 
 Neo.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
     var neigh = this.kneighbors(X);
-    var weights = this._get_weights(neigh[0], self.weights);
+    var weights = this._get_weights(neigh[0], this.weights);
 
     var sum = new $M(X.rows, $M.max(this.y)+1);
     var y = this.y;
