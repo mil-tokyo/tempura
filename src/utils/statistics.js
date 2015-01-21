@@ -55,6 +55,19 @@ $S.meanStd = function( center, normalize, X, y, ddof) {
     return { X:X, y:y, X_mean:X_mean, X_std:X_std, y_mean:y_mean }
 };
 
+// randperm
+$S.randperm = function(N) {
+	array = Array.apply(null, {length: N}).map(Number.call, Number);
+	var last_ind = N, val, ind;
+	while (last_ind) {
+		ind = Math.floor(Math.random() * last_ind--);
+		val = array[last_ind];
+		array[last_ind] = array[ind];
+		array[ind] = val;
+	}
+	return array
+}
+
 
 /* linear algebra */
 
@@ -89,30 +102,6 @@ $S.fbSubstitution = function( triangle, target ) {
 
 /* mathmatics */
 
-// exp
-
-// $S.exp = function(X) {
-// 	if (!X instanceof $M) {
-// 		var output = Math.exp(X);
-// 	} else {
-// 		var output = new $M(X.rows, X.cols);
-// 		if (X.row_wise) {
-// 			for (var row=0; row<X.rows; row++) {
-// 				for (var col=0; col<X.cols; col++) {
-// 					output.set(row, col, Math.exp( X.data[row*X.cols+col] ));
-// 				}
-// 			}
-// 		} else {
-// 			for (var row=0; row<X.rows; row++) {
-// 				for (var col=0; col<X.cols; col++) {
-// 					output.set(row, col, Math.exp( X.data[col*X.rows+row] ));
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return output;
-// };
-
 // covariance
 $S.cov = function(X, bias){
     var n_samples = X.rows;
@@ -127,48 +116,32 @@ $S.cov = function(X, bias){
     }
 };
 
-
+// sqrt
 $S.sqrt = function(X){
     return X.clone().map(Math.sqrt)
 }
 
+// exp
 $S.exp = function(X) {
     return X.clone().map(Math.exp);
 }
 
-$S.sigmoid = function(X) {
-    return X.clone().map(function(datum){ return 1.0 / (1.0 + Math.exp(-datum))})
-}
-
+// frac
 $S.frac = function(X){
     var ones = new $M(X.rows, X.cols);
     ones.zeros(1);
     return $M.divEach(ones, X)
 }
+
+
+
+
 /* activation funcs */
 
 // sigmoid
-// $S.sigmoid = function(X) {
-// 	if (!X instanceof $M) {
-// 		var output = 1.0 / (1.0 + Math.exp(-X));
-// 	} else {
-// 		var output = new $M(X.rows, X.cols);
-// 		if (X.row_wise) {
-// 			for (var row=0; row<X.rows; row++) {
-// 				for (var col=0; col<X.cols; col++) {
-// 					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[row*X.cols+col] )) );
-// 				}
-// 			}
-// 		} else {
-// 			for (var row=0; row<X.rows; row++) {
-// 				for (var col=0; col<X.cols; col++) {
-// 					output.set(row, col, 1.0 / (1.0 + Math.exp( - X.data[col*X.rows+row] )) );
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return output;
-// };
+$S.sigmoid = function(X) {
+    return X.clone().map(function(datum){ return 1.0 / (1.0 + Math.exp(-datum))})
+}
 
 // softmax
 /* for given [n_sample, n_target] matrix */
@@ -179,46 +152,6 @@ $S.softmax = function(X) {
 	var output = $M.divEach( exp_x, sum_exp_x );
 	return output;
 };
-
-
-$S.vstack = function(matrices, output) {
-    if(typeof matrices != "object"){
-	throw new Error("input should be list");
-    }
-    
-    new_cols = matrices[0].cols
-    new_rows = 0
-    for(var i=0; i<matrices.length; i++){
-	new_rows += matrices[i].rows;
-	if(new_cols != matrices[i].cols){
-	    throw new Error("the number of column of all matrices should be the same");
-	}
-    }
-
-    var offset_row = 0;
-    var newM = $M.newMatOrReuseMat(new_rows, new_cols, output);
-    newM.syncData()
-    for(var i=0; i<matrices.length; i++){
-	var mat = matrices[i];
-	if(mat.row_wise){
-	    for(var row=0; row<mat.rows; row++){
-		for(var col=0; col<mat.cols; col++){
-		    newM.data[(offset_row + row) * mat.cols + col] = mat.data[row * mat.cols + col];
-		}
-	    }
-	}
-	else{
-	    for(var row=0; row<mat.rows; row++){
-		for(var col=0; col<mat.cols; col++){
-		    newM.data[(offset_row + row) * mat.cols + col] = mat.data[col * mat.rows + row];
-		}
-	    }
-	}
-	offset_row += matrices[i].rows 
-    }
-    
-    return newM
-}
 
 
 $S.chomskyDecomposition = function(X){
