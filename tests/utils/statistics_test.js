@@ -45,39 +45,33 @@ TestMain.Tester.addTest('StatisticsTest', [
         }
 	},
     {
-        name : 'vstack',
+        name : 'deleteRow row_wise',
         test : function() {
-	    var input = [];
-	    var input1 = $M.fromArray([[ 1, -1,  0,  5],
-				      [ -10,  1, -1,  10],
-				      [-1,  9,  7,  2]])
-	    input.push(input1);
+	    var input = $M.fromArray([[ 0.1, -10,  1,  -2],
+				      [ 50,  2, -1,  -10],
+				      [ 15,  23, -5,  -10]])
+				     
 
-	    var input2 = $M.fromArray([[ 1, -1,  4,  0],
-				      [ 0,  1, -1,  -2],
-				      [-1,  0,  1,  -6]])
+            var res = Neo.Utils.Statistics.deleteRow(input, 1);
 
-	    input.push(input2);
+	    var output = $M.fromArray([[ 0.1, -10,  1,  -2],
+				       [ 15,  23, -5,  -10]])
+	    res.print()
+            return output.equals(res);
+        }
+    },
+    {
+        name : 'deleteRow not row_wise',
+        test : function() {
+	    var input = $M.fromArray([[ 0.1, 50,  15],
+				      [-10, 2, 23],
+				      [1, -1, -5],
+				      [-2, -10, -10]]).t();
+				     
+            var res = Neo.Utils.Statistics.deleteRow(input, 1);
 
-	    var input3 = $M.fromArray([[ 1, -1,  0],
-				       [ 0,  1, -1],
-				       [-1,  0,  1],
-				       [1, 2, 3]]).t();
-
-	    input.push(input3);
-	    var res = Neo.Utils.Statistics.vstack(input)
-
-	    
-	    var output = $M.fromArray([[ 1, -1,  0,  5],
-				       [ -10,  1, -1,  10],
-				       [-1,  9,  7,  2],
-				       [ 1, -1,  4,  0],
-				       [ 0,  1, -1,  -2],
-				       [-1,  0,  1,  -6],
-				       [1, 0, -1, 1],
-				       [-1, 1, 0, 2],
-				       [0, -1, 1, 3]]
-				     )
+	    var output = $M.fromArray([[ 0.1, -10,  1,  -2],
+				       [ 15,  23, -5,  -10]])
 	    res.print()
             return output.equals(res);
         }

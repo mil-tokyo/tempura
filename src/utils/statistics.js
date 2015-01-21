@@ -161,4 +161,39 @@ $S.chomskyDecomposition = function(X){
     var W = $M.diag($S.sqrt(svd_result.S))
     var Q = $M.mul(U, W);
     return Q
-}
+};
+
+$S.choice = function(X){
+    return X.data[Math.floor(Math.random() * X.length)]
+};
+
+$S.deleteRow = function(X, ind){
+    var newM = new $M(X.rows - 1, X.cols);
+    newM.syncData();
+    if(X.row_wise){
+	var newi = 0;
+	for(var i=0; i<X.rows; i++){
+	    if(i == ind){
+		continue;
+	    }
+	    for(var j=0; j<X.cols; j++){
+		newM.data[newi * X.cols + j] = X.data[i * X.cols + j];
+	    }
+	    newi += 1;
+	}
+    }
+    else{
+	var newi = 0;
+	for(var i=0; i<X.rows; i++){
+	    if(i == ind){
+		continue;
+	    }
+	    for(var j=0; j<X.cols; j++){
+		newM.data[newi * X.cols + j] = X.data[j * X.rows + i];
+	    }
+	    newi += 1;
+	}
+    }
+    return newM
+};
+

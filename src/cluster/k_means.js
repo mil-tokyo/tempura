@@ -6,9 +6,8 @@ if (nodejs) {
     require('./cluster');
 }
 
-//require('../metric/pairwise');
 var $M = AgentSmith.Matrix;
-
+var $S = Neo.Utils.Statistics;
 
 function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
     X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
@@ -18,8 +17,8 @@ function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
 
     if(n_jobs=1){
 	results = _kmeans_single(X=X, n_clusters=n_clusters, squared_norms=x_squared_norms, init=init, maxiter=maxiter, tol=tol);
-	cluster_centers_ = results["cluster_centers_"];
-	labels_ = results["labels_"];
+	cluster_centers_ = results.cluster_centers_;
+	labels_ = results.labels_;
     }
     else{
 	throw new Error("not implemented");
@@ -30,8 +29,8 @@ function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
 function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
     var n_features = X.cols;
     var init_results = _init_centroids(X, n_clusters, init);
-    var centers = init_results["centers"];
-    var labels = init_results["labels"];
+    var centers = init_results.centers;
+    var labels = init_results.labels;
     var centers_old = new $M(n_clusters, n_features);
     centers_old.zeros();
     
@@ -58,7 +57,7 @@ function _labels_inertia(X, centers){
     labels.zeros(-1);
 
     for(var center_id=0; center_id<k; center_id++){
-	dist = get_row(all_distances, center_id);
+	dist = $M.getRow(all_distances, center_id);
 	for(var i=0; i<n_samples; i++){
 	    if(dist.data[i] < mindist.data[i]){
 		mindist.data[i] = dist.data[i];
@@ -80,7 +79,7 @@ function _calc_centers(X, labels, n_clusters){
 	var means = new $M(1, n_features);
 	for(var i=0; i<n_samples; i++){
 	    if(labels.data[i] == k){
-		means = $M.add(means, get_row(X, i));  
+		means = $M.add(means, $M.getRow(X, i));  
 		n += 1;
 	    }
 	}
@@ -136,38 +135,32 @@ function _init_centroids(X, n_clusters, init){
     centers.zeros();
 
     if(init == "random"){
-	var init_sample_ind = _.sample(_.range(n_samples), n_clusters);
+	var init_sample_ind = $S.randperm(n_clusters);
 	for(var c=0; c<n_clusters; c++){ 
 	    var index = init_sample_ind[c];
 	    labels.data[index] = c;
-	    set_row(centers, get_row(X, index), c);
+	    set_row(centers, $M.getRow(X, index), c);
 	}
     }
 
     else if(init == "kmeans++"){
-	var old_index = _.sample(_.range(n_samples), 1);
+	var old_index = $S.choice(new $M(n_clusters, 1).range());
+	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(X, X);
 	for(var c=0; c<n_clusters; c++){
-	    var sample = get_row(X, old_index);
-	    var dist = euclidian_distance(X, sample);
-	    dist = dist.times(1.0 / $M.sum(dist));
-	    while(1){
-		var random_value = Math.random();
-		var dist_cumsum = 0;
-		for(var i=0; i<dist.length; i++){
-		    dist_cumsum += dist.data[i];
-		    if(random_value < dist_cumsum){
-			index = i;
-			break;
-		    }
-		}
-
-		if(labels.data[index] == -1){   
+	    setCol(all_distances, new $M(all_distances.rows, 1).zeros(), old_index);
+	    var dist = $M.getRow(all_distances, old_index);
+	    dist.times($M.sum(dist));
+	    var random_value = Math.random();
+	    var dist_cumsum = 0;
+	    for(var i=0; i<dist.length; i++){
+		dist_cumsum += dist.data[i];
+		if(random_value < dist_cumsum){
+		    index = i;
 		    break;
 		}
 	    }
-	    
 	    labels.data[index] = c;
-	    set_row(centers, get_row(X, index), c);
+	    set_row(centers, $M.getRow(X, index), c);
 	    old_index = index;
 	}
     }
@@ -180,28 +173,32 @@ function _init_centroids(X, n_clusters, init){
 }
 
 
-function get_row(X, i){
-    cols = X.cols;
-    newarr = new $M(1, cols);
-    newarr.zeros();
-    for(var j=0; j<cols; j++){
-	newarr.data[j] = X.data[i*cols + j];
-    }
-    return newarr
-}
-
 function set_row(X, row, i){
-    cols = X.cols;
-    for(var j=0; j<cols; j++){
-	X.data[i*cols + j] = row.data[j];
+    var cols = X.cols;
+    if(X.row_wise){
+	for(var j=0; j<cols; j++){
+	    X.data[i*cols + j] = row.data[j];
+	}
+    }
+    else{
+	throw new Error("not implemented");
     }
     return X
 }
 
-function euclidian_distance(mat1, mat2){
-    var submat = $M.sub(mat1, mat2);
-    var dist = $M.sumEachRow($M.mulEach(submat, submat));
-    return dist
+function setCol(X, col, j){
+    var rows = X.rows;
+    var cols = X.cols;
+    if(X.row_wise){
+	for(var i=0; i<rows; i++){
+	    X.data[i*cols + j] = col.data[i];
+	}
+    }
+    else{
+	throw new Error("not implemented")
+    }
+
+    return X
 }
 
 
