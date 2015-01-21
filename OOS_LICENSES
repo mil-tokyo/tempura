@@ -1,0 +1,11 @@
+This software uses the following open source software / codes inside.
+
+AgentSmith 
+	Copyright (c) Machine Intelligence Laboratory (The University of Tokyo)
+	https://github.com/mil-tokyo/agent_smith
+	MIT License : http://opensource.org/licenses/mit-license.php
+	
+Trinity
+	Copyright (c) Machine Intelligence Laboratory (The University of Tokyo)
+	https://github.com/mil-tokyo/trinity
+	MIT License : http://opensource.org/licenses/mit-license.php
