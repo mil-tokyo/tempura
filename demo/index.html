@@ -41,12 +41,22 @@
 	</head>
 
 	<body>
+		<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">AgentSmithML demos</a>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3" id="menu"></div>
 				<div class="col-md-9" id="main">
 					<div class="row">
-						<div class="col-md-12" id="description">
+						<div class="col-md-12">
+							<div class="well" id="description">
+							</div>
 						</div>
 					</div>
 					<div class="row">
@@ -68,9 +78,17 @@
 					$menu.append(
 						$("<li>").addClass("list-group-item").text(name).click(function(){
 							var name = $(this).text();
-							console.log($("#description"));
-							console.log(AgentSmithDemo.getDescription(name));
-							$("#description").html(AgentSmithDemo.getDescription(name));
+
+							$("#description")
+							.empty()
+							.append(
+								$("<h2>").text(name)
+							)
+							.append(
+								$("<div>").html(AgentSmithDemo.getDescription(name))
+							)
+							;
+							
 							AgentSmithDemo.runDemo(name);
 						})
 					);
