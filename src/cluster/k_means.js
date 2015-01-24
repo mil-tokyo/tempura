@@ -16,7 +16,7 @@ function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
     x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
 
     if(n_jobs=1){
-	results = _kmeans_single(X=X, n_clusters=n_clusters, squared_norms=x_squared_norms, init=init, maxiter=maxiter, tol=tol);
+	results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
 	cluster_centers_ = results.cluster_centers_;
 	labels_ = results.labels_;
     }
@@ -37,7 +37,7 @@ function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
     for(var i=0; i<maxiter; i++){
 	labels = _labels_inertia(X, centers);
 	centers = _calc_centers(X, labels, n_clusters);
-	if(Neo.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= 0.001){
+	if(Neo.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= tol){
 	    break
 	}
 	centers_old = centers;
@@ -96,8 +96,8 @@ Neo.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
     if(n_clusters === undefined) n_clusters = 8;
     if(init === undefined) init = "kmeans++";
     if(n_jobs === undefined) n_jobs = 1;
-    if(maxiter === undefined) maxiter = 10;
-    if(tol === undefined) tol = 0.1;
+    if(maxiter === undefined) maxiter = 300;
+    if(tol === undefined) tol = 0.001;
 
     this.n_clusters = n_clusters;
     this.init = init;

@@ -37,6 +37,7 @@ Neo.Mixture.GMM.prototype.fit = function(X){
 	oldLogLikelihood = newLogLikelihood;
     }
     this.showParams();
+    return this
 }
 
 Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
