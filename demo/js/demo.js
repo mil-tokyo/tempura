@@ -1,8 +1,6 @@
 var AgentSmithDemo = {};
 
-(function(){
-	var $M = AgentSmith.Matrix;
-	
+(function($M){
 	AgentSmithDemo = {
 		demos: {},
 		initializer: function(){},
@@ -34,5 +32,5 @@ var AgentSmithDemo = {};
 		}
 	}
 	
-})();
+})(AgentSmith.Matrix);
 	
