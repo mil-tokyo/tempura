@@ -99,9 +99,12 @@ pre {
 .datatable.tab1 { table-layout: fixed; background: #f6f6f6; text-align: center; vertical-align: top;}
 .datatable.tab2 { table-layout: auto; background: #ffdff9; text-align: left; vertical-align: top;}
 
-td,th {
+td.title {
+    width: 200px;
+    border: 1px  #c8c8c8 solid;
+} 
+
+td.data {
   padding: 0 0.5em 0 0.5em;
   border: 1px  #c8c8c8 solid;
-}
-    
-
+} 
