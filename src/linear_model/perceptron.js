@@ -85,3 +85,17 @@ $Perceptron.predict = function(X) {
 	var pred = $Base.binaryActivation( $M.add( $M.mul( X, this.weight ),  this.intercept ) );
 	return pred
 };
+
+$Perceptron.decisionFunction = function(X) {
+	// check data property
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
+	// estimate
+	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
+	
+	return pred
+
+}
