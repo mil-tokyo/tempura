@@ -23,10 +23,10 @@ $S.meanStd = function( center, normalize, X, y, ddof) {
     var ddof = (typeof ddof === "undefined") ? X.rows - 1 : ddof;
     if (center) {
 	var X_mean = $M.sumEachCol(X).times( 1.0 / X.rows );
-	X = $M.sub( X, X_mean );
+	var tmpX = $M.sub( X, X_mean );
 	var X_std = new $M( 1, X.cols );
 	if (normalize) {
-	    var X_var = $M.sumEachCol($M.mulEach(X,X)).times( 1.0 / (X.rows - ddof));
+	    var X_var = $M.sumEachCol($M.mulEach(tmpX,tmpX)).times( 1.0 / (X.rows - ddof));
 	    for (var i=0; i<X.cols; i++) {
 		var tmp = Math.sqrt( X_var.get(0,i) );
 		if (tmp !== 0) {
@@ -35,24 +35,26 @@ $S.meanStd = function( center, normalize, X, y, ddof) {
 		    X_std.set(0,i,1.0);
 		}
 	    }
-	    X = $M.divEach( X, X_std );
+	    tmpX = $M.divEach( tmpX, X_std );
 	} else {
 	    X_std.zeros(1.0);
 	}
 	if(y){
 	    var y_mean = $M.sumEachCol(y).times( 1.0 / y.rows );
-	    y = $M.sub( y, y_mean );
+	   var  tmpy = $M.sub( y, y_mean );
 	}
 	else{
-	    y = false;
-	    y_mean = false;
+	    var tmpy = false;
+	    var y_mean = false;
 	}
     } else {
+		var tmpX = X.clone();
+		var tmpy = y.clone();
 	var X_mean = new $M( 1, X.cols ); X_mean.zeros();
 	var X_std = new $M( 1, X.cols ); X_mean.zeros(1.0);
 	var y_mean = new $M( 1, y.cols ); y_mean.zeros();
     }
-    return { X:X, y:y, X_mean:X_mean, X_std:X_std, y_mean:y_mean }
+    return { X:tmpX, y:tmpy, X_mean:X_mean, X_std:X_std, y_mean:y_mean }
 };
 
 // randperm
