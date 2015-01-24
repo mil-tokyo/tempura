@@ -14,7 +14,7 @@ TestMain.Tester.addTest('CCATest', [
 		name : 'CCA',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var cca = new Neo.CrossDecomposition.CCA(2, true);
+		    var cca = new Neo.CrossDecomposition.CCA(3, false);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -37,50 +37,49 @@ TestMain.Tester.addTest('CCATest', [
 		    ]);
 		    cca.fit(X, Y);
 
-		    var X_test = $M.fromArray([
-			[1, 2, 3],
-			[2, 3, 4],
-			[5, 3, 2]
-		    ]);
-
-		    var Y_test = $M.fromArray([
-			[2, 3, 4, 5],
-			[4, 5, 6, 7],
-			[1, 2, 3, 4]
-		    ]);
-
-		    //results = cca.transform(X_test, Y_test)
-		    //results.X_score.print();
-		    //results.Y_score.print();
-
-		    var x_rotation_res = $M.fromArray([[ 1.143692  , -0.740383  ],
-						       [-1.87077315, -0.40875856],
-						       [ 1.34242654,  0.02043616]])
+		    // result of CCA calculated with MATLAB canoncorr(X, Y)
+		    var x_rotation_res = $M.fromArray([[1.2659, 0.7868, 0.6946],
+						       [-1.3968, 0.2896, -0.3584],
+						       [0.8712, -0.0376, -0.4412]])
+		    
+		    var y_rotation_res = $M.fromArray([[-0.4632, -0.0364, -0.1402],
+						       [-0.3182, -0.4543, -0.0863],
+						       [0.3828, 0.3273, 0.1279],
+						       [0.1577, 0.1122, 0.3985]])
 
 		    
-		    var y_rotation_res = $M.fromArray([[ -1.93793017e+00,   3.33066907e-16],
-					      [ -9.46378047e-01,  -9.99200722e-15],
-					      [  1.50480300e+00,   8.21565038e-15],
-					      [  4.58188902e-01,   1.94289029e-15]])
+		    // x projection test
+		    var X_projection = cca.X_projection;
+		    for(var col=0; col<X_projection.cols; col++){
+			var sign = Math.sign(X_projection.get(0, col) * x_rotation_res.get(0, col))
+			var b = $M.getCol(X_projection, col);
+			var a = $M.getCol(x_rotation_res, col).times(sign);
+			if(!(a.nearlyEquals(b, 0.10))){
+			    console.log("==== error in col " + col + " of X_projection ====")
+			    console.log("expected : ")
+			    a.print()
+			    console.log("got : ")
+			    b.print()
+			    return false
+			}
+		    }
 
-//		    var x_res = $M.fromArray([[ 0.13900669, -1.85387789],
-//					      [ 0.02880311, -2.88576749],
-//					      [-1.12146239, -2.48408255]])
-		    
-//		     var y_res = $M.fromArray([[-1.07997113, -0.24826875],
-//					       [-1.05191023,  0.59350745],
-//					       [-1.09400158, -0.66915684]])
-		    $MP = Neo.Metrics.Pairwise;
-
-		    var a = $M.divEach(x_rotation_res, $MP.col_norms(x_rotation_res, false));
-		    var b = $M.divEach(cca.X_projection, $MP.col_norms(cca.X_projection, false));
-		    var c = $M.divEach(y_rotation_res, $MP.col_norms(y_rotation_res, false));
-		    var d = $M.divEach(cca.Y_projection, $MP.col_norms(cca.Y_projection, false));
-		    a.print()
-		    b.print()
-		    c.print()
-		    d.print()
-		    return (a.nearlyEquals(b) && c.nearlyEquals(d)) || true
+		    // y projection test
+		    var Y_projection = cca.Y_projection
+		    for(var col=0; col<Y_projection.cols; col++){
+			var sign = Math.sign(Y_projection.get(0, col) * y_rotation_res.get(0, col))
+			var b = $M.getCol(Y_projection, col);
+			var a = $M.getCol(y_rotation_res, col).times(sign);
+			if(!(a.nearlyEquals(b, 0.10))){
+			    console.log("==== error in col " + col + "of Y_projection ====")
+			    console.log("expected : ")
+			    a.print()
+			    console.log("got : ")
+			    b.print()
+			    return false
+			}
+		    }
+		    return true
  		    		   
 		}
 	},

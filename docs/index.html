@@ -14,10 +14,7 @@
 <p>
 <code>Neo</code> javascript machine learning library developed on AgentSmith. 
 <p>
-<h1>Neo.CrossDecomposition.CCA</h1>
-<p>
-<p>
-<h2>fit(X,Y)</h2>
+<h1>Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -25,21 +22,17 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : training samples of domain 1 whose shape is [n_samples, n_features]. 
-      <p><b>Y</b> : training samples of domain 2 whose shape is [n_samples, n_features]. 
-      <small><p>*the number of samples of X and Y should be the same.</small>
-    </td>
-  </tr>
-  <tr>
-    <td class="title">
-      <dt>returns:</dt>
-    </td>
-    <td class="data">
-      <p><b>this</b> : instance of CCA, which has fitted parameters.
+      <p><b>n_clusters</b> : int, default 8, number of clusters
+      <p><b>init</b> : string, default "kmeans++", algorithm of initialization of clusters. 
+      <small>*<b>init</b> should be "kmeans++" or "random".</small>
+      <p><b>n_jobs</b> : int, default 1. the number of process when calculating k-means.
+	<small>*<b>n_jobs</b> > 1 is not implemented now.</small>
+      <p><b>maxiter</b> : int, default 300, max iteration of Expectation and Maximization step of EM algorithm. 
+      <p><b>tol</b> : float, default 0.001, convergence criterion. 
     </td>
   </tr>
 </table>
-<h2>transform(X,Y)</h2>
+<h2>fit(X)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -47,9 +40,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : test samples of domain 1 whose shape is [n_samples, n_features]. 
-      <p><b>Y</b> : test samples of domain 2 whose shape is [n_samples, n_features]. 
-      <small><p>*the number of samples of X and Y should be the same.</small>
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for trainig gmm. Each row corresponds to a single data point.
     </td>
   </tr>
   <tr>
@@ -57,13 +48,11 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>X_score</b> : samples of domain1 after projection onto latent space.
-      <p><b>Y_score</b> : samples of domain1 after projection onto latent space.
+      <p><b>this</b> : instance of GMM, which has fitted parameters.
     </td>
   </tr>
 </table>
 <p>
-
 <h1>Neo.Mixture.GMM(n_components, n_iter, thresh, min_covar)</h1>
 <table class="datatable">
   <tr>
@@ -140,45 +129,6 @@
   </tr>
 </table>
 <p>
-<h1>Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
-<p>
-<table class="datatable">
-  <tr>
-    <td class="title">
-      <dt>parameters:</dt>
-    </td>
-    <td class="data">
-      <p><b>n_clusters</b> : int, default 8, number of clusters
-      <p><b>init</b> : string, default "kmeans++", algorithm of initialization of clusters. 
-      <small>*<b>init</b> should be "kmeans++" or "random".</small>
-      <p><b>n_jobs</b> : int, default 1. the number of process when calculating k-means.
-	<small>*<b>n_jobs</b> > 1 is not implemented now.</small>
-      <p><b>maxiter</b> : int, default 300, max iteration of Expectation and Maximization step of EM algorithm. 
-      <p><b>tol</b> : float, default 0.001, convergence criterion. 
-    </td>
-  </tr>
-</table>
-<h2>fit(X)</h2>
-<p>
-<table class="datatable">
-  <tr>
-    <td class="title">
-      <dt>parameters:</dt>
-    </td>
-    <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix used for trainig gmm. Each row corresponds to a single data point.
-    </td>
-  </tr>
-  <tr>
-    <td class="title">
-      <dt>returns:</dt>
-    </td>
-    <td class="data">
-      <p><b>this</b> : instance of GMM, which has fitted parameters.
-    </td>
-  </tr>
-</table>
-<p>
 <h1>Neo.Decomposition.PCA(n_components, whiten)</h1>
 <p>
 <table class="datatable">
@@ -209,6 +159,67 @@
     </td>
     <td class="data">
       <p><b>this</b> : instance of PCA, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+<h1>Neo.CrossDecomposition.CCA(n_components, scale)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>n_components</b> : int, default 2, the number of dimension of latent space.
+      <p><b>normalize</b> : boolean, default true, whether data is centerized and normalized or not
+    </td>
+  </tr>
+</table>
+<p>
+<p>
+<h2>fit(X,Y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_features], training samples of domain 1 
+      <p><b>Y</b> : array [n_samples, n_features], training samples of domain 2
+      <small><p>*the number of samples of X and Y should be the same.</small>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of CCA, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<h2>transform(X,Y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_features], test samples of domain 1
+      <p><b>Y</b> : array [n_samples, n_features], test samples of domain 2.
+      <small><p>*the number of samples of X and Y should be the same.</small>
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>X_score</b> : array [n_samples, n_components], samples of domain1 after projection onto latent space.
+      <p><b>Y_score</b> : array [n_samples, n_components], samples of domain2 after projection onto latent space.
     </td>
   </tr>
 </table>
