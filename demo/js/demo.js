@@ -18,6 +18,10 @@ var AgentSmithDemo = {};
 		getDemoNames: function() {
 			return Object.keys(this.demos);
 		},
+
+		getDescription: function(name) {
+			return this.demos[name].description;
+		},
 		
 		setInitializer: function(initFunc) {
 			this.initializer = initFunc;

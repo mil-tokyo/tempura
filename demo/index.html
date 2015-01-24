@@ -13,6 +13,8 @@
 		<script src="../src/utils/utils.js"></script>
 		<script src="../src/utils/statistics.js"></script>
 		<script src="../src/utils/checkargs.js"></script>
+		<script src="../src/utils/linspace.js"></script>
+		<script src="../src/utils/meshgrid.js"></script>
 		<script src="../src/linear_model/linear_model.js"></script>
 		<script src="../src/linear_model/base.js"></script>
 		<script src="../src/linear_model/perceptron.js"></script>
@@ -31,6 +33,7 @@
 		<script src="./js/demo.js"></script>
 		<script src="./js/demos/visualizer.js"></script>
 		<script src="./js/demos/perceptron.js"></script>
+		<script src="./js/demos/perceptron_contour.js"></script>
 		
 		<link rel="stylesheet" href="./trinity/src/trinity.css">
 		<link rel="stylesheet" href="./trinity/src/trinity_modal.css">
@@ -41,7 +44,16 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3" id="menu"></div>
-				<div class="col-md-9" id="content"></div>
+				<div class="col-md-9" id="main">
+					<div class="row">
+						<div class="col-md-12" id="description">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" id="content">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -55,7 +67,11 @@
 				AgentSmithDemo.getDemoNames().forEach(function(name){
 					$menu.append(
 						$("<li>").addClass("list-group-item").text(name).click(function(){
-							AgentSmithDemo.runDemo($(this).text());
+							var name = $(this).text();
+							console.log($("#description"));
+							console.log(AgentSmithDemo.getDescription(name));
+							$("#description").html(AgentSmithDemo.getDescription(name));
+							AgentSmithDemo.runDemo(name);
 						})
 					);
 				});
