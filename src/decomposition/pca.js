@@ -8,16 +8,15 @@ if (nodejs) {
 
 var $M = AgentSmith.Matrix;
 
-Neo.Decomposition.PCA = function(n_components, copy, whiten) {
+Neo.Decomposition.PCA = function(n_components, whiten) {
     this.n_components = typeof n_components === "undefined" ? 1.0 : n_components;
-    this.copy = typeof copy === "undefined" ? false : copy
     this.whiten = typeof whiten === "undefined" ? false : whiten
     };
 
 Neo.Decomposition.PCA.prototype.fit = function(X){
     var n_samples = X.rows;
     var n_features = X.cols;
-    this.mean_ = $M.sumEachCol(X).times(1.0 / n_samples).toRowWise();;
+    this.mean_ = $M.sumEachCol(X).times(1.0 / n_samples).toRowWise();
     X = $M.sub(X, this.mean_).toRowWise();
     var svd_results = $M.svd(X);
     var U = svd_results.U;

@@ -18,9 +18,9 @@ var $C = Neo.Utils.Check;
 
 // init
 Neo.LinearModel.LinearRegression = function(args) {
-	if (typeof args === 'undefined') { var args = {}; }
-	this.center = (typeof args.center === 'undefined') ? true : args.center;
-	this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
+    if (typeof args === 'undefined') { var args = {}; }
+    this.center = (typeof args.center === 'undefined') ? true : args.center;
+    this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
     this.solver = (typeof args.solver === 'undefined') ? 'qr' : args.solver;
 };
 var $LinReg = Neo.LinearModel.LinearRegression.prototype;

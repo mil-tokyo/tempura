@@ -37,6 +37,7 @@ Neo.Mixture.GMM.prototype.fit = function(X){
 	oldLogLikelihood = newLogLikelihood;
     }
     this.showParams();
+    return this
 }
 
 Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
@@ -72,12 +73,10 @@ Neo.Mixture.GMM.prototype.expectationStep = function(X){
 }
 
 Neo.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
-    responsibility.print()
     var n_samples = X.rows;
     var n_features = X.cols;
     var Nk = $M.sumEachCol(responsibility);
     this.weights = Nk.clone().times( 1.0 / n_samples);
-    Nk.print()
 
     for(var k=0; k<this.n_components; k++){
 	this.means[k].zeros()
@@ -112,18 +111,15 @@ Neo.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
 
 Neo.Mixture.GMM.prototype.initParams = function(X){
     var n_features = X.cols
-    this.weights = new $M(1, this.n_components);
-    this.weights.zeros( 1.0 / this.n_components );
-
+    this.weights = new $M(1, this.n_components).zeros( 1.0 / this.n_components );
     this.means = [];
     this.covars = [];
 
-    var kmeans = new Neo.Cluster.Kmeans(this.n_components)
+    var kmeans = new Neo.Cluster.Kmeans(this.n_components, "kmeans++");
     kmeans.fit(X)
     var init_means = kmeans.cluster_centers_;
     for(var k=0; k<this.n_components; k++){
 	var mean = $M.extract(init_means, k, 0, 1, n_features).t();
-	mean.random();
 	this.means.push(mean);
 	var covar = $M.add(Neo.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
 	this.covars.push(covar);
