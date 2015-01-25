@@ -29,6 +29,10 @@ var AgentSmithDemo = {};
 			console.log('Run: '+name);
 			this.initializer();
 			this.demos[name].demo();
+		},
+
+		getCode: function(name) {
+			return this.demos[name].demo.toString();
 		}
 	}
 	

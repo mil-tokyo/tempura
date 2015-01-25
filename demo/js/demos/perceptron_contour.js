@@ -2,6 +2,7 @@ AgentSmithDemo.addDemo('Perceptron vis by contour', 'A kind of linear classifier
 	var $M = AgentSmith.Matrix;
 	var $T = Trinity;
 	
+	// Prepare data
 	var samples = $M.fromArray([
 	    [ 1.4949318 ,  3.85848832],
 	    [ 1.42613574,  0.0456529 ],
@@ -26,25 +27,17 @@ AgentSmithDemo.addDemo('Perceptron vis by contour', 'A kind of linear classifier
 	]);
 	var labels = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]);
 	
-
+	// Learn perceptron
 	var perceptron = new Neo.LinearModel.Perceptron();
-
 	perceptron.fit(samples,labels.t());
 
+	// Plot
 	var plt = new $T("#content");
 	var x = $M.extract(samples, 0, 0, samples.rows, 1)
 	var y = $M.extract(samples, 0, 1, samples.rows, 1);
 	var color = labels.t();
 
-	/*
-	var xlist = Neo.Utils.linspace(-1, 5);
-	var ylist = Neo.Utils.linspace(-1, 5);
-	var mesh = Neo.Utils.meshgrid(xlist, ylist);
-	var Z = perceptron.decisionFunction(mesh);
-	*/
-
 	plt.scatter(x,y,color);
-//	plt.contour($M.extract(mesh,0,0,mesh.rows,1),$M.extract(mesh,0,1,mesh.rows,1),Z)
 	plt.contourDesicionFunction(-1, 5, -1, 5, function(x,y){
 		return perceptron.decisionFunction((new $M(1,2)).set(0,0,x).set(0,1,y)).get(0,0);
 	});

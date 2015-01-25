@@ -2,6 +2,7 @@ AgentSmithDemo.addDemo('Perceptron', 'A kind of linear classifier', function(){
 	var $M = AgentSmith.Matrix;
 	var $T = Trinity;
 
+	// Prepare data
 	var samples = $M.fromArray([
 	    [ 1.4949318 ,  3.85848832],
 	    [ 1.42613574,  0.0456529 ],
@@ -24,13 +25,21 @@ AgentSmithDemo.addDemo('Perceptron', 'A kind of linear classifier', function(){
 	    [ 1.87271752,  4.18069237],
 	    [ 1.43289271,  4.37679234]
 	]);
+
+	var labels = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]);
+	
+	// Learn perceptron
+	var perceptron = new Neo.LinearModel.Perceptron();
+	perceptron.fit(samples,labels.t());
+
+	// Plot
 	var labels = $M.fromArray([[-1, 1, -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1]]);
-	// var labels = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]);
 
 	var perceptron = new Neo.LinearModel.Perceptron({center:true});
 
 	perceptron.fit(samples,labels.t());
 	perceptron.weight.print();
+	
 	var plt = new $T("#content");
 	var x = $M.extract(samples, 0, 0, samples.rows, 1)
 	var y = $M.extract(samples, 0, 1, samples.rows, 1);

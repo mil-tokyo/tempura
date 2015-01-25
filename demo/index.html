@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Demo</title>
+		<title>Neo demo page</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
 		<!--  AgentSmith -->
@@ -24,6 +24,10 @@
 		<script src="../src/neighbors/neighbors.js"></script>
 		<script src="../src/neighbors/nearest_neighbors.js"></script>
 		<script src="../src/neighbors/classification.js"></script>
+		<script src="../src/cluster/cluster.js"></script>
+		<script src="../src/cluster/k_means.js"></script>
+		<script src="../src/mixture/mixture.js"></script>
+		<script src="../src/mixture/gmm.js"></script>
 		
 		<!-- Trinity Libraries and dependencies -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -42,6 +46,7 @@
 		<script src="./js/demos/sgd_regressor.js"></script>
 		<script src="./js/demos/perceptron_contour.js"></script>
 		<script src="./js/demos/nearest_neighbor_classifier.js"></script>
+		<script src="./js/demos/gmm.js"></script>
 		
 		<link rel="stylesheet" href="./trinity/src/trinity.css">
 		<link rel="stylesheet" href="./trinity/src/trinity_modal.css">
@@ -53,7 +58,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">AgentSmithML demos</a>
+      <a class="navbar-brand" href="#">Neo demos</a>
     </div>
   </div><!-- /.container-fluid -->
 </nav>
@@ -69,6 +74,19 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12" id="content">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>Code</h4>
+								</div>
+								<div class="panel-body">
+									<pre id="code">
+									</pre>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -96,6 +114,8 @@
 								$("<div>").html(AgentSmithDemo.getDescription(name))
 							)
 							;
+
+							$("#code").empty().html(AgentSmithDemo.getCode(name).replace(/[\n\r]/g, "<br />"));
 							
 							AgentSmithDemo.runDemo(name);
 						})
