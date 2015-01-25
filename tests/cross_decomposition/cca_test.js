@@ -54,7 +54,7 @@ TestMain.Tester.addTest('CCATest', [
 			var sign = Math.sign(X_projection.get(0, col) * x_rotation_res.get(0, col))
 			var b = $M.getCol(X_projection, col);
 			var a = $M.getCol(x_rotation_res, col).times(sign);
-			if(!(a.nearlyEquals(b, 0.10))){
+			if(!(a.nearlyEquals(b))){
 			    console.log("==== error in col " + col + " of X_projection ====")
 			    console.log("expected : ")
 			    a.print()
@@ -70,7 +70,7 @@ TestMain.Tester.addTest('CCATest', [
 			var sign = Math.sign(Y_projection.get(0, col) * y_rotation_res.get(0, col))
 			var b = $M.getCol(Y_projection, col);
 			var a = $M.getCol(y_rotation_res, col).times(sign);
-			if(!(a.nearlyEquals(b, 0.10))){
+			if(!(a.nearlyEquals(b))){
 			    console.log("==== error in col " + col + "of Y_projection ====")
 			    console.log("expected : ")
 			    a.print()
