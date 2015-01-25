@@ -62,8 +62,8 @@ $Perceptron.fit = function(X, y) {
 			console.log('train finished (max_iteration has done)');
 		}
 	}
+	this.weight = w;
 	// store variables
-	this.weight = (this.center) ? $M.divEach( w, meanStd.X_std.t() ) : w;
 	if (this.center) {
 		this.intercept = $M.sub(meanStd.y_mean, $M.mul(meanStd.X_mean, this.weight));
 	} else {
