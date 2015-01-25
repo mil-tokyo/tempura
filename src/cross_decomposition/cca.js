@@ -19,7 +19,7 @@ function cca(X, Y){
 	throw new Error("X_features should be greater than Y_features");
     }
     
-    var covs = $S.cov($M.hstack([X, Y]), true);
+    var covs = $S.cov($M.hstack([X, Y]), false);
     var cov11 = $M.extract(covs, 0, 0, X_features, X_features);
     var cov12 = $M.extract(covs, 0, X_features, X_features, Y_features);
     var cov21 = cov12.t();
