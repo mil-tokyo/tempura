@@ -3,6 +3,23 @@
 }
 
 #content {
+	margin: 20px auto;
+	border: solid 1px darkgray;
 	width: 640px;
 	height: 480px;
+}
+
+.input-group {
+	margin: 0 10px;
+	float: left;
+	width: 45%;
+}
+
+.arg-name {
+	font-weight: bold;
+}
+
+.arg-input {
+	width: 100%;
+	height: 200px;
 }
