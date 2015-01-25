@@ -61,20 +61,6 @@ TestMain.Tester.addTest('NearestNeighborTest', [
         }
     },
     {
-        name: 'radius_neighbors_with_distances',
-        test: function() {
-            var samples = $M.fromArray([[0., 0., 0.], [0., .5, 0.], [1., 1., .5]]);
-            var neigh = new Neo.Neighbors.NearestNeighbors({radius: 1.6});
-            neigh.fit(samples);
-
-            var ans = $M.fromArray([[Math.sqrt(2.5), 0.5]]);
-            var ans_dist = $M.fromArray([[1,2]]);
-
-            var res = neigh.radius_neighbors($M.fromArray([1,1,1]));
-            return ( ans.equals(res[0]) && ans_dist.equals(res[1]));
-        }
-    },
-    {
         name: 'Functions_throw_exception_if_invalid_instance_given',
         test: function() {
             var neigh = new Neo.Neighbors.NearestNeighbors(2, 0.4);
