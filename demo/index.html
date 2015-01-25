@@ -114,11 +114,12 @@ No method selected.
 			$(function(){
 				AgentSmithDemo.setDrawArea($("#content"));
 				
+				var name;
 				var $menu = $("#menu").append("<ul>").addClass("list-group");
 				AgentSmithDemo.getDemoNames().forEach(function(name){
 					$menu.append(
 						$("<li>").addClass("list-group-item").text(name).click(function(){
-							var name = $(this).text();
+							name = $(this).text();
 
 							$("#description")
 							.empty()
@@ -136,7 +137,7 @@ No method selected.
 							
 							AgentSmithDemo.setArgsInput($("#args-input"), name);
 							
-							$("#run-demo-with-args").click(function(){
+							$("#run-demo-with-args").unbind().click(function(){
 								AgentSmithDemo.runDemoByInput($("#args-input"), name);
 							});
 						})
