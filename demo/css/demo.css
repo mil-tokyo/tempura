@@ -3,6 +3,8 @@
 }
 
 #content {
+	margin: 20px auto;
+	border: solid 1px darkgray;
 	width: 640px;
 	height: 480px;
 }
