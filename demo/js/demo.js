@@ -4,6 +4,8 @@ var AgentSmithDemo = {};
 	AgentSmithDemo = {
 		demos: {},
 		class_input_group: "input-group",
+		class_arg_name: "arg-name",
+		class_arg_description: "arg-description",
 		class_arg_textarea: "arg-input",
 		
 		setDrawArea: function($draw_area) {
@@ -92,11 +94,16 @@ var AgentSmithDemo = {};
 			$input.empty();
 			if (name in this.demos) {
 				for (var arg_name in this.demos[name].args) {
-					var arg = this.demos[name].args[arg_name].default;
+					var arg_setting = this.demos[name].args[arg_name];
+					var description = 'description' in arg_setting ? arg_setting.description : "";
+					var arg = arg_setting.default;
 					var $arg_group = $("<div>").addClass(this.class_input_group);
 					$arg_group
 						.append(
-							$("<p>").text(arg_name)
+							$("<h5>").addClass(this.class_arg_name).text(arg_name)
+						)
+						.append(
+							$("<p>").addClass(this.class_arg_description).text(description)
 						)
 						.append(
 							$("<textarea>").addClass(this.class_arg_textarea).attr("id", "arg-"+arg_name).val(JSON.stringify($M.toArray(arg)))
