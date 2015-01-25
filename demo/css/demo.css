@@ -6,3 +6,14 @@
 	width: 640px;
 	height: 480px;
 }
+
+.input-group {
+	margin: 0 10px;
+	float: left;
+	width: 45%;
+}
+
+.arg-input {
+	width: 100%;
+	height: 200px;
+}
