@@ -1,33 +1,39 @@
-AgentSmithDemo.addDemo('GMM',
+(function($M){
+	AgentSmithDemo.addDemo('GMM',
 	'In this demo, data points are given which are sampled from some probabilistic distribution and Gaussian Mixtures are estimated for that by EM algorithm',
-	function(){
+	{
+		X: {
+			shape: [2, 'n_data'],
+			default: $M.fromArray([
+					[1, 1],
+					[0, 1],
+					[1, 1],
+					[1, 2],
+					[-1, -2],
+					[1, 0.1],
+					[2, 2],
+					[1, 2],
+					[9, 7],
+					[13, 10],
+					[10, 7],
+					[10, 8],
+					[8, 11],
+					[10, 11],
+					[9, 7],
+				])
+		}
+	},
+	function(plt, args){
 		$M = AgentSmith.Matrix;
 		$T = Trinity;
 
 		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
-		var X = $M.fromArray([
-			[1, 1],
-			[0, 1],
-			[1, 1],
-			[1, 2],
-			[-1, -2],
-			[1, 0.1],
-			[2, 2],
-			[1, 2],
-			[9, 7],
-			[13, 10],
-			[10, 7],
-			[10, 8],
-			[8, 11],
-			[10, 11],
-			[9, 7],
-			]);
+		var X = args.X;
 
 		// Estimate GMM
 		gmm.fit(X);
 
 		// Plot
-		var plt = new $T("#content");
 		var x = $M.extract(X, 0, 0, X.rows, 1)
 		var y = $M.extract(X, 0, 1, X.rows, 1);
 
@@ -66,3 +72,5 @@ AgentSmithDemo.addDemo('GMM',
 		plt.show();
 
 	});
+})(AgentSmith.Matrix);
+

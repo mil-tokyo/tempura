@@ -73,7 +73,23 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12" id="content">
+						<div class="col-md-12">
+							<div id="content"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>Arguments</h4>
+								</div>
+								<div class="panel-body" id="args-input">
+									No method selected.
+								</div>
+								<div class="panel-footer">
+									<button class="btn btn-primary" id="run-demo-with-args">Run</button>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="row">
@@ -84,6 +100,7 @@
 								</div>
 								<div class="panel-body">
 									<pre id="code">
+No method selected.
 									</pre>
 								</div>
 							</div>
@@ -95,9 +112,7 @@
 		
 		<script>
 			$(function(){
-				AgentSmithDemo.setInitializer(function(){
-					$("#content").empty();
-				});
+				AgentSmithDemo.setDrawArea($("#content"));
 				
 				var $menu = $("#menu").append("<ul>").addClass("list-group");
 				AgentSmithDemo.getDemoNames().forEach(function(name){
@@ -118,9 +133,16 @@
 							$("#code").empty().html(AgentSmithDemo.getCode(name).replace(/[\n\r]/g, "<br />"));
 							
 							AgentSmithDemo.runDemo(name);
+							
+							AgentSmithDemo.setArgsInput($("#args-input"), name);
+							
+							$("#run-demo-with-args").click(function(){
+								AgentSmithDemo.runDemoByInput($("#args-input"), name);
+							});
 						})
 					);
 				});
+				
 			});
 		</script>
 	</body>
