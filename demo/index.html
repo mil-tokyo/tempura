@@ -69,6 +69,17 @@
 						<div class="col-md-12" id="content">
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>Code</h4>
+								</div>
+								<div class="panel-body" id="code">
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -94,6 +105,8 @@
 								$("<div>").html(AgentSmithDemo.getDescription(name))
 							)
 							;
+
+							$("#code").empty().html(AgentSmithDemo.getCode(name).replace(/[\n\r]/g, "<br />"));
 							
 							AgentSmithDemo.runDemo(name);
 						})
