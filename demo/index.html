@@ -13,10 +13,17 @@
 		<script src="../src/utils/utils.js"></script>
 		<script src="../src/utils/statistics.js"></script>
 		<script src="../src/utils/checkargs.js"></script>
+		<script src="../src/utils/linspace.js"></script>
+		<script src="../src/utils/meshgrid.js"></script>
 		<script src="../src/linear_model/linear_model.js"></script>
 		<script src="../src/linear_model/base.js"></script>
 		<script src="../src/linear_model/perceptron.js"></script>
 		<script src="../src/linear_model/sgd_regressor.js"></script>
+		<script src="../src/metrics/metrics.js"></script>
+		<script src="../src/metrics/pairwise.js"></script>
+		<script src="../src/neighbors/neighbors.js"></script>
+		<script src="../src/neighbors/nearest_neighbors.js"></script>
+		<script src="../src/neighbors/classification.js"></script>
 		
 		<!-- Trinity Libraries and dependencies -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -33,6 +40,8 @@
 		<script src="./js/demos/visualizer.js"></script>
 		<script src="./js/demos/perceptron.js"></script>
 		<script src="./js/demos/sgd_regressor.js"></script>
+		<script src="./js/demos/perceptron_contour.js"></script>
+		<script src="./js/demos/nearest_neighbor_classifier.js"></script>
 		
 		<link rel="stylesheet" href="./trinity/src/trinity.css">
 		<link rel="stylesheet" href="./trinity/src/trinity_modal.css">
@@ -40,10 +49,29 @@
 	</head>
 
 	<body>
+		<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">AgentSmithML demos</a>
+    </div>
+  </div><!-- /.container-fluid -->
+</nav>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3" id="menu"></div>
-				<div class="col-md-9" id="content"></div>
+				<div class="col-md-9" id="main">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="well" id="description">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" id="content">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		
@@ -57,7 +85,19 @@
 				AgentSmithDemo.getDemoNames().forEach(function(name){
 					$menu.append(
 						$("<li>").addClass("list-group-item").text(name).click(function(){
-							AgentSmithDemo.runDemo($(this).text());
+							var name = $(this).text();
+
+							$("#description")
+							.empty()
+							.append(
+								$("<h2>").text(name)
+							)
+							.append(
+								$("<div>").html(AgentSmithDemo.getDescription(name))
+							)
+							;
+							
+							AgentSmithDemo.runDemo(name);
 						})
 					);
 				});
