@@ -72,8 +72,8 @@
 		
 		// sample
 		var meanStd = $S.meanStd( true, true, samples, false, 1);
-		var x = $M.extract(meanStd.X, 0, 0, samples.rows, 1);
-		var y = $M.extract(meanStd.X, 0, 1, samples.rows, 1);
+		var x = $M.getCol(meanStd.X,0);
+		var y = $M.getCol(meanStd.X,1);
 		var color = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]).t();
 		// line 1
 		var w1=per.weight.get(0,0), w2=per.weight.get(1,0), b=per.weight.get(2,0);

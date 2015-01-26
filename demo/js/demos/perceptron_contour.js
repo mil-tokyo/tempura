@@ -44,8 +44,8 @@
 		perceptron.fit(samples,labels.t());
 
 		// Plot
-		var x = $M.extract(samples, 0, 0, samples.rows, 1)
-		var y = $M.extract(samples, 0, 1, samples.rows, 1);
+		var x = $M.getCol(samples,0);
+		var y = $M.getCol(samples,1);
 		var color = labels.t();
 
 		plt.scatter(x,y,color);

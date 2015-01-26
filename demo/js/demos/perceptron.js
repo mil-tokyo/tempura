@@ -49,9 +49,8 @@
 		perceptron.fit(samples,labels.t());
 		perceptron.weight.print();
 
-		//var plt = new $T("#content");
-		var x = $M.extract(samples, 0, 0, samples.rows, 1)
-		var y = $M.extract(samples, 0, 1, samples.rows, 1);
+		var x = $M.getCol(samples,0);
+		var y = $M.getCol(samples,1);
 		var color = labels.t();
 
 		var w1=perceptron.weight.get(0,0), w2=perceptron.weight.get(1,0), b=perceptron.intercept.get(0,0);

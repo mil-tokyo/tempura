@@ -34,8 +34,8 @@
 		gmm.fit(X);
 
 		// Plot
-		var x = $M.extract(X, 0, 0, X.rows, 1)
-		var y = $M.extract(X, 0, 1, X.rows, 1);
+		var x = $M.getCol(X,0);
+		var y = $M.getCol(X,1);
 
 		var covars_inv = new Array(gmm.covars.length);
 		var covars_det = new Array(gmm.covars.length);
