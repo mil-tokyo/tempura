@@ -51,7 +51,7 @@
 		}
 
 		plt.contourDesicionFunction(-2, 15, -3, 12, {levels: levels}, function(x,y){
-			var datum = (new $M(2,1)).set(0,0,x).set(1,0,y);
+			var datum = $M.fromArray([[x],[y]]);
 			var zs = new Array(gmm.covars.length);
 			for (var i=0 ; i<gmm.covars.length ; i++) {
 				var mean = gmm.means[i];

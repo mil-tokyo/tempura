@@ -41,7 +41,7 @@
 
 			// Draw line
 			plt.contourDesicionFunction(10, 22, 10, 22, {levels: [1.5]}, function(x,y){
-				return clf.predict((new $M(1,2)).set(0,0,x).set(0,1,y)).get(0,0);
+				return clf.predict($M.fromArray([[x,y]])).get(0,0);
 			});
 			plt.show();
 		});

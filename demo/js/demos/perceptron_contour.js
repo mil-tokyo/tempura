@@ -50,7 +50,7 @@
 
 		plt.scatter(x,y,color);
 		plt.contourDesicionFunction(-1, 5, -1, 5, function(x,y){
-			return perceptron.decisionFunction((new $M(1,2)).set(0,0,x).set(0,1,y)).get(0,0);
+			return perceptron.decisionFunction($M.fromArray([[x,y]])).get(0,0);
 		});
 		plt.show();
 	});
