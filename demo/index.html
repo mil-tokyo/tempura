@@ -131,7 +131,7 @@ No method selected.
 							)
 							;
 
-							$("#code").empty().html(AgentSmithDemo.getCode(name).replace(/[\n\r]/g, "<br />"));
+							$("#code").empty().text(AgentSmithDemo.getCode(name));
 							
 							AgentSmithDemo.runDemo(name);
 							
