@@ -3,7 +3,7 @@
 		X: {
 			shape: [2, 'n_sample'],
 			description: "Data points",
-			default: $M.fromArray([
+			init: $M.fromArray([
 					[ 1.4949318 ,  3.85848832],
 					[ 1.42613574,  0.0456529 ],
 					[ 1.1641107 ,  3.79132988],
@@ -29,7 +29,7 @@
 		labels: {
 			shape: [1, 'n_sample'],
 			description: "Labels to which each data point is assigned",
-			default: $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]])
+			init: $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]])
 		}
 	}, function(plt, args){
 		var $M = AgentSmith.Matrix;

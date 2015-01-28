@@ -53,7 +53,7 @@ var AgentSmithDemo = {};
 			var args_settings = this.demos[name].args;
 			var args = {};
 			for (var arg_name in args_settings) {
-				args[arg_name] = 'default' in args_settings[arg_name] ? args_settings[arg_name].default : null;
+				args[arg_name] = 'init' in args_settings[arg_name] ? args_settings[arg_name].init : null;
 			}
 			
 			// Run demo
@@ -96,7 +96,7 @@ var AgentSmithDemo = {};
 				for (var arg_name in this.demos[name].args) {
 					var arg_setting = this.demos[name].args[arg_name];
 					var description = 'description' in arg_setting ? arg_setting.description : "";
-					var arg = arg_setting.default;
+					var arg = arg_setting.init;
 					var $arg_group = $("<div>").addClass(this.class_input_group);
 					$arg_group
 						.append(

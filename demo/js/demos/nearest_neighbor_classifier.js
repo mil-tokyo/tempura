@@ -3,7 +3,7 @@
 		'A classifier based on nearest neighbor', {
 			X: {
 				shape: [2, 'n_data'],
-				default: $M.fromArray([
+				init: $M.fromArray([
 						[10, 22],
 						[11, 12],
 						[15, 14],
@@ -19,7 +19,7 @@
 			},
 			labels: {
 				shape: [1, 'n_data'],
-				default: $M.fromArray([[1,1,1,1,1,2,2,2,2,2]])
+				init: $M.fromArray([[1,1,1,1,1,2,2,2,2,2]])
 			}
 		},
 		function(plt, args){

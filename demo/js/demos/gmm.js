@@ -4,7 +4,7 @@
 	{
 		X: {
 			shape: [2, 'n_data'],
-			default: $M.fromArray([
+			init: $M.fromArray([
 					[1, 1],
 					[0, 1],
 					[1, 1],
