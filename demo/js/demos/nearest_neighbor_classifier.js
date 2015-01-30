@@ -2,6 +2,7 @@
 	AgentSmithDemo.addDemo('Nearest neighbor classifier',
 		'A classifier based on nearest neighbor', {
 			X: {
+				type: 'matrix',
 				shape: [2, 'n_data'],
 				init: $M.fromArray([
 						[10, 22],
@@ -18,19 +19,23 @@
 					])
 			},
 			labels: {
+				type: 'matrix',
 				shape: [1, 'n_data'],
 				init: $M.fromArray([[1,1,1,1,1,2,2,2,2,2]])
+			},
+			k: {
+				type: 'integer',
+				init: 1
 			}
 		},
 		function(plt, args){
-			var $M = AgentSmith.Matrix;
-			var $T = Trinity;
 
 			var samples = args.X;
 			var labels = args.labels;
+			var k = args.k;
 
 			// Fit classifier
-			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: 1});
+			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: k});
 			clf.fit(samples, labels);
 
 			// Plot samples
