@@ -3,7 +3,7 @@ var AgentSmithDemo = {};
 (function($M, $T, $){
 	AgentSmithDemo = {
 		demos: {},
-		class_input_group: "input-group",
+		class_input_wrapper: "input-group",
 		class_arg_name: "arg-name",
 		class_arg_description: "arg-description",
 		class_arg_textarea: "arg-input",
@@ -79,8 +79,19 @@ var AgentSmithDemo = {};
 		getArgsFromInput: function($input, name) {
 			var args = {};
 			if (name in this.demos) {
-				for (var arg_name in this.demos[name].args) {
-					args[arg_name] = $M.fromArray(JSON.parse($input.find("#arg-" + arg_name).val()));
+				var arg_setting = this.demos[name].args;
+				for (var arg_name in arg_setting) {
+					var data_str = $input.find("#arg-" + arg_name).val();
+					switch (arg_setting[arg_name].type) {
+						case 'integer':
+						args[arg_name] = data_str;
+						break;
+
+						case 'matrix':
+						default:
+						args[arg_name] = $M.fromArray(JSON.parse(data_str));
+						break;
+					}
 				}
 			}
 			return args;
@@ -97,8 +108,19 @@ var AgentSmithDemo = {};
 					var arg_setting = this.demos[name].args[arg_name];
 					var description = 'description' in arg_setting ? arg_setting.description : "";
 					var arg = arg_setting.init;
-					var $arg_group = $("<div>").addClass(this.class_input_group);
-					$arg_group
+					var $arg_wrapper = $("<div>").addClass(this.class_input_wrapper);
+					var data_str;
+					switch(arg_setting.type) {
+						case 'integer':
+						data_str = arg;
+						break;
+
+						case 'matrix':
+						default:
+						data_str = JSON.stringify($M.toArray(arg));
+						break;
+					}
+					$arg_wrapper
 						.append(
 							$("<h5>").addClass(this.class_arg_name).text(arg_name)
 						)
@@ -106,11 +128,11 @@ var AgentSmithDemo = {};
 							$("<p>").addClass(this.class_arg_description).text(description)
 						)
 						.append(
-							$("<textarea>").addClass(this.class_arg_textarea).attr("id", "arg-"+arg_name).val(JSON.stringify($M.toArray(arg)))
+							$("<textarea>").addClass(this.class_arg_textarea).attr("id", "arg-"+arg_name).val(data_str)
 						)
 					;
 					$input.append(
-						$arg_group
+						$arg_wrapper
 					);
 				}
 			}
