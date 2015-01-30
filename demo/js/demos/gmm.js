@@ -17,9 +17,6 @@
 					[13, 10],
 					[10, 7],
 					[10, 8],
-					[8, 11],
-					[10, 11],
-					[9, 7],
 				])
 		}
 	},
@@ -46,7 +43,7 @@
 
 		// Contour levels to show
 		var levels = [];
-		for (var level = 0.001 ; level < 0.2 ; level += 0.003) {
+		for (var level = 0.01 ; level < 0.2 ; level += 0.03) {
 			levels.push(level);
 		}
 
