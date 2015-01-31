@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="doc.css" />
-<title>Neo</title>
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="description" content="Mil-tokyo.GitHub.io : ">
+  
+  <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+  <title>Mil-tokyo.GitHub.io</title>
 </head>
 
 <body>
-<h1>Neo</h1>
-<address>The Facebook Database Engineering Team</address>
-<address>Build on earlier work on leveldb by Sanjay Ghemawat
-               (sanjay@google.com) and Jeff Dean (jeff@google.com)</address>
 
-<p>
-<code>Neo</code> javascript machine learning library developed on AgentSmith. 
-<p>
-<h1>Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
+  <!-- HEADER -->
+  <div id="header_wrap" class="outer">
+    <header class="inner">
+      <a id="forkme_banner" href="https://github.com/mil-tokyo">View on GitHub</a>
+      <h1 id="project_title">Neo</h1>
+      <h2 id="project_tagline"></h2>
+    </header>
+  </div>
+
+  <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+	<table class="toc">
+	<tr><td><a href="#kmeans">Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</a></td></tr>
+	<tr><td><a href="#GMM">Neo.Mixture.GMM(n_components, n_iter, thresh, min_covar)</a></td></tr>
+	<tr><td><a href="#PCA">Neo.Decomposition.PCA(n_components, whiten)</a></td></tr>
+	<tr><td><a href="#CCA">Neo.CrossDecomposition.CCA(n_components, scale)</a></td></tr>
+	<tr><td><a href="#kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, lear_size, weights)</a></td></tr>
+	<tr><td><a href="#LinReg">Neo.LinearModel.LinearRegression(center, normalize, solver)</a></td></tr>
+	<tr><td><a href="#Lasso">Neo.LinearModel.Lasso(lambda, center, normalize, n_iter, tolerance)</a></td></tr>
+	<tr><td><a href="#Redge">Neo.LinearModel.Ridge(lambda, center, nermalize, solver, n_iter, tolerance)</a></td></tr>
+	<tr><td><a href="#Log"></a>Neo.LinearModel.Logistic(eta, alpha, center, n_iter)</a></td></tr>
+	<tr><td><a href="#Perceptron">Neo.LinearModel.Perceptron(eta, center, n_iter)</a></td></tr>
+	<tr><td><a href="#SGDReg">Neo.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</a></td></tr>
+	</table>
+	<p>
+	  Neo is javascript machine learning library work on AgentSmith. 
+	<p>
+
+	  <!--<address>The Facebook Database Engineering Team</address>
+	  <address>Build on earlier work on leveldb by Sanjay Ghemawat
+            (sanjay@google.com) and Jeff Dean (jeff@google.com)</address>-->
+
+        <h3>
+          <a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-lin
+k"></span></a>Welcome to GitHub Pages.</h3>
+
+
+
+<h1 class="classname" id="kmeans">Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -32,7 +68,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X)</h2>
+<h2 class="methodname">fit(X)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -53,7 +89,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.Mixture.GMM(n_components, n_iter, thresh, min_covar)</h1>
+<h1 class="classname" id="GMM">Neo.Mixture.GMM(n_components, n_iter, thresh, min_covar)</h1>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -68,7 +104,7 @@
   </tr>
 </table>
 <p>
-<h2>fit(X)</h2>
+<h2 class="methodname">fit(X)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -88,7 +124,7 @@
     </td>
   </tr>
 </table>
-<h2>calcLogLikelihood(X)</h2>
+<h2 class="methodname">calcLogLikelihood(X)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -108,7 +144,7 @@
     </td>
   </tr>
 </table>
-<h2>showParams()</h2>
+<h2 class="methodname">showParams()</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -129,7 +165,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.Decomposition.PCA(n_components, whiten)</h1>
+<h1 class="classname" id="PCA">Neo.Decomposition.PCA(n_components, whiten)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -142,7 +178,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X)</h2>
+<h2 class="methodname">fit(X)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -163,7 +199,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.CrossDecomposition.CCA(n_components, scale)</h1>
+<h1 class="classname" id="CCA">Neo.CrossDecomposition.CCA(n_components, scale)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -178,7 +214,7 @@
 </table>
 <p>
 <p>
-<h2>fit(X,Y)</h2>
+<h2 class="methodname">fit(X,Y)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -200,7 +236,7 @@
     </td>
   </tr>
 </table>
-<h2>transform(X,Y)</h2>
+<h2 class="methodname">transform(X,Y)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -224,7 +260,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, lear_size, weights)</h1>
+<h1 class="classname" id="kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, lear_size, weights)</h1>
 <p>
 <p>
 <table class="datatable">
@@ -241,7 +277,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -262,7 +298,7 @@
   </tr>
 </table>
 
-<h2>predict(X)</h2>
+<h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -283,7 +319,7 @@
 </table>
 <p>
 <p>
-<h1>Neo.LinearModel.LinearRegression(center, normalize, solver)</h1>
+<h1 class="classname" id="LinReg">Neo.LinearModel.LinearRegression(center, normalize, solver)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -298,7 +334,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -319,7 +355,7 @@
   </tr>
 </table>
 <p>
-<h2>predict(X)</h2>
+<h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -339,7 +375,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.LinearModel.Lasso(lambda, center, normalize, n_iter, tolerance)</h1>
+<h1 class="classname" id="Lasso">Neo.LinearModel.Lasso(lambda, center, normalize, n_iter, tolerance)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -355,7 +391,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -376,7 +412,7 @@
   </tr>
 </table>
 <p>
-<h2>predict(X)</h2>
+<h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -396,7 +432,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.LinearModel.Ridge(lambda, center, nermalize, solver, n_iter, tolerance)</h1>
+<h1 class="classname" id="Ridge">Neo.LinearModel.Ridge(lambda, center, nermalize, solver, n_iter, tolerance)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -415,7 +451,7 @@
   </tr>
 </table>
 <p>
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -436,7 +472,7 @@
   </tr>
 </table>
 <p>
-<h2>predict(X)</h2>
+<h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -456,7 +492,7 @@
   </tr>
 </table>
 
-<h1>Neo.LinearModel.Logistic(eta, alpha, center, n_iter)</h1>
+<h1 class="classname" id="Log">Neo.LinearModel.Logistic(eta, alpha, center, n_iter)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -472,7 +508,7 @@
     </td>
   </tr>
 </table>
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -494,7 +530,7 @@
   </tr>
 </table>
 <p>
-<h2>predict(X)</h2>
+<h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -514,7 +550,7 @@
   </tr>
 </table>
 <p>
-<h1>Neo.LinearModel.Perceptron(eta, center, n_iter)</h1>
+<h1 class="classname", id="Perceptron">Neo.LinearModel.Perceptron(eta, center, n_iter)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -529,7 +565,7 @@
   </tr>
 </table>
 
-<h2>fit(X, y)</h2>
+<h2 class="methodname">fit(X, y)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -551,7 +587,7 @@
   </tr>
 </table>
 <p>
-  <h2>predict(X)</h2>
+  <h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -570,8 +606,9 @@
     </td>
   </tr>
 </table>
+
 <p>
-<h1>Neo.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</h1>
+<h1 class="classname" id="SGDReg">Neo.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</h1>
 <p>
 <table class="datatable">
   <tr>
@@ -588,7 +625,7 @@
   </tr>
 </table>
 
-<h2>fit(X, y, init_w)</h2>
+<h2 class="methodname">fit(X, y, init_w)</h2>
 <p>
 <table class="datatable">
   <tr>
@@ -611,7 +648,7 @@
   </tr>
 </table>
 <p>
-  <h2>predict(X)</h2>
+  <h2 class="methodname">predict(X)</h2>
 <table class="datatable">
   <tr>
     <td class="title">
@@ -633,12 +670,24 @@
 
 <p>
 <p>
-<a href="https://github.com/facebook/rocksdb/wiki/Merge-Operator">
-    Merge Operator</a>
-<p>
-<a href="https://github.com/facebook/rocksdb/wiki/Merge-Operator-Implementation">
-    Merge Operator Implementation</a>
 
-<p>
+  <h3>
+    <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or co
+  ntact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+      </section>
+    </div>
+
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+
+    
 </body>
 </html>
+
