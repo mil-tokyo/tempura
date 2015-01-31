@@ -91,18 +91,42 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -1px;
 }
 
-/* h1 { */
-/*   font-size: 36px; */
-/*   font-weight: 700; */
-/* } */
+h1 {
+  font-size: 36px;
+  font-weight: 700;
+}
 
-/* h2 { */
-/*   padding-bottom: 10px; */
-/*   font-size: 32px; */
-/*   background: url('../images/bg_hr.png') repeat-x bottom; */
-/* } */
+h1.classname {
+  margin-left: -0.2in;
+  margin-right: 0.3in;
+  margin-top: 1in;
+  margin-bottom: 0in;
+  font-size: 16pt;
+  padding-bottom: 10px;
+  background: url('../images/bg_hr.png') repeat-x bottom;
+}
 
-/* h3 { */
+h2 {
+  padding-bottom: 10px;
+  font-size: 25px;
+} 
+
+#title {
+    background: url('../images/bg_hr.png') repeat-x bottom;
+}
+
+h2.methodname {
+  margin-left: -0in;
+  margin-right: 0.3in;
+  margin-top: 0.3in;
+  margin-bottom: 0.2in;
+  font-size: 12pt;
+  padding-bottom: 0px;
+  background-color:#e0e0e0;
+}
+
+
+/* h3 {
 /*   font-size: 24px; */
 /* } */
 
@@ -118,22 +142,7 @@ h1, h2, h3, h4, h5, h6 {
 /*   font-size: 16px; */
 /* } */
 
-h1.classname {
-  margin-left: -0.2in;
-  margin-right: 0.3in;
-  margin-top: 0.5in;
-  margin-bottom: 0.3in;
-  font-size: 14pt;
-  background-color:#ffcc99;
-}
-h2.methodname {
-  margin-left: -0in;
-  margin-right: 0.3in;
-  margin-top: 0.3in;
-  margin-bottom: 0.2in;
-  font-size: 12pt;
-  background-color:#e0e0e0;
-}
+
 h3 {
   margin-left: 0.1in;
   font-size: 11pt;
