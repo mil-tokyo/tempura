@@ -1,6 +1,7 @@
-[submodule "agent_smith"]
-	path = agent_smith
-	url = https://github.com/mil-tokyo/agent_smith.git
 [submodule "demo/trinity"]
 	path = demo/trinity
 	url = https://github.com/mil-tokyo/trinity.git
+
+[submodule "agent_smith"]
+	path = agent_smith
+	url = https://github.com/mil-tokyo/agent_smith.git
