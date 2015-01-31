@@ -3,4 +3,4 @@
 	url = https://github.com/mil-tokyo/agent_smith.git
 [submodule "demo/trinity"]
 	path = demo/trinity
-	url = git@github.com:mil-tokyo/trinity.git
+	url = https://github.com/mil-tokyo/trinity.git
