@@ -1,9 +1,7 @@
 (function($M){
 	AgentSmithDemo.addDemo('Visualizer demo',
 	'In this demo, sine curves are drawn in several ways by visualize tool "Trinity"',
-	function(plt){
-		$M = AgentSmith.Matrix;
-
+	function(plt){x
 		var x_min = -10;
 		var x_max = 10;
 		var step = 0.1;
@@ -28,6 +26,9 @@
 		}
 
 		plt.xlim([-5, 5]);
+		plt.xlabel('x');
+		plt.ylabel('y');
+		plt.legend(['y=sin(x)', 'y=sin(x-0.5)', 'y=sin(x-1.0)', 'y=sin(x-1.5)', 'y=sin(x-2.0)', 'y=sin(x-2.5)'], 'right bottom');
 		plt.show();
 	});
 })(AgentSmith.Matrix);

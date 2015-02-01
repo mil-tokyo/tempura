@@ -21,9 +21,6 @@
 		}
 	},
 	function(plt, args){
-		$M = AgentSmith.Matrix;
-		$T = Trinity;
-
 		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
 		var X = args.X;
 
@@ -66,6 +63,8 @@
 		});
 
 		plt.scatter(x,y);
+		plt.xlabel('x');
+		plt.ylabel('y');
 		plt.show();
 
 	});
