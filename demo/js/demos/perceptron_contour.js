@@ -33,8 +33,6 @@
 		}
 	},
 	function(plt, args){
-		var $M = AgentSmith.Matrix;
-
 		// Prepare data
 		var samples = args.X;
 		var labels = args.labels;
@@ -52,6 +50,8 @@
 		plt.contourDesicionFunction(-1, 5, -1, 5, function(x,y){
 			return perceptron.decisionFunction($M.fromArray([[x,y]])).get(0,0);
 		});
+		plt.xlabel('x');
+		plt.ylabel('y');
 		plt.show();
 	});
 })(AgentSmith.Matrix);

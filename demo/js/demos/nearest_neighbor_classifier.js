@@ -29,7 +29,6 @@
 			}
 		},
 		function(plt, args){
-
 			var samples = args.X;
 			var labels = args.labels;
 			var k = args.k;
@@ -48,6 +47,9 @@
 			plt.contourDesicionFunction(10, 22, 10, 22, {levels: [1.5]}, function(x,y){
 				return clf.predict($M.fromArray([[x,y]])).get(0,0);
 			});
+			plt.xlabel('x');
+			plt.ylabel('y');
+			plt.legend(['Data points (2 classes)']);
 			plt.show();
 		});
 })(AgentSmith.Matrix);
