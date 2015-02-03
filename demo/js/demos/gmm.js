@@ -40,7 +40,7 @@
 
 		// Contour levels to show
 		var levels = [];
-		for (var level = 0.01 ; level < 0.2 ; level += 0.03) {
+		for (var level = 0.01 ; level < 0.25 ; level += 0.03) {
 			levels.push(level);
 		}
 
@@ -65,6 +65,7 @@
 		plt.scatter(x,y);
 		plt.xlabel('x');
 		plt.ylabel('y');
+		plt.colorbar();
 		plt.show();
 
 	});
