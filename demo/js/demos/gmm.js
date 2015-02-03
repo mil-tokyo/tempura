@@ -10,7 +10,7 @@
 					[1, 1],
 					[1, 2],
 					[-1, -2],
-					[1, 0.1],
+					[1, 0],
 					[2, 2],
 					[1, 2],
 					[9, 7],
@@ -38,13 +38,9 @@
 			covars_inv[i] = gmm.covars[i].inverse();
 		}
 
-		// Contour levels to show
-		var levels = [];
-		for (var level = 0.01 ; level < 0.25 ; level += 0.03) {
-			levels.push(level);
-		}
-
-		plt.contourDesicionFunction(-2, 15, -3, 12, {levels: levels}, function(x,y){
+		var x = $M.getCol(X, 0);
+		var y = $M.getCol(X, 1);
+		plt.contourDesicionFunction($M.min(x)-1, $M.max(x)+1, $M.min(y)-1, $M.max(y)+1, function(x,y){
 			var datum = $M.fromArray([[x],[y]]);
 			var zs = new Array(gmm.covars.length);
 			for (var i=0 ; i<gmm.covars.length ; i++) {
