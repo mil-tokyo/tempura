@@ -1,7 +1,8 @@
-var nodejs = (typeof window === 'undefined');
-
-if (nodejs) {
+(function(nodejs, $M, Neo){
+    if (nodejs) {
 	var Neo = require('../neo');
-}
+    }
 
-Neo.LinearModel = {};
+    Neo.LinearModel = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+
