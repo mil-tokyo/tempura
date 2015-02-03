@@ -4,7 +4,7 @@
 	{
 		X: {
 			shape: [2, 'n_data'],
-			default: $M.fromArray([
+			init: $M.fromArray([
 					[ 1.4949318 ,  3.85848832],
 					[ 1.42613574,  0.0456529 ],
 					[ 1.1641107 ,  3.79132988],
@@ -29,7 +29,7 @@
 		},
 		labels: {
 			shape: [1, 'n_data'],
-			default: $M.fromArray([
+			init: $M.fromArray([
 					[1, 0],
 					[0, 1],
 					[1, 0],
@@ -91,6 +91,9 @@
 		plt.scatter(x,y,color);
 		plt.plot(s_line_x, s_line_y, 'r-');
 		plt.plot(p_line_x, p_line_y, 'b-');
+		plt.xlabel('x');
+		plt.ylabel('y');
+		plt.legend(['Data points (2 classes)', 'Decision boundary (SGD SVM)', 'Decision boundary (perceptron)']);
 		plt.show();
 	});
 })(AgentSmith.Matrix);

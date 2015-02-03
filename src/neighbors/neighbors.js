@@ -1,7 +1,7 @@
-var nodejs = (typeof window === 'undefined');
-
-if (nodejs) {
-    var Neo = require('../neo');
-}
-
-Neo.Neighbors = {};
+(function(nodejs, $M, Neo) {
+	if (nodejs) {
+		var Neo = require('../neo');
+	}
+	
+	Neo.Neighbors = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);

@@ -2,8 +2,9 @@
 	AgentSmithDemo.addDemo('Nearest neighbor classifier',
 		'A classifier based on nearest neighbor', {
 			X: {
+				type: 'matrix',
 				shape: [2, 'n_data'],
-				default: $M.fromArray([
+				init: $M.fromArray([
 						[10, 22],
 						[11, 12],
 						[15, 14],
@@ -18,19 +19,22 @@
 					])
 			},
 			labels: {
+				type: 'matrix',
 				shape: [1, 'n_data'],
-				default: $M.fromArray([[1,1,1,1,1,2,2,2,2,2]])
+				init: $M.fromArray([[1,1,1,1,1,2,2,2,2,2]])
+			},
+			k: {
+				type: 'integer',
+				init: 1
 			}
 		},
 		function(plt, args){
-			var $M = AgentSmith.Matrix;
-			var $T = Trinity;
-
 			var samples = args.X;
 			var labels = args.labels;
+			var k = args.k;
 
 			// Fit classifier
-			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: 1});
+			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: k});
 			clf.fit(samples, labels);
 
 			// Plot samples
@@ -43,6 +47,9 @@
 			plt.contourDesicionFunction(10, 22, 10, 22, {levels: [1.5]}, function(x,y){
 				return clf.predict($M.fromArray([[x,y]])).get(0,0);
 			});
+			plt.xlabel('x');
+			plt.ylabel('y');
+			plt.legend(['Data points (2 classes)']);
 			plt.show();
 		});
 })(AgentSmith.Matrix);

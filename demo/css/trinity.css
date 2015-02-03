@@ -1,0 +1,23 @@
+.axis path,
+.axis line {
+   fill: none;
+   stroke: black;
+   shape-rendering: crispEdges;
+}
+
+.axis text {
+   font-family: sans-serif;
+   font-size: 11px;
+}
+
+.colorbar-axis path,
+.colorbar-axis line {
+   fill: none;
+   stroke: black;
+   shape-rendering: crispEdges;
+}
+
+.colorbar-axis text {
+   font-family: sans-serif;
+   font-size: 11px;
+}

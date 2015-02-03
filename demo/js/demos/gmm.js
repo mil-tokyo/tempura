@@ -4,7 +4,7 @@
 	{
 		X: {
 			shape: [2, 'n_data'],
-			default: $M.fromArray([
+			init: $M.fromArray([
 					[1, 1],
 					[0, 1],
 					[1, 1],
@@ -17,16 +17,10 @@
 					[13, 10],
 					[10, 7],
 					[10, 8],
-					[8, 11],
-					[10, 11],
-					[9, 7],
 				])
 		}
 	},
 	function(plt, args){
-		$M = AgentSmith.Matrix;
-		$T = Trinity;
-
 		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
 		var X = args.X;
 
@@ -46,7 +40,7 @@
 
 		// Contour levels to show
 		var levels = [];
-		for (var level = 0.001 ; level < 0.2 ; level += 0.003) {
+		for (var level = 0.01 ; level < 0.25 ; level += 0.03) {
 			levels.push(level);
 		}
 
@@ -69,6 +63,9 @@
 		});
 
 		plt.scatter(x,y);
+		plt.xlabel('x');
+		plt.ylabel('y');
+		plt.colorbar();
 		plt.show();
 
 	});
