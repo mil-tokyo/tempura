@@ -1,10 +1,10 @@
-var nodejs = (typeof window === 'undefined');
-
-if (nodejs) {
+(function(nodejs, $M, Neo){
+    if (nodejs) {
         var Neo = require('../neo');
-}
+    }
 
-Neo.Decomposition = {};
+    Neo.Decomposition = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
 

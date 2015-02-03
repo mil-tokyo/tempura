@@ -1,7 +1,9 @@
-var nodejs = (typeof window === 'undefined');
+(function(nodejs, $M, Neo){
 
-if (nodejs) {
+    if (nodejs) {
 	var Neo = require('../neo');
-}
+    }
 
-Neo.Mixture = {};
+    Neo.Mixture = {};
+
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
