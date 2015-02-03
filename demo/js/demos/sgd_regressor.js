@@ -74,7 +74,7 @@
 		var meanStd = $S.meanStd( true, true, samples, false, 1);
 		var x = $M.getCol(meanStd.X,0);
 		var y = $M.getCol(meanStd.X,1);
-		var color = $M.fromArray([[0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0]]).t();
+		var color = $M.getCol(labels,0);
 		// line 1
 		var w1=per.weight.get(0,0), w2=per.weight.get(1,0), b=per.weight.get(2,0);
 		var p_line_x = new $M(60, 1);
