@@ -45,7 +45,7 @@
 			var zs = new Array(gmm.covars.length);
 			for (var i=0 ; i<gmm.covars.length ; i++) {
 				var mean = gmm.means[i];
-				var x_sub_mean = datum.sub(mean);
+				var x_sub_mean = $M.sub(datum, mean);
 				var covar_inv = covars_inv[i];
 				zs[i] = Math.exp( x_sub_mean.t().mul(covar_inv).mul(x_sub_mean).get(0,0) / (-2)) / (2*Math.PI*covars_det[i]);  // Gaussian distribution
 			}
