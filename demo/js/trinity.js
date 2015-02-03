@@ -411,7 +411,7 @@ var Trinity = {};
 		show: function(svg, xScale, yScale){
 			var x = this.x, y = this.y, color = this.color;
 
-			var color_list = d3.scale.category20();
+			var color_list = d3.scale.category10();
 
 			var xArray = $M.toArray(x);
 
@@ -432,7 +432,7 @@ var Trinity = {};
 		},
 		drawLegend: function(g, title){
 			var x = this.x, y = this.y, color = this.color;
-			var color_list = d3.scale.category20();
+			var color_list = d3.scale.category10();
 
 			var x_start=10, x_end = 30;
 			var y = -3;
