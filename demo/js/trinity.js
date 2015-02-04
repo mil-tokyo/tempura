@@ -411,7 +411,7 @@ var Trinity = {};
 		show: function(svg, xScale, yScale){
 			var x = this.x, y = this.y, color = this.color;
 
-			var color_list = d3.scale.category20();
+			var color_list = d3.scale.category10();
 
 			var xArray = $M.toArray(x);
 
@@ -432,7 +432,7 @@ var Trinity = {};
 		},
 		drawLegend: function(g, title){
 			var x = this.x, y = this.y, color = this.color;
-			var color_list = d3.scale.category20();
+			var color_list = d3.scale.category10();
 
 			var x_start=10, x_end = 30;
 			var y = -3;
@@ -514,8 +514,8 @@ var Trinity = {};
 				xmap[ix] = new Array(y_bins);
 				ymap[ix] = new Array(y_bins);
 				for (var iy=0 ; iy<y_bins ; iy++) {
-					var x = x_min + (x_max-x_min)*ix/x_bins;
-					var y = y_min + (y_max-y_min)*iy/y_bins;
+					var x = x_min + (x_max-x_min)*ix/(x_bins-1);
+					var y = y_min + (y_max-y_min)*iy/(y_bins-1);
 					var val = decisionFunction(x, y);
 					mesh[ix][iy] = val;
 					if (mesh_max===null || mesh_max < val) mesh_max = val;
@@ -533,8 +533,9 @@ var Trinity = {};
 			} else {
 				var n_levels = 10;
 				var levels = new Array(n_levels);
+				var level_min = mesh_min, level_max = mesh_max * 0.95;
 				for (var i=0 ; i<n_levels ; i++) {
-					levels[i] = mesh_min + (mesh_max-mesh_min)*i/(n_levels-1);
+					levels[i] = level_min + (level_max-level_min)*i/(n_levels-1);
 				}
 				/*
 				var levels = [];
@@ -545,36 +546,94 @@ var Trinity = {};
 			}
 			this.levels = levels;
 
-			function findPathInGrid(edges, level) {
+			function findPathInGrid(vertexes, level) {
 				var points = [];
-				for (var i=0; i<edges.length; i++) {
-					var i2 = (i+1)%edges.length;
-					if ((edges[i][2]-level) * (edges[i2][2]-level) < 0) {
-						var offset = (level-edges[i][2])/(edges[i2][2]-edges[i][2]);
+				for (var i=0; i<vertexes.length; i++) {
+					var i2 = (i+1)%vertexes.length;
+					if ((vertexes[i][2]-level) * (vertexes[i2][2]-level) < 0) {
+						var offset = (level-vertexes[i][2])/(vertexes[i2][2]-vertexes[i][2]);
 						points.push([
-							edges[i][0] + (edges[i2][0]-edges[i][0])*offset,
-							edges[i][1] + (edges[i2][1]-edges[i][1])*offset
+							vertexes[i][0] + (vertexes[i2][0]-vertexes[i][0])*offset,
+							vertexes[i][1] + (vertexes[i2][1]-vertexes[i][1])*offset,
+							i
 						]);
 					}
 				}
 				return points;
 			}
 
-			var edges = new Array(4);
+			var vertexes = new Array(4);
 			levels.forEach(function(level){
+				var mark = new Array(x_bins);
+				for (var ix=0 ; ix<x_bins ; ix++) {
+					mark[ix] = new Array(y_bins);
+					for (var iy=0 ; iy<y_bins ; iy++) {
+						mark[ix][iy] = false;
+					}
+				}
+
 				var domain = this.domain();
 				var level_color = this.color((level-domain[0])/(domain[1]-domain[0]));
 				// Scan and draw lines
 				for (var ix=0 ; ix<x_bins-1 ; ix++) {
 					for (var iy=0 ; iy<y_bins-1 ; iy++) {
-						edges[0] = [xmap[ix  ][iy  ], ymap[ix  ][iy  ], mesh[ix  ][iy  ]];
-						edges[1] = [xmap[ix+1][iy  ], ymap[ix+1][iy  ], mesh[ix+1][iy  ]];
-						edges[2] = [xmap[ix+1][iy+1], ymap[ix+1][iy+1], mesh[ix+1][iy+1]];
-						edges[3] = [xmap[ix  ][iy+1], ymap[ix  ][iy+1], mesh[ix  ][iy+1]];
+						if (mark[ix][iy]) continue;
 
-						var points = findPathInGrid(edges, level);
+						// First point
+						vertexes[0] = [xmap[ix  ][iy  ], ymap[ix  ][iy  ], mesh[ix  ][iy  ]];
+						vertexes[1] = [xmap[ix+1][iy  ], ymap[ix+1][iy  ], mesh[ix+1][iy  ]];
+						vertexes[2] = [xmap[ix+1][iy+1], ymap[ix+1][iy+1], mesh[ix+1][iy+1]];
+						vertexes[3] = [xmap[ix  ][iy+1], ymap[ix  ][iy+1], mesh[ix  ][iy+1]];
 
-						if (points.length == 2) {
+						var points = [];
+						mark[ix][iy] = true;
+						var p = findPathInGrid(vertexes, level);
+
+						if (p.length == 2) {
+							points.push([p[0][0], p[0][1]]);
+							points.push([p[1][0], p[1][1]]);
+
+							var valid_ind = null
+							for (var i=0 ; i<2 ; i++) {
+								var ind = p[i][2]; // Vertex index
+								// On the edges?
+								     if (ind == 0 && vertexes[ind][1] == 0) continue; // Top
+								else if (ind == 1 && vertexes[ind][0] == x_max) continue; // Right
+								else if (ind == 2 && vertexes[ind][1] == y_max) continue; // Bottom
+								else if (ind == 3 && vertexes[ind][0] == 0) continue; // Left
+								var valid_ind = ind; break;
+							}
+
+							// Followings
+							var iix = ix, iiy = iy;
+							while (0 <= valid_ind && valid_ind <= 3) {
+								     if (valid_ind == 0) var iix = iix,   iiy = iiy-1; // Go up
+								else if (valid_ind == 1) var iix = iix+1, iiy = iiy;   // Go right
+								else if (valid_ind == 2) var iix = iix,   iiy = iiy+1; // Go down
+								else if (valid_ind == 3) var iix = iix-1, iiy = iiy;   // Go left
+								if (mark[iix][iiy]) break;
+								else if (iix < 0 || iiy < 0 || iix >= x_bins-1 || iiy >= y_bins ) break;
+								vertexes[0] = [xmap[iix  ][iiy  ], ymap[iix  ][iiy  ], mesh[iix  ][iiy  ]];
+								vertexes[1] = [xmap[iix+1][iiy  ], ymap[iix+1][iiy  ], mesh[iix+1][iiy  ]];
+								vertexes[2] = [xmap[iix+1][iiy+1], ymap[iix+1][iiy+1], mesh[iix+1][iiy+1]];
+								vertexes[3] = [xmap[iix  ][iiy+1], ymap[iix  ][iiy+1], mesh[iix  ][iiy+1]];
+								mark[iix][iiy] = true;
+								var p = findPathInGrid(vertexes, level);
+								if (p.length == 2) {
+									var touching_ind = (valid_ind + 2) % 4; // e.g.) if valid_ind=1 (Right), touching_ind=3(Left). RIGHT edge of previous grid and LEFT grid of next grid are touching.
+									     if (p[0][2] == touching_ind) var next_point = p[1];
+									else if (p[1][2] == touching_ind) var next_point = p[0];
+									if (next_point) {
+										points.push([next_point[0], next_point[1]]);
+										valid_ind = next_point[2];
+									} else {
+										valid_ind = -1;
+									}
+								}
+							}
+						}
+
+						if (points.length >= 2){
 							var line = d3.svg.line()
 							.x(function(d){
 								return xScale(d[0]);
