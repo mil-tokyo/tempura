@@ -59,7 +59,7 @@
 			});
 			plt.xlabel('x');
 			plt.ylabel('y');
-			plt.legend(['Data points (2 classes)']);
+			plt.legend(['Data points (2 classes)', 'Decision boundary']);
 			plt.show();
 		});
 })(AgentSmith.Matrix);
