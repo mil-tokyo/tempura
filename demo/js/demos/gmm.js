@@ -21,49 +21,28 @@
 		}
 	},
 	function(plt, args){
-		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
 		var X = args.X;
 
 		// Estimate GMM
+		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
 		gmm.fit(X);
 
-		// Plot
+		// Plot data points
 		var x = $M.getCol(X,0);
 		var y = $M.getCol(X,1);
+		plt.scatter(x,y);
 
-		var covars_inv = new Array(gmm.covars.length);
-		var covars_det = new Array(gmm.covars.length);
-		for (var i=0 ; i<gmm.covars.length ; i++) {
-			covars_det[i] = gmm.covars[i].det();
-			covars_inv[i] = gmm.covars[i].inverse();
-		}
-
-		var x = $M.getCol(X, 0);
-		var y = $M.getCol(X, 1);
+		// Plot Gaussian Mixtures
 		plt.contourDesicionFunction($M.min(x)-1, $M.max(x)+1, $M.min(y)-1, $M.max(y)+1, function(x,y){
-			var datum = $M.fromArray([[x],[y]]);
-			var zs = new Array(gmm.covars.length);
-			for (var i=0 ; i<gmm.covars.length ; i++) {
-				var mean = gmm.means[i];
-				var x_sub_mean = $M.sub(datum, mean);
-				var covar_inv = covars_inv[i];
-				zs[i] = Math.exp( x_sub_mean.t().mul(covar_inv).mul(x_sub_mean).get(0,0) / (-2)) / (2*Math.PI*covars_det[i]);  // Gaussian distribution
-			}
-
-			var ret = 0;
-			for (var i=0 ; i<gmm.covars.length ; i++) {
-				ret += gmm.weights.get(0,i) * zs[i];
-			}
-
-			return ret;
+			var datum = $M.fromArray([[x,y]]);
+			return gmm.score(datum).get(0,0);
 		});
 
-		plt.scatter(x,y);
+		// Labels and colorbar
 		plt.xlabel('x');
 		plt.ylabel('y');
 		plt.colorbar();
 		plt.show();
-
 	});
 })(AgentSmith.Matrix);
 
