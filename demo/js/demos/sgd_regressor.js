@@ -70,27 +70,22 @@
 		console.log( 'gradient' ); var grad = - w.get(0,0) / w.get(1,0); console.log( grad );
 		console.log( 'intercept' ); var inter = - w.get(2,0) / w.get(1,0); console.log( inter );
 		
-		// sample
+		// Plot data points
 		var meanStd = $S.meanStd( true, true, samples, false, 1);
 		var x = $M.getCol(meanStd.X,0);
 		var y = $M.getCol(meanStd.X,1);
 		var color = $M.getCol(labels,0);
-		// line 1
-		var w1=per.weight.get(0,0), w2=per.weight.get(1,0), b=per.weight.get(2,0);
-		var p_line_x = new $M(60, 1);
-		p_line_x.setEach(function(i){ return -2 + i*0.1; });
-		var p_line_y = p_line_x.clone();
-		p_line_y.map(function(x) { return -w1/w2*x-b/w2;});
-		// line 2
-		var w1=svm.weight.get(0,0), w2=svm.weight.get(1,0), b=svm.weight.get(2,0);
-		var s_line_x = new $M(60, 1);
-		s_line_x.setEach(function(i){ return -2 + i*0.1; });
-		var s_line_y = s_line_x.clone();
-		s_line_y.map(function(x) { return -w1/w2*x-b/w2;});
-		// draw
 		plt.scatter(x,y,color);
-		plt.plot(s_line_x, s_line_y, 'r-');
-		plt.plot(p_line_x, p_line_y, 'b-');
+
+		// Plot decision boundaries
+		plt.contourDesicionFunction(-2, 4, -2, 2, {levels: [0], colors: 'r', linestyles: ['solid']}, function(x,y){
+			return svm.predict($M.fromArray([[x,y]])).get(0,0);
+		});
+		plt.contourDesicionFunction(-2, 4, -2, 2, {levels: [0], colors: 'b', linestyles: ['solid']}, function(x,y){
+			return per.predict($M.fromArray([[x,y]])).get(0,0);
+		});
+
+		// Draw axis labels and legends
 		plt.xlabel('x');
 		plt.ylabel('y');
 		plt.legend(['Data points (2 classes)', 'Decision boundary (SGD SVM)', 'Decision boundary (perceptron)']);
