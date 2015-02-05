@@ -47,7 +47,7 @@
 		var color = labels.t();
 		plt.scatter(x,y,color);
 
-		plt.contourDesicionFunction(-2, 4, 1, 4, {levels: [0], colors: 'r'}, function(x,y){
+		plt.contourDesicionFunction(-2, 4, 1, 4, {levels: [0], colors: 'b'}, function(x,y){
 			return perceptron.decisionFunction($M.fromArray([[x,y]])).get(0,0);
 		});
 
