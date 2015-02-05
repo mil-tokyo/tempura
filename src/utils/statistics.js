@@ -125,6 +125,11 @@
     $S.exp = function(X) {
 	return X.clone().map(Math.exp);
     }
+
+    // exp
+    $S.log = function(X) {
+	return X.clone().map(Math.log);
+    }
     
     // frac
     $S.frac = function(X){
@@ -134,8 +139,6 @@
     }
     
     
-
-
     /* activation funcs */
     
     // sigmoid
