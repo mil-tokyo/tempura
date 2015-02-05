@@ -40,7 +40,7 @@
 	return this;
     }
 
-    Neo.Mixture.GMM.prototype.calcLikelihood = function(X){
+    Neo.Mixture.GMM.prototype.score = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	likelihood = new $M(n_samples, 1);
