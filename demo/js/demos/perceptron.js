@@ -37,27 +37,20 @@
 		var labels = args.labels;
 
 		// Learn perceptron
-		var perceptron = new Neo.LinearModel.Perceptron();
-		perceptron.fit(samples,labels.t());
-
-		// Plot
 		var perceptron = new Neo.LinearModel.Perceptron({center:true});
-
 		perceptron.fit(samples,labels.t());
 		perceptron.weight.print();
 
+		// Plot
 		var x = $M.getCol(samples,0);
 		var y = $M.getCol(samples,1);
 		var color = labels.t();
-
-		var w1=perceptron.weight.get(0,0), w2=perceptron.weight.get(1,0), b=perceptron.intercept.get(0,0);
-		var line_x = new $M(60, 1);
-		line_x.setEach(function(i){ return -2 + i*0.1; });
-		var line_y = line_x.clone();
-		line_y.map(function(x) { return -w1/w2*x-b/w2;});
-
 		plt.scatter(x,y,color);
-		plt.plot(line_x, line_y, 'b-');
+
+		plt.contourDesicionFunction(-2, 4, 1, 4, {levels: [0], colors: 'r'}, function(x,y){
+			return perceptron.decisionFunction($M.fromArray([[x,y]])).get(0,0);
+		});
+
 		plt.xlabel('x');
 		plt.ylabel('y');
 		plt.legend(['Data points (2 classes)', 'Decision boundary']);
