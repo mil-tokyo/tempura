@@ -40,14 +40,29 @@
 	return this;
     }
 
+    Neo.Mixture.GMM.prototype.calcLikelihood = function(X){
+	var n_samples = X.rows;
+	var n_features = X.cols;
+	likelihood = new $M(n_samples, 1);
+	for(i=0; i<n_samples; i++){
+	    var x = $M.extract(X, i, 0, 1, n_features).t()
+	    likelihood = 0;
+	    for(k=0; k<this.n_components; k++){
+		likelihood.data[i] += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
+	    }
+	}
+	return likelihood
+    };
+
     Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	loglikelihood = 0;
 	for(i=0; i<n_samples; i++){
 	    var x = $M.extract(X, i, 0, 1, n_features).t()
-	    var likelihood = 0;
+	    likelihood = 0;
 	    for(k=0; k<this.n_components; k++){
+		//likelihood.data[k] += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
 		likelihood += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
 	    }
 	    loglikelihood -= Math.log(likelihood);
