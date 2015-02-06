@@ -1,15 +1,17 @@
 (function(nodejs, $M, Neo){
 
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./cluster');
+    	var AgentSmith = require('../../agent_smith/src/agent_smith');
+    	var Neo = require('../neo');
+    	require('./cluster');
+    	require('../utils/utils')
+    	require('../utils/statistics')
     }
 
     var $S = Neo.Utils.Statistics;
 
     function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
-	X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
+	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
 	
 	x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
