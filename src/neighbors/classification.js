@@ -1,6 +1,5 @@
 (function(nodejs, $M, Neo) {
 	if (nodejs) {
-		var Neo = require('../neo');
 		require('./neighbors.js');
 		require('./nearest_neighbors.js');
 	}

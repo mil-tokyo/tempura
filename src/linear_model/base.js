@@ -1,11 +1,8 @@
 /* --- base --- */
 (function(nodejs, $M, Neo){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./linear_model');
+    	require('./linear_model');
     }
         
     // init

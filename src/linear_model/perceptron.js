@@ -3,13 +3,11 @@
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		require('../utils/utils.js');
+		require('../utils/statistics.js');
+		require('../utils/checkargs.js');
+		require('./linear_model');
+		require('./base');
     }
     
     // alias

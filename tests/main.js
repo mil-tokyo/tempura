@@ -62,16 +62,16 @@ var TestMain = {};
 				};
 				var result = false;
 				this.notify('- TEST CASE : ' + test_cases[idx].name);
-				try {
+				//try {
 					var result = test_cases[idx].test(callback.bind(this));
-				} catch (exception) {
+				/*} catch (exception) {
 					this.notify('-- exception catched');
 					console.error(exception);
-				} finally {
+				} finally {*/
 					if (result !== void 0) {
 						callback.call(this, result);
 					}
-				}
+				//}
 			};
 			doNextTest.call(this);
 		}

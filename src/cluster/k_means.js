@@ -2,8 +2,8 @@
 
     if (nodejs) {
     	require('./cluster');
-    	require('../utils/utils')
-    	require('../utils/statistics')
+    	require('../utils/utils');
+    	require('../utils/statistics');
     }
 
     var $S = Neo.Utils.Statistics;

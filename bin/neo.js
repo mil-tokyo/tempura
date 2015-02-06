@@ -1,54 +1,37 @@
-"use strict";
-/*
- * neo.js
- * compiled at : 2015-02-06 20:46:29
- */
-// begin : neo.js
+/* begin : neo.js */
 var Neo = {};
 
 if (typeof window === 'undefined') {
 	(('global', eval)("this")).AgentSmith = require('../agent_smith/src/agent_smith');
 	(('global', eval)("this")).Neo = Neo;
-	require('../agent_smith/src/agent_smith_cl')
+	
 	module.exports = Neo;
 }
 
-// end : neo.js
+/* end : neo.js */
 
-// begin : cluster/cluster.js
+/* begin : cluster/cluster.js */
 (function(nodejs, $M, Neo){
-
-    if (nodejs) {
-	var Neo = require('../neo');
-    }
-
     Neo.Cluster = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
-// end : cluster/cluster.js
+/* end : cluster/cluster.js */
 
-// begin : utils/utils.js
+/* begin : utils/utils.js */
 (function(nodejs, $M, Neo){
-    if (nodejs) {
-	var Neo = require('../neo');
-    }
-
     Neo.Utils = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : utils/utils.js
+/* end : utils/utils.js */
 
-// begin : utils/statistics.js
+/* begin : utils/statistics.js */
 /* --- util statistic --- */
 
 (function(nodejs, $M, Neo){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./utils');
+    	
     }
     
     // init
@@ -243,15 +226,15 @@ if (typeof window === 'undefined') {
     };
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : utils/statistics.js
+/* end : utils/statistics.js */
 
-// begin : cluster/k_means.js
+/* begin : cluster/k_means.js */
 (function(nodejs, $M, Neo){
 
     if (nodejs) {
-    	require('./cluster');
-    	require('../utils/utils')
-    	require('../utils/statistics')
+    	
+    	
+    	
     }
 
     var $S = Neo.Utils.Statistics;
@@ -446,32 +429,25 @@ if (typeof window === 'undefined') {
 
 
 
-// end : cluster/k_means.js
+/* end : cluster/k_means.js */
 
-// begin : cross_decomposition/cross_decomposition.js
+/* begin : cross_decomposition/cross_decomposition.js */
 (function(nodejs, $M, Neo){
-    
-    if (nodejs) {
-        var Neo = require('../neo');
-    }
-    
     Neo.CrossDecomposition = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
 
-// end : cross_decomposition/cross_decomposition.js
+/* end : cross_decomposition/cross_decomposition.js */
 
-// begin : cross_decomposition/cca.js
+/* begin : cross_decomposition/cca.js */
 (function(nodejs, $M, Neo){
     if (nodejs) {
-		var AgentSmith = require('../../agent_smith/src/agent_smith');
-		var Neo = require('../neo');
-		require('./cross_decomposition');
-		require('../utils/statistics');
+		
+		
     }
 
-    var $S = Neo.Utils.Statistics
+    var $S = Neo.Utils.Statistics;
 
     // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
     // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
@@ -558,28 +534,22 @@ if (typeof window === 'undefined') {
     }
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : cross_decomposition/cca.js
+/* end : cross_decomposition/cca.js */
 
-// begin : decomposition/decomposition.js
+/* begin : decomposition/decomposition.js */
 (function(nodejs, $M, Neo){
-    if (nodejs) {
-        var Neo = require('../neo');
-    }
-
     Neo.Decomposition = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
 
 
-// end : decomposition/decomposition.js
+/* end : decomposition/decomposition.js */
 
-// begin : decomposition/pca.js
+/* begin : decomposition/pca.js */
 (function(nodejs, $M, Neo){
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./decomposition');
+    	
     }
 
     Neo.Decomposition.PCA = function(n_components, whiten) {
@@ -664,29 +634,22 @@ if (typeof window === 'undefined') {
     
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : decomposition/pca.js
+/* end : decomposition/pca.js */
 
-// begin : linear_model/linear_model.js
+/* begin : linear_model/linear_model.js */
 (function(nodejs, $M, Neo){
-    if (nodejs) {
-	var Neo = require('../neo');
-    }
-
     Neo.LinearModel = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
-// end : linear_model/linear_model.js
+/* end : linear_model/linear_model.js */
 
-// begin : linear_model/base.js
+/* begin : linear_model/base.js */
 /* --- base --- */
 (function(nodejs, $M, Neo){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./linear_model');
+    	
     }
         
     // init
@@ -758,16 +721,14 @@ if (typeof window === 'undefined') {
 
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/base.js
+/* end : linear_model/base.js */
 
-// begin : utils/checkargs.js
+/* begin : utils/checkargs.js */
 /* --- util statistic --- */
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./utils');
+    	
     }
     
     // init
@@ -837,20 +798,18 @@ if (typeof window === 'undefined') {
     };
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : utils/checkargs.js
+/* end : utils/checkargs.js */
 
-// begin : linear_model/lasso.js
+/* begin : linear_model/lasso.js */
 /* --- lasso regression --- */
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		
+		
+		
+		
+		
     }
     
     // alias
@@ -907,20 +866,17 @@ if (typeof window === 'undefined') {
     };
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/lasso.js
+/* end : linear_model/lasso.js */
 
-// begin : linear_model/linear_regression.js
+/* begin : linear_model/linear_regression.js */
 /* --- linear regression --- */
 (function(nodejs, $M, Neo){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
+		
+		
+		
+		
     }
     
     // alias
@@ -997,21 +953,19 @@ if (typeof window === 'undefined') {
 
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/linear_regression.js
+/* end : linear_model/linear_regression.js */
 
-// begin : linear_model/logistic.js
+/* begin : linear_model/logistic.js */
 /* --- logistic --- */
 
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		
+		
+		
+		
+		
     }
 
     // alias
@@ -1071,21 +1025,19 @@ if (typeof window === 'undefined') {
     };
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/logistic.js
+/* end : linear_model/logistic.js */
 
-// begin : linear_model/perceptron.js
+/* begin : linear_model/perceptron.js */
 /* --- perceptron --- */
 
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		
+		
+		
+		
+		
     }
     
     // alias
@@ -1176,20 +1128,18 @@ if (typeof window === 'undefined') {
     };
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/perceptron.js
+/* end : linear_model/perceptron.js */
 
-// begin : linear_model/ridge.js
+/* begin : linear_model/ridge.js */
 /* --- ridge regression --- */
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		
+		
+		
+		
+		
     }
     
     // alias
@@ -1256,21 +1206,19 @@ if (typeof window === 'undefined') {
 
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/ridge.js
+/* end : linear_model/ridge.js */
 
-// begin : linear_model/sgd_regressor.js
+/* begin : linear_model/sgd_regressor.js */
 /* --- SGDRegressor --- */
 
 (function(nodejs, $M, Neo){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		
+		
+		
+		
+		
     }
 
     // alias
@@ -1423,27 +1371,21 @@ if (typeof window === 'undefined') {
     
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : linear_model/sgd_regressor.js
+/* end : linear_model/sgd_regressor.js */
 
-// begin : metrics/metrics.js
+/* begin : metrics/metrics.js */
 (function(nodejs, $M, Neo) {
-	if (nodejs) {
-		var Neo = require('../neo');
-	}
-	
 	Neo.Metrics = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
 
-// end : metrics/metrics.js
+/* end : metrics/metrics.js */
 
-// begin : metrics/pairwise.js
+/* begin : metrics/pairwise.js */
 (function(nodejs, $M, Neo) {
 	if (nodejs) {
-		var AgentSmith = require('../../agent_smith/src/agent_smith');
-		var Neo = require('../neo');
-		require('./metrics');
+		
 	}
 	
 	Neo.Metrics.Pairwise = {
@@ -1496,29 +1438,19 @@ if (typeof window === 'undefined') {
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
-// end : metrics/pairwise.js
+/* end : metrics/pairwise.js */
 
-// begin : mixture/mixture.js
+/* begin : mixture/mixture.js */
 (function(nodejs, $M, Neo){
-
-    if (nodejs) {
-	var Neo = require('../neo');
-    }
-
     Neo.Mixture = {};
-
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : mixture/mixture.js
+/* end : mixture/mixture.js */
 
-// begin : mixture/gmm.js
+/* begin : mixture/gmm.js */
 (function(nodejs, $M, Neo){
-    var nodejs = (typeof window === 'undefined');
-
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./mixture');
+		
     }
     
     
@@ -1682,24 +1614,19 @@ if (typeof window === 'undefined') {
     }
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
-// end : mixture/gmm.js
+/* end : mixture/gmm.js */
 
-// begin : neighbors/neighbors.js
+/* begin : neighbors/neighbors.js */
 (function(nodejs, $M, Neo) {
-	if (nodejs) {
-		var Neo = require('../neo');
-	}
-	
 	Neo.Neighbors = {};
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
-// end : neighbors/neighbors.js
+/* end : neighbors/neighbors.js */
 
-// begin : neighbors/nearest_neighbors.js
+/* begin : neighbors/nearest_neighbors.js */
 (function(nodejs, $M, Neo) {
 	
 	if (nodejs) {
-		var Neo = require('../neo');
-		require('./neighbors.js');
+		
 	}
 	
 	Neo.Neighbors.NearestNeighbors = function(args) {
@@ -1793,14 +1720,13 @@ if (typeof window === 'undefined') {
 		}
 	}
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
-// end : neighbors/nearest_neighbors.js
+/* end : neighbors/nearest_neighbors.js */
 
-// begin : neighbors/classification.js
+/* begin : neighbors/classification.js */
 (function(nodejs, $M, Neo) {
 	if (nodejs) {
-		var Neo = require('../neo');
-		require('./neighbors.js');
-		require('./nearest_neighbors.js');
+		
+		
 	}
 	
 	Neo.Neighbors.KNeighborsClassifier = function(args) {
@@ -1871,10 +1797,10 @@ if (typeof window === 'undefined') {
 })(typeof window === 'undefined', AgentSmith.Matrix, Neo);
 
 
-// end : neighbors/classification.js
+/* end : neighbors/classification.js */
 
-// begin : utils/linspace.js
-(function(nodejs, $M){
+/* begin : utils/linspace.js */
+(function(nodejs, $M, Neo){
 	Neo.Utils.linspace = function(start, end, args){
 		if (typeof args === 'undefined') args = {};
 		var num        = typeof args.num      === 'undefined' ? 50      : args.num;
@@ -1890,11 +1816,11 @@ if (typeof window === 'undefined') {
 
 		return ret;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix);
-// end : utils/linspace.js
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+/* end : utils/linspace.js */
 
-// begin : utils/meshgrid.js
-(function(nodejs, $M){
+/* begin : utils/meshgrid.js */
+(function(nodejs, $M, Neo){
 	Neo.Utils.meshgrid = function(xlist, ylist){
 		var x_len = xlist.rows, y_len = ylist.rows;
 		var mesh = new $M(x_len*y_len, 2);
@@ -1909,5 +1835,5 @@ if (typeof window === 'undefined') {
 
 		return mesh;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix);
-// end : utils/meshgrid.js
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+/* end : utils/meshgrid.js */

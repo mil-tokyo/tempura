@@ -5,92 +5,98 @@ import os
 import datetime
 import re
 
-def list_unique(original):
-    output = []
-    for i in original:
-        if not i in output:
-            output.append(i)
-    return output
-
-def create_get_fileset(base_path):
-    r = re.compile("require\(['\"](.+)['\"]\)")
-    def func(main_file):
+class JSSimpleCompiler:
+    def __init__(self, src_dir, output_path, prefix = '', suffix = ''):
+        self.__src_dir = src_dir
+        self.__output_path = output_path
+        self.require_regex = re.compile(r"([^=\t\f\v]\s+?)require\(['\"](.+?)['\"]\);?")
+    
+    def compile(self):
+        print 'start compiling'
+        self.files = []
+        self.__search_dir(self.__src_dir)
+        self.__assemble_files()
+        with open(self.__output_path, 'w') as f:
+            f.write(self.assembled)
+        print 'finish'
+    
+    def __assemble_files(self):
+        print 'assembling', len(self.files), 'files'
+        output = []
+        for file in self.files:
+            file_relpath = os.path.relpath(file, self.__src_dir)
+            output.append('/* begin : ' + file_relpath + ' */')
+            with open(file) as f:
+                output.append(f.read())
+            output.append('/* end : ' + file_relpath + ' */')
+            output.append('')
+        self.assembled = '\n'.join(output)
+        self.assembled = self.require_regex.sub(r'\1', self.assembled)
+    
+    def __search_dir(self, dir):
+        print 'searching directory : ', dir
+        # search files and directories
+        dirs, files = self.__get_contents(dir)
+        # files
+        for file in files:
+            if file not in self.files:
+                # resolve dependencies
+                self.__search_file_requires(file)
+                if file in self.files:
+                    raise Exception("a js file contains circular reference : " + file)
+                self.files.append(file)
+        # get_files recursively
+        for dir in dirs:
+            self.__search_dir(dir)
+    
+    def __search_file_requires(self, main_file):
+        print 'resolving dependencies : ', main_file
         base = os.path.dirname(os.path.abspath(main_file))
-
         files = []
-
-        f = open(main_file)
-        main_file_content = f.read()
-        requires = r.findall(main_file_content)
+        # find require by regex
+        with open(main_file) as f:
+            main_file_content = f.read()
+        requires = [pair[1] for pair in self.require_regex.findall(main_file_content)]
+        print requires
         for i in range(len(requires)):
             if not requires[i].endswith('.js'):
                 requires[i] += '.js'
+        # add file revursively
         for require in requires:
             require_path = os.path.normpath(os.path.join(base, require))
-            if require_path.startswith(base_path):
-                files.extend(get_fileset(require_path))
-
-        files.append(main_file)
-        return files
-    return func
-get_fileset = None
-
-def get_files(dir):
-    print 'search : ', dir
-
-    files = []
-
-    contents = os.listdir(dir)
-    file_mains = []
-    dirs = []
-
-    for content in contents:
-        candidate = os.path.normpath(os.path.join(dir, content))
-        if os.path.isdir(candidate):
-            dirs.append(candidate)
-        elif os.path.splitext(candidate)[1] == '.js':
-            file_mains.append(candidate)
-
-    # get_files recursively
-    for dir in dirs:
-        files.extend(get_files(dir))
-
-    # files
-    for file_main in file_mains:
-        if file_main not in files:
-            files.extend(get_fileset(file_main))
-
-    return list_unique(files)
+            if require_path not in self.files and require_path.startswith(self.__src_dir):
+                self.__search_file_requires(require_path)
+                self.files.append(require_path)
+    
+    def __get_contents(self, dir):
+        dirs = []
+        files = []
+        contents = os.listdir(dir)
+        for content in contents:
+            candidate = os.path.normpath(os.path.join(dir, content))
+            if os.path.isdir(candidate):
+                dirs.append(candidate)
+            elif os.path.splitext(candidate)[1] == '.js':
+                files.append(candidate)
+        return (dirs, files)
 
 def main():
-    global get_fileset
-    base = os.path.dirname(os.path.abspath(__file__))
-    src = os.path.normpath(os.path.join(base, './src'))
-    get_fileset = create_get_fileset(src)
-    files = get_files(src)
-
-    print 'compiling', len(files), 'files'
-
-    bin_src = os.path.normpath(os.path.join(base, './bin/neo.js'))
-    output = []
-    output.append('"use strict";');
-    output.append('/*')
-    output.append(' * neo.js')
-    output.append(' * compiled at : ' + datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"));
-    output.append(' */')
-    for file in files:
-        file_relpath = os.path.relpath(file, src)
-        output.append('// begin : ' + file_relpath)
-        f = open(file)
-        data = f.read()
-        output.append(data)
-        f.close()
-        output.append('// end : ' + file_relpath)
-        output.append('')
-    joined = '\r\n'.join(output)
-
-    f = open(bin_src, 'w')
-    f.write(joined)
-    f.close()
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    src_dir = os.path.normpath(os.path.join(base_dir, './src'))
+    output_path = os.path.normpath(os.path.join(base_dir, './bin/neo.js'))
+    
+    prefix = '\n'.join([
+        '"use strict";',
+        '/*'
+        ' * neo.js',
+        ' * compiled at : ' + datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        ' */'
+    ])
+    suffix = '\n'.join([
+       ''
+    ])
+    
+    js_simple_compiler = JSSimpleCompiler(src_dir, output_path, prefix, suffix)
+    js_simple_compiler.compile()
 
 main()

@@ -1,8 +1,6 @@
 (function(nodejs, $M, Neo){
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./decomposition');
+    	require('./decomposition');
     }
 
     Neo.Decomposition.PCA = function(n_components, whiten) {

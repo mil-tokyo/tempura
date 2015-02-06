@@ -1,4 +1,4 @@
-(function(nodejs, $M){
+(function(nodejs, $M, Neo){
 	Neo.Utils.linspace = function(start, end, args){
 		if (typeof args === 'undefined') args = {};
 		var num        = typeof args.num      === 'undefined' ? 50      : args.num;
@@ -14,4 +14,4 @@
 
 		return ret;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix);
+})(typeof window === 'undefined', AgentSmith.Matrix, Neo);

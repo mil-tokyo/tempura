@@ -1,12 +1,10 @@
 (function(nodejs, $M, Neo){
     if (nodejs) {
-		var AgentSmith = require('../../agent_smith/src/agent_smith');
-		var Neo = require('../neo');
 		require('./cross_decomposition');
 		require('../utils/statistics');
     }
 
-    var $S = Neo.Utils.Statistics
+    var $S = Neo.Utils.Statistics;
 
     // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
     // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
