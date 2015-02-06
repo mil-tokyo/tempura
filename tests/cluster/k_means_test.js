@@ -11,7 +11,7 @@ if (nodejs) {
 
 TestMain.Tester.addTest('KmeansTest', [
 	{
-		name : 'Kmeans initialize algorithm kmeans++',
+		name : 'Kmeans initialize algorithm kmeans++ with row_wise input',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
 		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
@@ -40,7 +40,7 @@ TestMain.Tester.addTest('KmeansTest', [
 		}
 	},
 	{
-		name : 'Kmeans initialize algorithm random',
+		name : 'Kmeans initialize algorithm random with row_wise input',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
 		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="random");
@@ -69,7 +69,7 @@ TestMain.Tester.addTest('KmeansTest', [
 		}
 	},
     {
-	name : 'Kmeans raise error clusternum',
+	name : 'Kmeans raise error if clusternum is larger than datanum',
 	test : function(callback) {
 	    var $M = AgentSmith.Matrix;
 		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=5,  init="kmeans++");
@@ -84,6 +84,27 @@ TestMain.Tester.addTest('KmeansTest', [
 		return true;
 	    }
 	    return false
+	}
+    },
+    {
+	name : 'Kmeans initialize algorithm kmeans++ with col_wise input',
+	test : function(callback) {
+	    var $M = AgentSmith.Matrix;
+	    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+	    var X = $M.fromArray([[ 1,  0,  1,  1,  1,  9, 13, 10,  8,  9],
+				  [ 1,  1,  1,  2,  2,  7, 10,  7, 11,  7],
+				  [ 3,  1,  0,  1, -1,  8, 11,  8,  9,  8]]).t();
+
+	    kmeans.fit(X);
+	    var result = kmeans.labels_;
+	    result.print();
+	    if (result.nearlyEquals($M.fromArray([[0],[0],[0],[0],[0],[1],[1],[1],[1],[1]])) === true){
+                return true;
+	    }
+	    if (result.nearlyEquals($M.fromArray([[1],[1],[1],[1],[1],[0],[0],[0],[0],[0]])) === true){
+                return true;
+            }
+	    return false;
 	}
     }
 ]);
