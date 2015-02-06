@@ -1,12 +1,15 @@
 "use strict";
 /*
- * Neo.js
- * compiled at : 2015-02-06 17:25:12
+ * neo.js
+ * compiled at : 2015-02-06 20:46:29
  */
 // begin : neo.js
 var Neo = {};
 
 if (typeof window === 'undefined') {
+	(('global', eval)("this")).AgentSmith = require('../agent_smith/src/agent_smith');
+	(('global', eval)("this")).Neo = Neo;
+	require('../agent_smith/src/agent_smith_cl')
 	module.exports = Neo;
 }
 

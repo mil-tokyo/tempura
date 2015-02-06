@@ -58,9 +58,6 @@ def get_files(dir):
     # files
     for file_main in file_mains:
         if file_main not in files:
-            print file_main
-            print get_fileset(file_main)
-            print ''
             files.extend(get_fileset(file_main))
 
     return list_unique(files)
@@ -78,7 +75,7 @@ def main():
     output = []
     output.append('"use strict";');
     output.append('/*')
-    output.append(' * Neo.js')
+    output.append(' * neo.js')
     output.append(' * compiled at : ' + datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"));
     output.append(' */')
     for file in files:

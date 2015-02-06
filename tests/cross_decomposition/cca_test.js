@@ -36,6 +36,15 @@ TestMain.Tester.addTest('CCATest', [
 			[9, 7, 8, 0],
 		    ]);
 		    cca.fit(X, Y);
+		    
+
+			Math.sign = Math.sign || function(x) {
+				x = +x; // convert to a number
+				if (x === 0 || isNaN(x)) {
+					return x;
+				}
+				return x > 0 ? 1 : -1;
+			}
 
 		    // result of CCA calculated with MATLAB canoncorr(X, Y)
 		    var x_rotation_res = $M.fromArray([[1.2659, 0.7868, 0.6946],
@@ -51,7 +60,7 @@ TestMain.Tester.addTest('CCATest', [
 		    // x projection test
 		    var X_projection = cca.X_projection;
 		    for(var col=0; col<X_projection.cols; col++){
-			var sign = Math.sign(X_projection.get(0, col) * x_rotation_res.get(0, col))
+			var sign = Math.sign(X_projection.get(0, col) * x_rotation_res.get(0, col));
 			var b = $M.getCol(X_projection, col);
 			var a = $M.getCol(x_rotation_res, col).times(sign);
 			if(!(a.nearlyEquals(b))){
