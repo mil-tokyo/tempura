@@ -57,7 +57,7 @@
     
     // randperm
     $S.randperm = function(N) {
-	array = Array.apply(null, {length: N}).map(Number.call, Number);
+	var array = Array.apply(null, {length: N}).map(Number.call, Number);
 	var last_ind = N, val, ind;
 	while (last_ind) {
 	    ind = Math.floor(Math.random() * last_ind--);
@@ -125,6 +125,11 @@
     $S.exp = function(X) {
 	return X.clone().map(Math.exp);
     }
+
+    // exp
+    $S.log = function(X) {
+	return X.clone().map(Math.log);
+    }
     
     // frac
     $S.frac = function(X){
@@ -134,8 +139,6 @@
     }
     
     
-
-
     /* activation funcs */
     
     // sigmoid

@@ -1,8 +1,6 @@
 (function(nodejs, $M, Neo){
 
     if (nodejs) {
-    	var AgentSmith = require('../../agent_smith/src/agent_smith');
-    	var Neo = require('../neo');
     	require('./cluster');
     	require('../utils/utils')
     	require('../utils/statistics')
@@ -14,12 +12,12 @@
 	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
 	
-	x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
+	var x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, true);
 
 	if(n_jobs=1){
-	    results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
-	    cluster_centers_ = results.cluster_centers_;
-	    labels_ = results.labels_;
+	    var results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
+	    var cluster_centers_ = results.cluster_centers_;
+	    var labels_ = results.labels_;
 	}
 	else{
 	    throw new Error("not implemented");
@@ -51,12 +49,12 @@
     function _labels_inertia(X, centers){
 	var n_samples = X.rows
 	var k = centers.rows
-	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
+	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, true);
 	var mindist = new $M(n_samples, 1).zeros(100000);
 	var labels = new $M(n_samples, 1).zeros(-1);
 
 	for(var center_id=0; center_id<k; center_id++){
-	    dist = $M.getRow(all_distances, center_id);
+	    var dist = $M.getRow(all_distances, center_id);
 	    for(var i=0; i<n_samples; i++){
 		if(dist.data[i] < mindist.data[i]){
 		    mindist.data[i] = dist.data[i];
@@ -107,7 +105,7 @@
 
     Neo.Cluster.Kmeans.prototype.fit = function(X){
 	X = this._check_fit_data(X);
-	results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
+	var results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
 	this.cluster_centers_ = results["cluster_centers_"];
 	this.labels_ = results["labels_"];
 	return this;
