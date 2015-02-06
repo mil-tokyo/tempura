@@ -1,7 +1,5 @@
-var nodejs = (typeof window === 'undefined');
-
 var Neo = {};
 
-if (nodejs) {
+if (typeof window === 'undefined') {
 	module.exports = Neo;
 }
