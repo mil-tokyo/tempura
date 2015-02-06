@@ -17,8 +17,8 @@
 				Y = $M.fromArray([$M.toArray(Y)]);
 			}
 
-			XX = Neo.Metrics.Pairwise.row_norms(X, true);
-			YY = Neo.Metrics.Pairwise.row_norms(Y, true);
+			var XX = Neo.Metrics.Pairwise.row_norms(X, true);
+			var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
 			var distances = $M.mul(X, Y.t());
 			distances = distances.times(-2);
 			distances = $M.add(distances, XX)

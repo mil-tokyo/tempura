@@ -62,12 +62,12 @@
 	}
 
 	if(X.cols < Y.cols){
-	    cca_results = cca(X, Y);
+	    var cca_results = cca(X, Y);
 	    this.X_projection = $M.extract(cca_results.U, 0, 0, X.cols, this.n_components);
 	    this.Y_projection = $M.extract(cca_results.V, 0, 0, Y.cols, this.n_components);
 	}
 	else{
-	    cca_results = cca(Y, X);
+	    var cca_results = cca(Y, X);
 	    this.X_projection = $M.extract(cca_results.V, 0, 0, X.cols, this.n_components);
 	    this.Y_projection = $M.extract(cca_results.U, 0, 0, Y.cols, this.n_components);
 	}

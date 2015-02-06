@@ -1,7 +1,7 @@
 "use strict";
 /*
  * Neo.js
- * compiled at : 2015-02-06 15:47:20
+ * compiled at : 2015-02-06 17:25:12
  */
 // begin : neo.js
 var Neo = {};
@@ -96,7 +96,7 @@ if (typeof window === 'undefined') {
     
     // randperm
     $S.randperm = function(N) {
-	array = Array.apply(null, {length: N}).map(Number.call, Number);
+	var array = Array.apply(null, {length: N}).map(Number.call, Number);
 	var last_ind = N, val, ind;
 	while (last_ind) {
 	    ind = Math.floor(Math.random() * last_ind--);
@@ -164,6 +164,11 @@ if (typeof window === 'undefined') {
     $S.exp = function(X) {
 	return X.clone().map(Math.exp);
     }
+
+    // exp
+    $S.log = function(X) {
+	return X.clone().map(Math.log);
+    }
     
     // frac
     $S.frac = function(X){
@@ -173,8 +178,6 @@ if (typeof window === 'undefined') {
     }
     
     
-
-
     /* activation funcs */
     
     // sigmoid
@@ -243,8 +246,6 @@ if (typeof window === 'undefined') {
 (function(nodejs, $M, Neo){
 
     if (nodejs) {
-    	var AgentSmith = require('../../agent_smith/src/agent_smith');
-    	var Neo = require('../neo');
     	require('./cluster');
     	require('../utils/utils')
     	require('../utils/statistics')
@@ -256,12 +257,12 @@ if (typeof window === 'undefined') {
 	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
 	
-	x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
+	var x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, true);
 
 	if(n_jobs=1){
-	    results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
-	    cluster_centers_ = results.cluster_centers_;
-	    labels_ = results.labels_;
+	    var results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
+	    var cluster_centers_ = results.cluster_centers_;
+	    var labels_ = results.labels_;
 	}
 	else{
 	    throw new Error("not implemented");
@@ -293,12 +294,12 @@ if (typeof window === 'undefined') {
     function _labels_inertia(X, centers){
 	var n_samples = X.rows
 	var k = centers.rows
-	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
+	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, true);
 	var mindist = new $M(n_samples, 1).zeros(100000);
 	var labels = new $M(n_samples, 1).zeros(-1);
 
 	for(var center_id=0; center_id<k; center_id++){
-	    dist = $M.getRow(all_distances, center_id);
+	    var dist = $M.getRow(all_distances, center_id);
 	    for(var i=0; i<n_samples; i++){
 		if(dist.data[i] < mindist.data[i]){
 		    mindist.data[i] = dist.data[i];
@@ -349,7 +350,7 @@ if (typeof window === 'undefined') {
 
     Neo.Cluster.Kmeans.prototype.fit = function(X){
 	X = this._check_fit_data(X);
-	results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
+	var results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
 	this.cluster_centers_ = results["cluster_centers_"];
 	this.labels_ = results["labels_"];
 	return this;
@@ -523,12 +524,12 @@ if (typeof window === 'undefined') {
 	}
 
 	if(X.cols < Y.cols){
-	    cca_results = cca(X, Y);
+	    var cca_results = cca(X, Y);
 	    this.X_projection = $M.extract(cca_results.U, 0, 0, X.cols, this.n_components);
 	    this.Y_projection = $M.extract(cca_results.V, 0, 0, Y.cols, this.n_components);
 	}
 	else{
-	    cca_results = cca(Y, X);
+	    var cca_results = cca(Y, X);
 	    this.X_projection = $M.extract(cca_results.V, 0, 0, X.cols, this.n_components);
 	    this.Y_projection = $M.extract(cca_results.U, 0, 0, Y.cols, this.n_components);
 	}
@@ -1454,8 +1455,8 @@ if (typeof window === 'undefined') {
 				Y = $M.fromArray([$M.toArray(Y)]);
 			}
 
-			XX = Neo.Metrics.Pairwise.row_norms(X, true);
-			YY = Neo.Metrics.Pairwise.row_norms(Y, true);
+			var XX = Neo.Metrics.Pairwise.row_norms(X, true);
+			var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
 			var distances = $M.mul(X, Y.t());
 			distances = distances.times(-2);
 			distances = $M.add(distances, XX)
@@ -1554,10 +1555,10 @@ if (typeof window === 'undefined') {
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	likelihood = (new $M(n_samples, 1)).zeros();
-	for(i=0; i<n_samples; i++){
+	for(var i=0; i<n_samples; i++){
 	    var x = $M.extract(X, i, 0, 1, n_features).t()
 	    likelihood.data[i] = 0;
-	    for(k=0; k<this.n_components; k++){
+	    for(var k=0; k<this.n_components; k++){
 		likelihood.data[i] += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
 	    }
 	}
@@ -1567,11 +1568,11 @@ if (typeof window === 'undefined') {
     Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
-	loglikelihood = 0;
-	for(i=0; i<n_samples; i++){
+	var loglikelihood = 0;
+	for(var i=0; i<n_samples; i++){
 	    var x = $M.extract(X, i, 0, 1, n_features).t()
-	    likelihood = 0;
-	    for(k=0; k<this.n_components; k++){
+	    var likelihood = 0;
+	    for(var k=0; k<this.n_components; k++){
 		//likelihood.data[k] += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
 		likelihood += getGaussProbability(this.weights.data[k], this.means[k], this.covars[k], x);
 	    }
