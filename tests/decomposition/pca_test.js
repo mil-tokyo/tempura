@@ -142,5 +142,41 @@ TestMain.Tester.addTest('PCATest', [
 			return false
 		    }
 		}
+	},
+{
+		name : 'PCA n_component number',
+		test : function(callback) {
+		    var $M = AgentSmith.Matrix;
+
+
+		    var X = $M.fromArray([[ 1,  3,  3,  2,  3, -5, -1,  2,  1, -1],
+					  [ 2,  4,  5,  5, -1,  2, -2,  2,  1,  2],
+					  [ 6,  5,  1,  4, -3,  1,  5, -2, -1,  3],
+					  [ 3,  4,  6,  6,  2,  0,  3,  4, -2,  2],
+					  [ 4,  2,  8,  5,  5, -1,  2,  3,  1,  1]]).t();
+
+		    var pca = new Neo.Decomposition.PCA(n_components=4);
+		    pca.fit(X);
+		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
+					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
+					    [ 0.29016429, -0.88217383,  0.30243265, -0.00462311,  0.21467914],
+					    [-0.72480776, -0.23331985, -0.2046507 ,  0.5249886 ,  0.32050059]])
+
+		    var cnt = 0;
+		    for(var i=0; i<res.rows; i++){
+			var a = $M.extract(res, i, 0, 1, res.cols);
+			var b = $M.extract(pca.components_, i, 0, 1, pca.components_.cols);
+			if(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)){
+			    cnt += 1
+			}
+		    }
+
+		    if(cnt == res.rows){
+			return true
+		    }
+		    else{
+			return false
+		    }
+		}
 	}
 ]);
