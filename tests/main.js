@@ -1,11 +1,11 @@
 var TestMain = {};
 
-(function() {
-	var nodejs = (typeof window === 'undefined');
-	if (nodejs) {
-		AgentSmith = require('../agent_smith/src/agent_smith');
+if (typeof window === 'undefined') {
+		require('../agent_smith/src/agent_smith');
 		require('../agent_smith/src/agent_smith_cl');
-	}
+}
+
+(function(AgentSmith, nodejs) {
 	var $M = AgentSmith.Matrix;
 	
 	if ($M.CL) {
@@ -62,16 +62,16 @@ var TestMain = {};
 				};
 				var result = false;
 				this.notify('- TEST CASE : ' + test_cases[idx].name);
-				//try {
+				try {
 					var result = test_cases[idx].test(callback.bind(this));
-				/*} catch (exception) {
+				} catch (exception) {
 					this.notify('-- exception catched');
 					console.error(exception);
-				} finally {*/
+				} finally {
 					if (result !== void 0) {
 						callback.call(this, result);
 					}
-				//}
+				}
 			};
 			doNextTest.call(this);
 		}
@@ -117,4 +117,4 @@ var TestMain = {};
 			return files;
 		}
 	}
-})();
+})(AgentSmith, typeof window === 'undefined');

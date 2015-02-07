@@ -2,8 +2,7 @@
 var Neo = {};
 
 if (typeof window === 'undefined') {
-	(('global', eval)("this")).AgentSmith = require('../agent_smith/src/agent_smith');
-	(('global', eval)("this")).Neo = Neo;
+	(('global', eval)('this')).Neo = Neo;
 	
 	module.exports = Neo;
 }
