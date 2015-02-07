@@ -29,17 +29,14 @@
 	<li><a href="#GMM">Neo.Mixture.GMM(n_components, n_iter, thresh, min_covar)</a></li>
 	<li><a href="#PCA">Neo.Decomposition.PCA(n_components, whiten)</a></li>
 	<li><a href="#CCA">Neo.CrossDecomposition.CCA(n_components, scale)</a></li>
-	<li><a href="#kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, lear_size, weights)</a></li>
+	<li><a href="#kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, leaf_size, weights)</a></li>
 	<li><a href="#LinReg">Neo.LinearModel.LinearRegression(center, normalize, solver)</a></li>
 	<li><a href="#Lasso">Neo.LinearModel.Lasso(lambda, center, normalize, n_iter, tolerance)</a></li>
-	<li><a href="#Ridge">Neo.LinearModel.Ridge(lambda, center, nermalize, solver, n_iter, tolerance)</a></li>
+	<li><a href="#Ridge">Neo.LinearModel.Ridge(lambda, center, normalize, solver, n_iter, tolerance)</a></li>
 	<li><a href="#Log">Neo.LinearModel.Logistic(eta, alpha, center, n_iter)</a></li>
 	<li><a href="#Perceptron">Neo.LinearModel.Perceptron(eta, center, n_iter)</a></li>
 	<li><a href="#SGDReg">Neo.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</a></li>
 	</ul>
-	  <!--<address>The Facebook Database Engineering Team</address>
-	  <address>Build on earlier work on leveldb by Sanjay Ghemawat
-            (sanjay@google.com) and Jeff Dean (jeff@google.com)</address>-->
 
 <h1 class="classname" id="kmeans">Neo.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
 <p>
@@ -251,7 +248,7 @@
   </tr>
 </table>
 <p>
-<h1 class="classname" id="kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, lear_size, weights)</h1>
+<h1 class="classname" id="kNN">Neo.Neighbors.KNeighborsClassifier(n_neighbors, algorithm, leaf_size, weights)</h1>
 <p>
 <p>
 <table class="datatable">
@@ -435,7 +432,7 @@
       <p><b>center</b> : boolean, default true, whether data is centerized or not
       <p><b>normalize</b> : boolean, default true, whether data is normalized or not
       <p><b>solver</b> : string, default 'cd', solver used to calculate parameter
-      <p><small>*<b>solver</b> should be "lrqr" or "cd"(coordinate decent).</small>
+      <p><small>*<b>solver</b> should be "lrqr" or "cd" (coordinate decent).</small>
       <p><b>n_iter</b> : int, default 1000, the number of iteration
       <p><b>tolerance</b> : int, default 0.0001, convergence criterion of cooridate decent.
     </td>
@@ -449,7 +446,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point. 
+      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. Each row corresponds to a single data point. 
       <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
     </td>
   </tr>
