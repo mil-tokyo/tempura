@@ -166,5 +166,24 @@ TestMain.Tester.addTest('MetricsTest', [
 	    
             return true;
         }
-    }
+    },
+    {
+        name : 'EuclideanDistance_1_special',
+        test : function() {
+	    var X = $M.fromArray([
+		[1,1],
+		[0.9,1],
+		[1,0.9],
+		[1,1.1]
+	    ])
+	    var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
+	    console.log('------kokokara-------');
+	    X = $M.sub(X, X_mean);
+	    X.print();
+
+            var res = Neo.Metrics.Pairwise.euclidean_distances(X, X, false);
+	    res.print();
+	    return !$M.hasNaN(res);
+        }
+    },
 ]);

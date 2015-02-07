@@ -253,14 +253,19 @@ if (typeof window === 'undefined') {
 	else{
 	    throw new Error("not implemented");
 	}
+	cluster_centers_ = $M.add(cluster_centers_,X_mean);
+	cluster_centers_.print();
+	labels_.print();
 	return { cluster_centers_ : cluster_centers_, labels_: labels_}
     }
 
     function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
 	var n_features = X.cols;
 	var init_results = _init_centroids(X, n_clusters, init);
+
 	var centers = init_results.centers;
 	var labels = init_results.labels;
+
 	var centers_old = new $M(n_clusters, n_features).zeros();
 	
 	
@@ -369,17 +374,20 @@ if (typeof window === 'undefined') {
 	}
 
 	else if(init == "kmeans++"){
-	    var old_index = $S.choice(new $M(n_clusters, 1).range());
+	    var old_index = $S.choice(new $M(n_samples, 1).range());
 	    var all_distances = Neo.Metrics.Pairwise.euclidean_distances(X, X);
+
 	    for(var c=0; c<n_clusters; c++){
 		setCol(all_distances, new $M(all_distances.rows, 1).zeros(), old_index);
+		
 		var dist = $M.getRow(all_distances, old_index);
-		dist.times($M.sum(dist));
+		dist.times(1.0/$M.sum(dist));
+		
 		var random_value = Math.random();
 		var dist_cumsum = 0;
 		for(var i=0; i<dist.length; i++){
 		dist_cumsum += dist.data[i];
-		    if(random_value < dist_cumsum){
+		    if(random_value <= dist_cumsum){
 			index = i;
 			break;
 		    }
@@ -393,8 +401,8 @@ if (typeof window === 'undefined') {
 	else{
             throw new Error("the init parameter for the k-means should be 'k-means++' or 'random'" + init + "was passed.");
 	}
-	
 	return {centers : centers, labels : labels}
+	
     }
 
 
@@ -1390,29 +1398,31 @@ if (typeof window === 'undefined') {
 	
 	Neo.Metrics.Pairwise = {
 		euclidean_distances : function (X, Y, squared){
-			if(typeof squared === 'undefined') squared = false;
-
-			// If vectors are given, convert them to matrices
-			if (typeof X.cols === 'undefined') {
-				X = $M.fromArray([$M.toArray(X)]);
-			}
-			if (typeof Y.cols === 'undefined') {
-				Y = $M.fromArray([$M.toArray(Y)]);
-			}
-
-			var XX = Neo.Metrics.Pairwise.row_norms(X, true);
-			var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
-			var distances = $M.mul(X, Y.t());
-			distances = distances.times(-2);
-			distances = $M.add(distances, XX)
-			distances = $M.add(distances, YY.t())
-		if(squared == false){
+		    if(typeof squared === 'undefined') squared = false;
+		    
+		    // If vectors are given, convert them to matrices
+		    if (typeof X.cols === 'undefined') {
+			X = $M.fromArray([$M.toArray(X)]);
+		    }
+		    if (typeof Y.cols === 'undefined') {
+			Y = $M.fromArray([$M.toArray(Y)]);
+		    }
+		    
+		    var XX = Neo.Metrics.Pairwise.row_norms(X, true);
+		    var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
+		    var distances = $M.mul(X, Y.t());
+		    distances.times(-2);
+		    distances = $M.add(distances, XX)
+		    distances = $M.add(distances, YY.t())
+		    distances.map(function max0(x){return Math.max(x,0);})
+		    
+		    if(squared == false){
 			distances = distances.map(Math.sqrt);
-				//throw new Error("Neo.Metrics.euclidean_distances with option squared=false is not implemented");
-			}
-			return distances
+			//throw new Error("Neo.Metrics.euclidean_distances with option squared=false is not implemented");
+		    }
+		    return distances
 		},
-
+	    
 		row_norms : function(X, squared){
 			if (typeof squared === 'undefined') squared = false;
 			var norms = $M.sumEachRow($M.mulEach(X, X));
