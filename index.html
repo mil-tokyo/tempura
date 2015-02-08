@@ -30,14 +30,18 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-
-	<pre><code>
-	    $ cd your_repo_root/repo_name
-	    $ git fetch origin
-	    $ git checkout gh-pages
-	</code></pre>
+	<h2>What is Neo</h2>
+	Neo is a machine learning library written in JavaScript, which is built on AgentSmith. Neo provides efficient, simple, and powerful tools for data analysis.
 
 	<h2>Getting Started</h2>
+	In order to load codes in appropriate order while meeting dependency, assembling all codes to one file is necessary. It can be done by running following command.  
+	<pre><code>$ cd your_repo_root/neo
+$ python compile.py
+</code></pre>
+	After that, neo.js is generated. When Neo is used, this file should be read.
+	You can understand how to use Neo through <a href="./demo/index.html">demonstration</a>. The only thing you have to do is to select method and run it. Data and parameters of model can be changed. In this demonstration, <a href="https://github.com/mil-tokyo/agent_smith">Trinity</a>, drawing library build on AgentSmith, is used to plot points and draw curves. 
+	For more information, see <a href="./docs/index.html">Neo Documentation page</a>.
+
 	<ul id="getting started">
 	<li class="content list"><a href="https://github.com/mil-tokyo/agent_smith">Getting AgentSmith</a></li>
 	<li class="content list"><a href="./docs/index.html">Neo Documentation page</a></li>
@@ -46,7 +50,8 @@
 	</ul>
 
 	<h2>More Information</h2>
-
+	<h3>How to demo</h3>
+	<h3>How to test</h3>
 	<h3>
 	  <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
       </section>
