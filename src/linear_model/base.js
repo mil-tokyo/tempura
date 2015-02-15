@@ -1,13 +1,13 @@
 /* --- base --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	require('./linear_model');
     }
         
     // init
-    Neo.LinearModel.Base = {};
-    var $Base = Neo.LinearModel.Base;
+    Tempura.LinearModel.Base = {};
+    var $Base = Tempura.LinearModel.Base;
 
     
     /* algorithms */
@@ -72,4 +72,4 @@
 	return output;
     }
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

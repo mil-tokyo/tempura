@@ -1,15 +1,15 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
     var TestMain = require('../main');
-    var AgentSmith = require('../../agent_smith/src/agent_smith');
-    require('../../agent_smith/src/agent_smith_cl');
+    var Sushi = require('../../sushi/src/sushi');
+    require('../../sushi/src/sushi_cl');
     
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/tempura');
     require('../../src/utils/utils.js');
     require('../../src/utils/statistics.js');
 }
 
-var $M = AgentSmith.Matrix;
+var $M = Sushi.Matrix;
 
 TestMain.Tester.addTest('StatisticsTest', [
     {
@@ -19,7 +19,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [ 0,  1, -1,  0],
 				      [-1,  0,  1,  0]])
 
-            var res = Neo.Utils.Statistics.cov(input);
+            var res = Tempura.Utils.Statistics.cov(input);
 
 	    var output = $M.fromArray([[ 1. , -0.5, -0.5,  0. ],
 				       [-0.5,  1. , -0.5,  0. ],
@@ -36,7 +36,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [ 0.5,  2, -5,  -10]])
 				     
 
-            var res = Neo.Utils.Statistics.frac(input);
+            var res = Tempura.Utils.Statistics.frac(input);
 
 	    var output = $M.fromArray([[ 10, -0.1, 1,  -0.5 ],
 				       [2,  0.5 , -0.2,  -0.1 ]])
@@ -52,7 +52,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [ 15,  23, -5,  -10]])
 				     
 
-            var res = Neo.Utils.Statistics.deleteRow(input, 1);
+            var res = Tempura.Utils.Statistics.deleteRow(input, 1);
 
 	    var output = $M.fromArray([[ 0.1, -10,  1,  -2],
 				       [ 15,  23, -5,  -10]])
@@ -68,7 +68,7 @@ TestMain.Tester.addTest('StatisticsTest', [
 				      [1, -1, -5],
 				      [-2, -10, -10]]).t();
 				     
-            var res = Neo.Utils.Statistics.deleteRow(input, 1);
+            var res = Tempura.Utils.Statistics.deleteRow(input, 1);
 
 	    var output = $M.fromArray([[ 0.1, -10,  1,  -2],
 				       [ 15,  23, -5,  -10]])

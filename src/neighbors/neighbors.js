@@ -1,3 +1,3 @@
-(function(nodejs, $M, Neo) {
-	Neo.Neighbors = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura) {
+	Tempura.Neighbors = {};
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

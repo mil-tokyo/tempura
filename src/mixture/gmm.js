@@ -1,17 +1,17 @@
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
 		require('./mixture');
     }
     
     
-    Neo.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
+    Tempura.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
 	this.n_components = typeof n_components === "undefined" ? 1 : n_components;
 	this.n_iter = typeof n_iter === "undefined" ? 100 : n_iter;
 	this.thresh = typeof thresh === "undefined" ? 0.01 : thresh;
 	this.min_covar = typeof min_covar === "undefined" ? 0.001 : min_covar;
     };
 
-    Neo.Mixture.GMM.prototype.fit = function(X){
+    Tempura.Mixture.GMM.prototype.fit = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 
@@ -36,7 +36,7 @@
 	return this;
     }
 
-    Neo.Mixture.GMM.prototype.score = function(X){
+    Tempura.Mixture.GMM.prototype.score = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	likelihood = (new $M(n_samples, 1)).zeros();
@@ -50,7 +50,7 @@
 	return likelihood
     };
 
-    Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
+    Tempura.Mixture.GMM.prototype.calcLogLikelihood = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var loglikelihood = 0;
@@ -66,7 +66,7 @@
 	return loglikelihood
     }
 
-    Neo.Mixture.GMM.prototype.expectationStep = function(X){
+    Tempura.Mixture.GMM.prototype.expectationStep = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var responsibility = new $M(n_samples, this.n_components).zeros(0);
@@ -82,7 +82,7 @@
 	return responsibility
     }
     
-    Neo.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+    Tempura.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var Nk = $M.sumEachCol(responsibility);
@@ -119,24 +119,24 @@
 	
     }
     
-    Neo.Mixture.GMM.prototype.initParams = function(X){
+    Tempura.Mixture.GMM.prototype.initParams = function(X){
 	var n_features = X.cols
 	this.weights = new $M(1, this.n_components).zeros( 1.0 / this.n_components );
 	this.means = [];
 	this.covars = [];
 	
-	var kmeans = new Neo.Cluster.Kmeans(this.n_components, "kmeans++");
+	var kmeans = new Tempura.Cluster.Kmeans(this.n_components, "kmeans++");
 	kmeans.fit(X)
 	var init_means = kmeans.cluster_centers_;
 	for(var k=0; k<this.n_components; k++){
 	    var mean = $M.extract(init_means, k, 0, 1, n_features).t();
 	    this.means.push(mean);
-	    var covar = $M.add(Neo.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
+	    var covar = $M.add(Tempura.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
 	    this.covars.push(covar);
 	}	
     }
     
-    Neo.Mixture.GMM.prototype.showParams= function(){
+    Tempura.Mixture.GMM.prototype.showParams= function(){
 	for(var k=0; k<this.n_components; k++){
 	    console.log("component " + k);
 	    console.log("weight :" + this.weights.data[k])
@@ -162,4 +162,4 @@
 	}
 	return false
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

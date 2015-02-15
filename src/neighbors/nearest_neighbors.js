@@ -1,10 +1,10 @@
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	
 	if (nodejs) {
 		require('./neighbors.js');
 	}
 	
-	Neo.Neighbors.NearestNeighbors = function(args) {
+	Tempura.Neighbors.NearestNeighbors = function(args) {
 		if (typeof args === 'undefined') args = {};
 		this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5	  : args.n_neighbors;
 		this.radius	  = typeof args.radius	  === 'undefined' ? 1.0	: args.radius;
@@ -12,9 +12,9 @@
 		this.leaf_size   = typeof args.leaf_size   === 'undefined' ? 30	 : args.leaf_size;
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
+	Tempura.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		this._fit_X = X;
 		this.y = typeof y === 'undefined' ? null : y;
 
@@ -28,15 +28,15 @@
 		return this;
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+	Tempura.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 
 		if (typeof args === 'undefined') args = {};
 		if (typeof args.n_neighbors === 'undefined') args.n_neighbors = this.n_neighbors;
 		if (typeof args.return_distance === 'undefined') args.return_distance = true;
 
 		if (this._fit_method === 'brute') {
-			dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+			dist = Tempura.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
 			// initialize indices arrays
 			var indices = new Array(dist.rows);
@@ -73,14 +73,14 @@
 
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+	Tempura.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		if (typeof radius === 'undefined') radius = this.radius;
 		if (typeof return_distance === 'undefined') return_distance = true;
 
 		throw new Error('Not implemented');
 		if (this._fit_method === 'brute') {
-			dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+			dist = Tempura.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
 			// select indices whose distances are smaller than radius
 			for (var row=0 ; row<dist.rows ; row++){
@@ -94,4 +94,4 @@
 			throw new Error('Invalid algorithm specified');
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

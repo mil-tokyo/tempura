@@ -1,6 +1,6 @@
 /* --- perceptron --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		require('../utils/utils.js');
@@ -11,18 +11,18 @@
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Perceptron = function(args) {
+    Tempura.LinearModel.Perceptron = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 1.0 : args.eta;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Perceptron = Neo.LinearModel.Perceptron.prototype;
+    var $Perceptron = Tempura.LinearModel.Perceptron.prototype;
     
     // fit
     /* target y as a matrix of [n_samples, 1] */
@@ -96,4 +96,4 @@
 	return pred
 	
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

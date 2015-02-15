@@ -1,10 +1,10 @@
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
 		require('./cross_decomposition');
 		require('../utils/statistics');
     }
 
-    var $S = Neo.Utils.Statistics;
+    var $S = Tempura.Utils.Statistics;
 
     // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
     // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
@@ -33,12 +33,12 @@
 	return { U : A, V : B, lambda : lambda }
     }
 
-    Neo.CrossDecomposition.CCA = function(n_components, scale) {
+    Tempura.CrossDecomposition.CCA = function(n_components, scale) {
 	this.n_components = typeof n_components === "undefined" ? 2 : n_components;
 	this.scale = typeof scale === "undefined" ? true : scale;
     };
 
-    Neo.CrossDecomposition.CCA.prototype.fit = function(X, Y){
+    Tempura.CrossDecomposition.CCA.prototype.fit = function(X, Y){
 	if(this.n_components > Math.min(X.cols, Y.cols)){
 	    throw new Error("n_components should be smaller than the number of features.");
 	}
@@ -72,7 +72,7 @@
 	return this;
     }
 
-    Neo.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
+    Tempura.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
 	if(X.rows != Y.rows){
 	    throw new Error("the number of samples in X and Y should be the same.");
 	}
@@ -89,4 +89,4 @@
 	var Y_score = $M.mul(Y, this.Y_projection);
 	return {X_score : X_score, Y_score : Y_score};
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

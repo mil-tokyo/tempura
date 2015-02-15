@@ -1,9 +1,9 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
-	var Neo = require('../../src/neo');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
+	var Tempura = require('../../src/tempura');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base');
 	require('../../src/linear_model/ridge');
@@ -13,8 +13,8 @@ TestMain.Tester.addTest('RidgeTest', [
 									   {
 										   name : 'Ridge Coordinate Descent',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
-											   var ridge = new Neo.LinearModel.Ridge({solver:'cd'});
+											   var $M = Sushi.Matrix;
+											   var ridge = new Tempura.LinearModel.Ridge({solver:'cd'});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
@@ -46,8 +46,8 @@ TestMain.Tester.addTest('RidgeTest', [
 									   {
 										   name : 'Ridge Normal Equation',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
-											   var ridge = new Neo.LinearModel.Ridge({solver:'lsqr'});
+											   var $M = Sushi.Matrix;
+											   var ridge = new Tempura.LinearModel.Ridge({solver:'lsqr'});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

@@ -1,6 +1,6 @@
-(function(nodejs, $M, Neo){
-    Neo.Decomposition = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Decomposition = {};
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 
 
 

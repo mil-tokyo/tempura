@@ -1,6 +1,6 @@
 /* --- logistic --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		require('../utils/utils.js');
@@ -11,19 +11,19 @@
     }
 
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Logistic = function(args) {
+    Tempura.LinearModel.Logistic = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 0.01 : args.eta; // learning ratio for delta Error
 	this.alpha = (typeof args.alpha === 'undefined') ? 0.0015 : args.alpha; // l2-regularization strength
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Logistic = Neo.LinearModel.Logistic.prototype;
+    var $Logistic = Tempura.LinearModel.Logistic.prototype;
     
     // fit
     $Logistic.fit = function(X, y) {
@@ -65,4 +65,4 @@
 	var pred = $S.softmax( $M.mul( X_dash, this.weight ) );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

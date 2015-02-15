@@ -1,5 +1,5 @@
 (function($M) {
-	AgentSmithDemo.addDemo('Perceptron', 'A kind of linear classifier', {
+	SushiDemo.addDemo('Perceptron', 'A kind of linear classifier', {
 		X: {
 			shape: [2, 'n_sample'],
 			description: "Data points",
@@ -37,7 +37,7 @@
 		var labels = args.labels;
 
 		// Learn perceptron
-		var perceptron = new Neo.LinearModel.Perceptron({center:true});
+		var perceptron = new Tempura.LinearModel.Perceptron({center:true});
 		perceptron.fit(samples,labels.t());
 		perceptron.weight.print();
 
@@ -56,4 +56,4 @@
 		plt.legend(['Data points (2 classes)', 'Decision boundary']);
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);

@@ -1,12 +1,12 @@
 var TestMain = {};
 
 if (typeof window === 'undefined') {
-		require('../agent_smith/src/agent_smith');
-		require('../agent_smith/src/agent_smith_cl');
+		require('../sushi/src/sushi');
+		require('../sushi/src/sushi_cl');
 }
 
-(function(AgentSmith, nodejs) {
-	var $M = AgentSmith.Matrix;
+(function(Sushi, nodejs) {
+	var $M = Sushi.Matrix;
 	
 	if ($M.CL) {
 		console.log('using device : ' + $M.CL.device_info + ' (' + $M.CL.platform_info + ')');
@@ -117,4 +117,4 @@ if (typeof window === 'undefined') {
 			return files;
 		}
 	}
-})(AgentSmith, typeof window === 'undefined');
+})(Sushi, typeof window === 'undefined');

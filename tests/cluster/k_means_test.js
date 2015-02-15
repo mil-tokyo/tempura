@@ -1,10 +1,10 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
 	
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/tempura');
 	require('../../src/cluster/cluster');
 	require('../../src/cluster/k_means');
 }
@@ -13,8 +13,8 @@ TestMain.Tester.addTest('KmeansTest', [
 	{
 		name : 'Kmeans initialize algorithm kmeans++ with row_wise input',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+		    var $M = Sushi.Matrix;
+		    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -42,8 +42,8 @@ TestMain.Tester.addTest('KmeansTest', [
 	{
 		name : 'Kmeans initialize algorithm random with row_wise input',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="random");
+		    var $M = Sushi.Matrix;
+		    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=2,  init="random");
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -71,8 +71,8 @@ TestMain.Tester.addTest('KmeansTest', [
     {
 	name : 'Kmeans raise error if clusternum is larger than datanum',
 	test : function(callback) {
-	    var $M = AgentSmith.Matrix;
-		    var kmeans = new Neo.Cluster.Kmeans(n_clusters=5,  init="kmeans++");
+	    var $M = Sushi.Matrix;
+		    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=5,  init="kmeans++");
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -89,8 +89,8 @@ TestMain.Tester.addTest('KmeansTest', [
     {
 	name : 'Kmeans initialize algorithm kmeans++ with col_wise input',
 	test : function(callback) {
-	    var $M = AgentSmith.Matrix;
-	    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+	    var $M = Sushi.Matrix;
+	    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
 	    var X = $M.fromArray([[ 1,  0,  1,  1,  1,  9, 13, 10,  8,  9],
 				  [ 1,  1,  1,  2,  2,  7, 10,  7, 11,  7],
 				  [ 3,  1,  0,  1, -1,  8, 11,  8,  9,  8]]).t();
@@ -110,8 +110,8 @@ TestMain.Tester.addTest('KmeansTest', [
     {
 	name : 'Kmeans initialize algorithm kmeans++ with col_wise input',
 	test : function(callback) {
-	    var $M = AgentSmith.Matrix;
-	    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+	    var $M = Sushi.Matrix;
+	    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
 	    var X = $M.fromArray([[ 1,  0,  1,  1,  1,  9, 13, 10,  8,  9],
 				  [ 1,  1,  1,  2,  2,  7, 10,  7, 11,  7],
 				  [ 3,  1,  0,  1, -1,  8, 11,  8,  9,  8]]).t();
@@ -129,10 +129,10 @@ TestMain.Tester.addTest('KmeansTest', [
 	}
     },
     {
-	name : 'Kmeans initialize algorithm kmeans++ with col_wise input',
+	name : 'Kmeans initialize algorithm kmeans++ with narrow input',
 	test : function(callback) {
-	    var $M = AgentSmith.Matrix;
-	    var kmeans = new Neo.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
+	    var $M = Sushi.Matrix;
+	    var kmeans = new Tempura.Cluster.Kmeans(n_clusters=2,  init="kmeans++");
 
             var X = $M.fromArray([
                 [1, 1],

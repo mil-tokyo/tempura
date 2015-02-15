@@ -1,10 +1,10 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
 	
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/tempura');
 	require('../../src/mixture/mixture');
 	require('../../src/mixture/gmm');
 }
@@ -13,8 +13,8 @@ TestMain.Tester.addTest('GMMTest', [
     {
 		name : 'GMM',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([[  1. ,   0. ,   1. ,   1. ,  -1. ,   1. ,   2. ,   1. ,   9. ,
 					     13. ,  10. ,  10. ,   8. ,  10. ,   9. ],
 					  [  1. ,   1. ,   1. ,   2. ,  -2. ,   0.1,   2. ,   2. ,   7. ,
@@ -58,8 +58,8 @@ TestMain.Tester.addTest('GMMTest', [
 	{
 		name : 'GMM',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -114,8 +114,8 @@ TestMain.Tester.addTest('GMMTest', [
 	{
 		name : 'GMM',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -170,8 +170,8 @@ TestMain.Tester.addTest('GMMTest', [
 	{
 		name : 'GMM',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -226,8 +226,8 @@ TestMain.Tester.addTest('GMMTest', [
 	{
 		name : 'GMM',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -283,8 +283,8 @@ TestMain.Tester.addTest('GMMTest', [
 	{
 		name : 'GMM, with data in narrow area',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
-		    var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		    var $M = Sushi.Matrix;
+		    var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		    var X = $M.fromArray([
 			[1, 1],
 			[0.9, 1],
