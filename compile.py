@@ -83,12 +83,12 @@ class JSSimpleCompiler:
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     src_dir = os.path.normpath(os.path.join(base_dir, './src'))
-    output_path = os.path.normpath(os.path.join(base_dir, './bin/neo.js'))
+    output_path = os.path.normpath(os.path.join(base_dir, './bin/tempura.js'))
     
     prefix = '\n'.join([
         '"use strict";',
         '/*'
-        ' * neo.js',
+        ' * tempura.js',
         ' * compiled at : ' + datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
         ' */'
     ])

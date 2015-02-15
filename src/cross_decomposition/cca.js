@@ -89,4 +89,4 @@
 	var Y_score = $M.mul(Y, this.Y_projection);
 	return {X_score : X_score, Y_score : Y_score};
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

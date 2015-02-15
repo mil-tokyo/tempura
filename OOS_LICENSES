@@ -1,11 +1,11 @@
 This software uses the following open source software / codes inside.
 
-AgentSmith 
+Sushi 
 	Copyright (c) Machine Intelligence Laboratory (The University of Tokyo)
-	https://github.com/mil-tokyo/agent_smith
+	https://github.com/mil-tokyo/sushi
 	MIT License : http://opensource.org/licenses/mit-license.php
 	
-Trinity
+Soba
 	Copyright (c) Machine Intelligence Laboratory (The University of Tokyo)
-	https://github.com/mil-tokyo/trinity
+	https://github.com/mil-tokyo/soba
 	MIT License : http://opensource.org/licenses/mit-license.php

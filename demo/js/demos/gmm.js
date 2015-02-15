@@ -1,5 +1,5 @@
 (function($M){
-	AgentSmithDemo.addDemo('GMM',
+	SushiDemo.addDemo('GMM',
 	'In this demo, data points are given which are sampled from some probabilistic distribution and Gaussian Mixtures are estimated for that by EM algorithm',
 	{
 		X: {
@@ -44,5 +44,5 @@
 		plt.colorbar();
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);
 

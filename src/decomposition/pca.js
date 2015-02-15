@@ -83,4 +83,4 @@
 	throw new Error("not implemented");
     }
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

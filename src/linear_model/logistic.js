@@ -65,4 +65,4 @@
 	var pred = $S.softmax( $M.mul( X_dash, this.weight ) );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

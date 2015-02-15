@@ -1,5 +1,5 @@
 (function($M) {
-	AgentSmithDemo.addDemo('Perceptron', 'A kind of linear classifier', {
+	SushiDemo.addDemo('Perceptron', 'A kind of linear classifier', {
 		X: {
 			shape: [2, 'n_sample'],
 			description: "Data points",
@@ -56,4 +56,4 @@
 		plt.legend(['Data points (2 classes)', 'Decision boundary']);
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);

@@ -26,9 +26,9 @@
 
 	Tempura.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		if (typeof y === 'undefined') throw new Error('y must be set');
-		if (!(y instanceof $M)) throw new TypeError('y must be an instance of AgentSmith.Matrix');
+		if (!(y instanceof $M)) throw new TypeError('y must be an instance of Sushi.Matrix');
 		this._fit_X = X;
 		this.y = y;
 
@@ -69,5 +69,5 @@
 			throw TypeError('Unsupported weight type: ' + weights);
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 

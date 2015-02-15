@@ -15,7 +15,7 @@
     // args numbers
     $C.checkArgc = function( argc, num ) {
 	if (argc !== num) {
-	    throw new Error('Should input the exact number of AgentSmith matrix');
+	    throw new Error('Should input the exact number of Sushi matrix');
 	}
     };
 
@@ -23,7 +23,7 @@
     $C.checkInstance = function( inst_list ) {
 	for (var i=0; i<inst_list.length; i++) {
 	    if (!inst_list[i] instanceof $M) {
-		throw new Error('Some matrixes are not AgentSmith data format');
+		throw new Error('Some matrixes are not Sushi data format');
 	    }
 	}
     };
@@ -70,4 +70,4 @@
 	    }
 	}
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

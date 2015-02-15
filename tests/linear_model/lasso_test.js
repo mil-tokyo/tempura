@@ -1,9 +1,9 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
-	var Tempura = require('../../src/neo');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
+	var Tempura = require('../../src/tempura');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base');
 	require('../../src/linear_model/lasso');
@@ -13,7 +13,7 @@ TestMain.Tester.addTest('LassoTest', [
 									   {
 										   name : 'Lasso with lambda 0.0 (should be same as ordinary linear regression)',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
+											   var $M = Sushi.Matrix;
 											   var lasso = new Tempura.LinearModel.Lasso({lambda:0.0});
 
 											   var X = $M.fromArray( [[0, 4, 3],
@@ -43,7 +43,7 @@ TestMain.Tester.addTest('LassoTest', [
 									   {
 										   name : 'Lasso',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
+											   var $M = Sushi.Matrix;
 											   var lasso = new Tempura.LinearModel.Lasso();
 
 											   var X = $M.fromArray( [[0, 4, 3],

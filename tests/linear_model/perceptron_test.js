@@ -1,9 +1,9 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
-	var Tempura = require('../../src/neo');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
+	var Tempura = require('../../src/tempura');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base.js');
 	require('../../src/linear_model/perceptron');
@@ -13,7 +13,7 @@ TestMain.Tester.addTest('PerceptronTest', [
 									   {
 										   name : 'Perceptron',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
+											   var $M = Sushi.Matrix;
 											   var perceptron = new Tempura.LinearModel.Perceptron();
 
 											   var X = $M.fromArray( [[0, 4, 3],

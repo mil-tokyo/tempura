@@ -1,3 +1,3 @@
 (function(nodejs, $M, Tempura){
     Tempura.Mixture = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

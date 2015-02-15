@@ -1,5 +1,5 @@
 (function($M){
-	AgentSmithDemo.addDemo('Nearest neighbor classifier',
+	SushiDemo.addDemo('Nearest neighbor classifier',
 		'A classifier based on nearest neighbor', {
 			X: {
 				type: 'matrix',
@@ -62,4 +62,4 @@
 			plt.legend(['Data points (2 classes)', 'Decision boundary']);
 			plt.show();
 		});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);

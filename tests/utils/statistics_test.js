@@ -1,15 +1,15 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
     var TestMain = require('../main');
-    var AgentSmith = require('../../agent_smith/src/agent_smith');
-    require('../../agent_smith/src/agent_smith_cl');
+    var Sushi = require('../../sushi/src/sushi');
+    require('../../sushi/src/sushi_cl');
     
-	var Tempura = require('../../src/neo');
+	var Tempura = require('../../src/tempura');
     require('../../src/utils/utils.js');
     require('../../src/utils/statistics.js');
 }
 
-var $M = AgentSmith.Matrix;
+var $M = Sushi.Matrix;
 
 TestMain.Tester.addTest('StatisticsTest', [
     {

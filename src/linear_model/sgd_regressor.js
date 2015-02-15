@@ -38,7 +38,7 @@
 	} else if (arguments.length == 3) {
 	    var inst_list = [X, y, init_w];
 	} else {
-	    throw new Error('Should input the exact number of AgentSmith matrix');
+	    throw new Error('Should input the exact number of Sushi matrix');
 	}
 	$C.checkSampleNum( [X,y] );
 	$C.checkInstance( inst_list );
@@ -158,4 +158,4 @@
 	return pred
     };
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

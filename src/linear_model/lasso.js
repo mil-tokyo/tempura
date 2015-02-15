@@ -61,4 +61,4 @@
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

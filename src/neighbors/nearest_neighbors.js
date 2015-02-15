@@ -14,7 +14,7 @@
 
 	Tempura.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		this._fit_X = X;
 		this.y = typeof y === 'undefined' ? null : y;
 
@@ -29,7 +29,7 @@
 	}
 
 	Tempura.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 
 		if (typeof args === 'undefined') args = {};
 		if (typeof args.n_neighbors === 'undefined') args.n_neighbors = this.n_neighbors;
@@ -74,7 +74,7 @@
 	}
 
 	Tempura.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		if (typeof radius === 'undefined') radius = this.radius;
 		if (typeof return_distance === 'undefined') return_distance = true;
 
@@ -94,4 +94,4 @@
 			throw new Error('Invalid algorithm specified');
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

@@ -1,5 +1,5 @@
 (function($M){
-	AgentSmithDemo.addDemo('SGDRegressor',
+	SushiDemo.addDemo('SGDRegressor',
 	'A kind of linear classifier',
 	{
 		X: {
@@ -59,7 +59,7 @@
 		var samples = args.X;
 		var labels = args.labels;
 
-		// fit neo
+		// fit tempura
 		var per = new Tempura.LinearModel.SGDRegressor({algorithm:'perceptron',aver:false,lambda:0.0});
 		var svm = new Tempura.LinearModel.SGDRegressor({algorithm:'sgdsvm'});
 		per.fit(samples,labels);
@@ -91,5 +91,5 @@
 		plt.legend(['Data points (2 classes)', 'Decision boundary (SGD SVM)', 'Decision boundary (perceptron)']);
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);
 
