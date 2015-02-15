@@ -11,9 +11,9 @@ TestMain.Tester.addTest('GMMTest', [
 		name : 'GMM',
 		test : function(callback) {
 		    var $M = Sushi.Matrix;
-		    SushiML.Mixture
-		    SushiML.Mixture.GMM
-		    var gmm = new SushiML.Mixture.GMM(2, 1, 0.01);
+		    Tempura.Mixture
+		    Tempura.Mixture.GMM
+		    var gmm = new Tempura.Mixture.GMM(2, 1, 0.01);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],

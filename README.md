@@ -1,4 +1,4 @@
-SushiML
+Tempura
 ==============
 
 Machine Learning Library for Sushi
