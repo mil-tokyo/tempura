@@ -1,5 +1,5 @@
 /* --- ridge regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		require('../utils/utils.js');
@@ -10,12 +10,12 @@
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
 
     // init
-    Neo.LinearModel.Ridge = function(args) {
+    Tempura.LinearModel.Ridge = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
@@ -24,7 +24,7 @@
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
     };
-    var $Ridge = Neo.LinearModel.Ridge.prototype;
+    var $Ridge = Tempura.LinearModel.Ridge.prototype;
     
     // fit
     $Ridge.fit = function(X, y) {
@@ -71,4 +71,4 @@
 	return pred
     };
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

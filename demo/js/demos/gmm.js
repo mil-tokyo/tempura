@@ -24,7 +24,7 @@
 		var X = args.X;
 
 		// Estimate GMM
-		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		gmm.fit(X);
 
 		// Plot data points

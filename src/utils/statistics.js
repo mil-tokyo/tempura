@@ -1,14 +1,14 @@
 /* --- util statistic --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	require('./utils');
     }
     
     // init
-    Neo.Utils.Statistics = {};
-    var $S = Neo.Utils.Statistics;
+    Tempura.Utils.Statistics = {};
+    var $S = Tempura.Utils.Statistics;
     
     
     /* preprocessing */
@@ -196,4 +196,4 @@
 	}
     return newM
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

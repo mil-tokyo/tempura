@@ -44,7 +44,7 @@
 			var k = args.k;
 
 			// Fit classifier
-			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: k});
+			var clf = new Tempura.Neighbors.KNeighborsClassifier({n_neighbors: k});
 			clf.fit(samples, labels);
 
 			// Plot samples

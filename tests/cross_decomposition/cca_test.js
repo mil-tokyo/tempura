@@ -4,7 +4,7 @@ if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
 	
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/neo');
 	require('../../src/cross_decomposition/cross_decomposition');
 	require('../../src/cross_decomposition/cca');
 }
@@ -14,7 +14,7 @@ TestMain.Tester.addTest('CCATest', [
 		name : 'CCA test with row_wise data',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var cca = new Neo.CrossDecomposition.CCA(3, false);
+		    var cca = new Tempura.CrossDecomposition.CCA(3, false);
 		    var X = $M.fromArray([
 			[1, 1, 3],
 			[0, 1, 1],
@@ -96,7 +96,7 @@ TestMain.Tester.addTest('CCATest', [
 		name : 'CCA test with col_wise data',
 		test : function(callback) {
 		    var $M = AgentSmith.Matrix;
-		    var cca = new Neo.CrossDecomposition.CCA(3, false);
+		    var cca = new Tempura.CrossDecomposition.CCA(3, false);
 
 		    var X = $M.fromArray([[ 1. ,  0. ,  1. ,  1. ,  0. , -1. ,  1. ,  2. ],
 					  [ 1. ,  1. ,  1. ,  2. ,  2. , -2. ,  0.1,  2. ],

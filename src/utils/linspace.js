@@ -1,5 +1,5 @@
-(function(nodejs, $M, Neo){
-	Neo.Utils.linspace = function(start, end, args){
+(function(nodejs, $M, Tempura){
+	Tempura.Utils.linspace = function(start, end, args){
 		if (typeof args === 'undefined') args = {};
 		var num        = typeof args.num      === 'undefined' ? 50      : args.num;
 		var endpoint   = typeof args.endpoint === 'undefined' ? true    : args.endpoint;
@@ -14,4 +14,4 @@
 
 		return ret;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

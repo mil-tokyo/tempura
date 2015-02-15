@@ -1,7 +1,7 @@
-var Neo = {};
+var Tempura = {};
 
 if (typeof window === 'undefined') {
-	(('global', eval)('this')).Neo = Neo;
+	(('global', eval)('this')).Tempura = Tempura;
 	require('../agent_smith/src/agent_smith_cl')
-	module.exports = Neo;
+	module.exports = Tempura;
 }

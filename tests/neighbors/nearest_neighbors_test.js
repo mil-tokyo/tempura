@@ -4,7 +4,7 @@ if (nodejs) {
     var AgentSmith = require('../../agent_smith/src/agent_smith');
     require('../../agent_smith/src/agent_smith_cl');
     
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/neo');
     require('../../src/neighbors/neighbors.js');
     require('../../src/neighbors/nearest_neighbors.js');
 }
@@ -17,7 +17,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
     {
         name : 'DefaultOptions',
         test : function() {
-            var neigh = new Neo.Neighbors.NearestNeighbors();
+            var neigh = new Tempura.Neighbors.NearestNeighbors();
 
             if ( (typeof neigh.algorithm !== 'undefined' && neigh.algorithm === 'auto')
                 && (typeof neigh.leaf_size !== 'undefined' && neigh.leaf_size == 30)
@@ -34,7 +34,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
         test: function() {
             var samples = $M.fromArray([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]);
 
-            var neigh = new Neo.Neighbors.NearestNeighbors({n_neighbors: 2});
+            var neigh = new Tempura.Neighbors.NearestNeighbors({n_neighbors: 2});
             neigh.fit(samples);
 
             var ans = $M.fromArray([
@@ -63,7 +63,7 @@ TestMain.Tester.addTest('NearestNeighborTest', [
     {
         name: 'Functions_throw_exception_if_invalid_instance_given',
         test: function() {
-            var neigh = new Neo.Neighbors.NearestNeighbors(2, 0.4);
+            var neigh = new Tempura.Neighbors.NearestNeighbors(2, 0.4);
             try {
                 neigh.fit($M.toArray(samples));
                 return false;

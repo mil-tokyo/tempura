@@ -1,4 +1,4 @@
-(function(nodejs, $M, Neo){
-    Neo.LinearModel = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.LinearModel = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 

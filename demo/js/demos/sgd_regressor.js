@@ -54,14 +54,14 @@
 		}
 	},
 	function(plt, args){
-		var $S = Neo.Utils.Statistics;
+		var $S = Tempura.Utils.Statistics;
 
 		var samples = args.X;
 		var labels = args.labels;
 
 		// fit neo
-		var per = new Neo.LinearModel.SGDRegressor({algorithm:'perceptron',aver:false,lambda:0.0});
-		var svm = new Neo.LinearModel.SGDRegressor({algorithm:'sgdsvm'});
+		var per = new Tempura.LinearModel.SGDRegressor({algorithm:'perceptron',aver:false,lambda:0.0});
+		var svm = new Tempura.LinearModel.SGDRegressor({algorithm:'sgdsvm'});
 		per.fit(samples,labels);
 		svm.fit(samples,labels);
 		// weight output

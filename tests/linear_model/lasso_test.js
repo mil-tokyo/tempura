@@ -3,7 +3,7 @@ if (nodejs) {
 	var TestMain = require('../main');
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/neo');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base');
 	require('../../src/linear_model/lasso');
@@ -14,7 +14,7 @@ TestMain.Tester.addTest('LassoTest', [
 										   name : 'Lasso with lambda 0.0 (should be same as ordinary linear regression)',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var lasso = new Neo.LinearModel.Lasso({lambda:0.0});
+											   var lasso = new Tempura.LinearModel.Lasso({lambda:0.0});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],
@@ -44,7 +44,7 @@ TestMain.Tester.addTest('LassoTest', [
 										   name : 'Lasso',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var lasso = new Neo.LinearModel.Lasso();
+											   var lasso = new Tempura.LinearModel.Lasso();
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

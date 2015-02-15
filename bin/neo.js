@@ -1,41 +1,41 @@
 /* begin : neo.js */
-var Neo = {};
+var Tempura = {};
 
 if (typeof window === 'undefined') {
-	(('global', eval)('this')).Neo = Neo;
+	(('global', eval)('this')).Tempura = Tempura;
 	
-	module.exports = Neo;
+	module.exports = Tempura;
 }
 
 /* end : neo.js */
 
 /* begin : cluster/cluster.js */
-(function(nodejs, $M, Neo){
-    Neo.Cluster = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Cluster = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 /* end : cluster/cluster.js */
 
 /* begin : utils/utils.js */
-(function(nodejs, $M, Neo){
-    Neo.Utils = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Utils = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : utils/utils.js */
 
 /* begin : utils/statistics.js */
 /* --- util statistic --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	
     }
     
     // init
-    Neo.Utils.Statistics = {};
-    var $S = Neo.Utils.Statistics;
+    Tempura.Utils.Statistics = {};
+    var $S = Tempura.Utils.Statistics;
     
     
     /* preprocessing */
@@ -223,12 +223,12 @@ if (typeof window === 'undefined') {
 	}
     return newM
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : utils/statistics.js */
 
 /* begin : cluster/k_means.js */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
 
     if (nodejs) {
     	
@@ -236,13 +236,13 @@ if (typeof window === 'undefined') {
     	
     }
 
-    var $S = Neo.Utils.Statistics;
+    var $S = Tempura.Utils.Statistics;
 
     function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
 	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
 	
-	var x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, true);
+	var x_squared_norms = Tempura.Metrics.Pairwise.row_norms(X, true);
 
 	if(n_jobs=1){
 	    var results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
@@ -253,8 +253,6 @@ if (typeof window === 'undefined') {
 	    throw new Error("not implemented");
 	}
 	cluster_centers_ = $M.add(cluster_centers_,X_mean);
-	cluster_centers_.print();
-	labels_.print();
 	return { cluster_centers_ : cluster_centers_, labels_: labels_}
     }
 
@@ -271,7 +269,7 @@ if (typeof window === 'undefined') {
 	for(var i=0; i<maxiter; i++){
 	    labels = _labels_inertia(X, centers);
 	    centers = _calc_centers(X, labels, n_clusters);
-	    if(Neo.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= tol){
+	    if(Tempura.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= tol){
 		break
 	    }
 	    centers_old = centers;
@@ -284,7 +282,7 @@ if (typeof window === 'undefined') {
     function _labels_inertia(X, centers){
 	var n_samples = X.rows
 	var k = centers.rows
-	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, true);
+	var all_distances = Tempura.Metrics.Pairwise.euclidean_distances(centers, X, true);
 	var mindist = new $M(n_samples, 1).zeros(100000);
 	var labels = new $M(n_samples, 1).zeros(-1);
 
@@ -323,7 +321,7 @@ if (typeof window === 'undefined') {
     }
 
 
-    Neo.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
+    Tempura.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
 	if(n_clusters === undefined) n_clusters = 8;
 	if(init === undefined) init = "kmeans++";
 	if(n_jobs === undefined) n_jobs = 1;
@@ -338,7 +336,7 @@ if (typeof window === 'undefined') {
     };
 
 
-    Neo.Cluster.Kmeans.prototype.fit = function(X){
+    Tempura.Cluster.Kmeans.prototype.fit = function(X){
 	X = this._check_fit_data(X);
 	var results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
 	this.cluster_centers_ = results["cluster_centers_"];
@@ -347,7 +345,7 @@ if (typeof window === 'undefined') {
     }
 
     
-    Neo.Cluster.Kmeans.prototype._check_fit_data = function(X){
+    Tempura.Cluster.Kmeans.prototype._check_fit_data = function(X){
 	'Verify that the number of samples given is larger than k'
 	if(X.rows < this.n_clusters){
 	    throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + this.n_clusters);
@@ -374,7 +372,7 @@ if (typeof window === 'undefined') {
 
 	else if(init == "kmeans++"){
 	    var old_index = $S.choice(new $M(n_samples, 1).range());
-	    var all_distances = Neo.Metrics.Pairwise.euclidean_distances(X, X);
+	    var all_distances = Tempura.Metrics.Pairwise.euclidean_distances(X, X);
 
 	    for(var c=0; c<n_clusters; c++){
 		setCol(all_distances, new $M(all_distances.rows, 1).zeros(), old_index);
@@ -432,29 +430,29 @@ if (typeof window === 'undefined') {
 	
 	return X
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 
 /* end : cluster/k_means.js */
 
 /* begin : cross_decomposition/cross_decomposition.js */
-(function(nodejs, $M, Neo){
-    Neo.CrossDecomposition = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.CrossDecomposition = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 
 /* end : cross_decomposition/cross_decomposition.js */
 
 /* begin : cross_decomposition/cca.js */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
 		
 		
     }
 
-    var $S = Neo.Utils.Statistics;
+    var $S = Tempura.Utils.Statistics;
 
     // http://nalab.mind.meiji.ac.jp/~mk/labo/text/generalized-eigenvalue-problem.pdf
     // http://case.f7.ems.okayama-u.ac.jp/statedu/hbw2-book/node82.html
@@ -483,12 +481,12 @@ if (typeof window === 'undefined') {
 	return { U : A, V : B, lambda : lambda }
     }
 
-    Neo.CrossDecomposition.CCA = function(n_components, scale) {
+    Tempura.CrossDecomposition.CCA = function(n_components, scale) {
 	this.n_components = typeof n_components === "undefined" ? 2 : n_components;
 	this.scale = typeof scale === "undefined" ? true : scale;
     };
 
-    Neo.CrossDecomposition.CCA.prototype.fit = function(X, Y){
+    Tempura.CrossDecomposition.CCA.prototype.fit = function(X, Y){
 	if(this.n_components > Math.min(X.cols, Y.cols)){
 	    throw new Error("n_components should be smaller than the number of features.");
 	}
@@ -522,7 +520,7 @@ if (typeof window === 'undefined') {
 	return this;
     }
 
-    Neo.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
+    Tempura.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
 	if(X.rows != Y.rows){
 	    throw new Error("the number of samples in X and Y should be the same.");
 	}
@@ -539,14 +537,14 @@ if (typeof window === 'undefined') {
 	var Y_score = $M.mul(Y, this.Y_projection);
 	return {X_score : X_score, Y_score : Y_score};
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : cross_decomposition/cca.js */
 
 /* begin : decomposition/decomposition.js */
-(function(nodejs, $M, Neo){
-    Neo.Decomposition = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Decomposition = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 
@@ -554,17 +552,17 @@ if (typeof window === 'undefined') {
 /* end : decomposition/decomposition.js */
 
 /* begin : decomposition/pca.js */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
     	
     }
 
-    Neo.Decomposition.PCA = function(n_components, whiten) {
+    Tempura.Decomposition.PCA = function(n_components, whiten) {
 	this.n_components = typeof n_components === "undefined" ? 1.0 : n_components;
 	this.whiten = typeof whiten === "undefined" ? false : whiten
     };
 
-    Neo.Decomposition.PCA.prototype.fit = function(X){
+    Tempura.Decomposition.PCA.prototype.fit = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	this.mean_ = $M.sumEachCol(X).times(1.0 / n_samples).toRowWise();
@@ -625,7 +623,7 @@ if (typeof window === 'undefined') {
 	this.n_components_ = n_components
     }
     
-    Neo.Decomposition.PCA.prototype.transform = function(X){
+    Tempura.Decomposition.PCA.prototype.transform = function(X){
 	if(typeof this.mean_ !== "undefined"){
             X = $M.sub(X,this.mean_);
 	}
@@ -639,29 +637,29 @@ if (typeof window === 'undefined') {
 	throw new Error("not implemented");
     }
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : decomposition/pca.js */
 
 /* begin : linear_model/linear_model.js */
-(function(nodejs, $M, Neo){
-    Neo.LinearModel = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.LinearModel = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 /* end : linear_model/linear_model.js */
 
 /* begin : linear_model/base.js */
 /* --- base --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	
     }
         
     // init
-    Neo.LinearModel.Base = {};
-    var $Base = Neo.LinearModel.Base;
+    Tempura.LinearModel.Base = {};
+    var $Base = Tempura.LinearModel.Base;
 
     
     /* algorithms */
@@ -726,21 +724,21 @@ if (typeof window === 'undefined') {
 	return output;
     }
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/base.js */
 
 /* begin : utils/checkargs.js */
 /* --- util statistic --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	
     }
     
     // init
-    Neo.Utils.Check = {};
-    var $C = Neo.Utils.Check;
+    Tempura.Utils.Check = {};
+    var $C = Tempura.Utils.Check;
 
     
     /* check arguments */
@@ -803,13 +801,13 @@ if (typeof window === 'undefined') {
 	    }
 	}
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : utils/checkargs.js */
 
 /* begin : linear_model/lasso.js */
 /* --- lasso regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -820,12 +818,12 @@ if (typeof window === 'undefined') {
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Lasso = function(args) {
+    Tempura.LinearModel.Lasso = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
@@ -833,7 +831,7 @@ if (typeof window === 'undefined') {
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
     };
-    var $Lasso = Neo.LinearModel.Lasso.prototype;
+    var $Lasso = Tempura.LinearModel.Lasso.prototype;
     
     // fit
     $Lasso.fit = function(X, y) {
@@ -871,13 +869,13 @@ if (typeof window === 'undefined') {
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/lasso.js */
 
 /* begin : linear_model/linear_regression.js */
 /* --- linear regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -887,17 +885,17 @@ if (typeof window === 'undefined') {
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
 
     // init
-    Neo.LinearModel.LinearRegression = function(args) {
+    Tempura.LinearModel.LinearRegression = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
 	this.solver = (typeof args.solver === 'undefined') ? 'qr' : args.solver;
     };
-    var $LinReg = Neo.LinearModel.LinearRegression.prototype;
+    var $LinReg = Tempura.LinearModel.LinearRegression.prototype;
     
     // fit
     $LinReg.fit = function(X, y) {
@@ -958,14 +956,14 @@ if (typeof window === 'undefined') {
 	return pred
     };
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/linear_regression.js */
 
 /* begin : linear_model/logistic.js */
 /* --- logistic --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -976,19 +974,19 @@ if (typeof window === 'undefined') {
     }
 
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Logistic = function(args) {
+    Tempura.LinearModel.Logistic = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 0.01 : args.eta; // learning ratio for delta Error
 	this.alpha = (typeof args.alpha === 'undefined') ? 0.0015 : args.alpha; // l2-regularization strength
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Logistic = Neo.LinearModel.Logistic.prototype;
+    var $Logistic = Tempura.LinearModel.Logistic.prototype;
     
     // fit
     $Logistic.fit = function(X, y) {
@@ -1030,14 +1028,14 @@ if (typeof window === 'undefined') {
 	var pred = $S.softmax( $M.mul( X_dash, this.weight ) );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/logistic.js */
 
 /* begin : linear_model/perceptron.js */
 /* --- perceptron --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -1048,18 +1046,18 @@ if (typeof window === 'undefined') {
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Perceptron = function(args) {
+    Tempura.LinearModel.Perceptron = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 1.0 : args.eta;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Perceptron = Neo.LinearModel.Perceptron.prototype;
+    var $Perceptron = Tempura.LinearModel.Perceptron.prototype;
     
     // fit
     /* target y as a matrix of [n_samples, 1] */
@@ -1133,13 +1131,13 @@ if (typeof window === 'undefined') {
 	return pred
 	
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/perceptron.js */
 
 /* begin : linear_model/ridge.js */
 /* --- ridge regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -1150,12 +1148,12 @@ if (typeof window === 'undefined') {
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
 
     // init
-    Neo.LinearModel.Ridge = function(args) {
+    Tempura.LinearModel.Ridge = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
@@ -1164,7 +1162,7 @@ if (typeof window === 'undefined') {
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
     };
-    var $Ridge = Neo.LinearModel.Ridge.prototype;
+    var $Ridge = Tempura.LinearModel.Ridge.prototype;
     
     // fit
     $Ridge.fit = function(X, y) {
@@ -1211,14 +1209,14 @@ if (typeof window === 'undefined') {
 	return pred
     };
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/ridge.js */
 
 /* begin : linear_model/sgd_regressor.js */
 /* --- SGDRegressor --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		
@@ -1229,12 +1227,12 @@ if (typeof window === 'undefined') {
     }
 
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.SGDRegressor = function(args) {
+    Tempura.LinearModel.SGDRegressor = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.algorithm = (typeof args.algorithm === 'undefined') ? 'sgdsvm' : args.algorithm;
 	this.lambda = (typeof args.lambda === 'undefined') ? -1.0 : args.lambda; // expects 0 <= lambda
@@ -1242,7 +1240,7 @@ if (typeof window === 'undefined') {
 	this.t_zero = (typeof args.t_zero === 'undefined') ? 1.0 : args.t_zero; // to decide step size alpha
 	this.aver = (typeof args.aver === 'undefined') ? true : args.aver;
     };
-    var $SGDRegressor = Neo.LinearModel.SGDRegressor.prototype;
+    var $SGDRegressor = Tempura.LinearModel.SGDRegressor.prototype;
     
     
     // fit
@@ -1376,26 +1374,26 @@ if (typeof window === 'undefined') {
 	return pred
     };
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : linear_model/sgd_regressor.js */
 
 /* begin : metrics/metrics.js */
-(function(nodejs, $M, Neo) {
-	Neo.Metrics = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura) {
+	Tempura.Metrics = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 
 /* end : metrics/metrics.js */
 
 /* begin : metrics/pairwise.js */
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	if (nodejs) {
 		
 	}
 	
-	Neo.Metrics.Pairwise = {
+	Tempura.Metrics.Pairwise = {
 		euclidean_distances : function (X, Y, squared){
 		    if(typeof squared === 'undefined') squared = false;
 		    
@@ -1407,8 +1405,8 @@ if (typeof window === 'undefined') {
 			Y = $M.fromArray([$M.toArray(Y)]);
 		    }
 		    
-		    var XX = Neo.Metrics.Pairwise.row_norms(X, true);
-		    var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
+		    var XX = Tempura.Metrics.Pairwise.row_norms(X, true);
+		    var YY = Tempura.Metrics.Pairwise.row_norms(Y, true);
 		    var distances = $M.mul(X, Y.t());
 		    distances.times(-2);
 		    distances = $M.add(distances, XX)
@@ -1417,7 +1415,7 @@ if (typeof window === 'undefined') {
 		    
 		    if(squared == false){
 			distances = distances.map(Math.sqrt);
-			//throw new Error("Neo.Metrics.euclidean_distances with option squared=false is not implemented");
+			//throw new Error("Tempura.Metrics.euclidean_distances with option squared=false is not implemented");
 		    }
 		    return distances
 		},
@@ -1426,7 +1424,7 @@ if (typeof window === 'undefined') {
 			if (typeof squared === 'undefined') squared = false;
 			var norms = $M.sumEachRow($M.mulEach(X, X));
 			if(squared == false){
-				//throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
+				//throw new Error("Tempura.Metrics.row_norms with option squared=false is not implemented");
 			norms = norms.map(Math.sqrt);
 			}
 			return norms
@@ -1436,7 +1434,7 @@ if (typeof window === 'undefined') {
 			if (typeof squared === 'undefined') squared = false;
 			var norms = $M.sumEachCol($M.mulEach(X, X));
 			if(squared == false){
-				//throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
+				//throw new Error("Tempura.Metrics.row_norms with option squared=false is not implemented");
 			norms = norms.map(Math.sqrt);
 			}
 			return norms
@@ -1444,33 +1442,33 @@ if (typeof window === 'undefined') {
 
 
 	};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 /* end : metrics/pairwise.js */
 
 /* begin : mixture/mixture.js */
-(function(nodejs, $M, Neo){
-    Neo.Mixture = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Mixture = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : mixture/mixture.js */
 
 /* begin : mixture/gmm.js */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
 		
     }
     
     
-    Neo.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
+    Tempura.Mixture.GMM = function(n_components, n_iter, thresh, min_covar) {
 	this.n_components = typeof n_components === "undefined" ? 1 : n_components;
 	this.n_iter = typeof n_iter === "undefined" ? 100 : n_iter;
 	this.thresh = typeof thresh === "undefined" ? 0.01 : thresh;
 	this.min_covar = typeof min_covar === "undefined" ? 0.001 : min_covar;
     };
 
-    Neo.Mixture.GMM.prototype.fit = function(X){
+    Tempura.Mixture.GMM.prototype.fit = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 
@@ -1495,7 +1493,7 @@ if (typeof window === 'undefined') {
 	return this;
     }
 
-    Neo.Mixture.GMM.prototype.score = function(X){
+    Tempura.Mixture.GMM.prototype.score = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	likelihood = (new $M(n_samples, 1)).zeros();
@@ -1509,7 +1507,7 @@ if (typeof window === 'undefined') {
 	return likelihood
     };
 
-    Neo.Mixture.GMM.prototype.calcLogLikelihood = function(X){
+    Tempura.Mixture.GMM.prototype.calcLogLikelihood = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var loglikelihood = 0;
@@ -1525,7 +1523,7 @@ if (typeof window === 'undefined') {
 	return loglikelihood
     }
 
-    Neo.Mixture.GMM.prototype.expectationStep = function(X){
+    Tempura.Mixture.GMM.prototype.expectationStep = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var responsibility = new $M(n_samples, this.n_components).zeros(0);
@@ -1541,7 +1539,7 @@ if (typeof window === 'undefined') {
 	return responsibility
     }
     
-    Neo.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+    Tempura.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var Nk = $M.sumEachCol(responsibility);
@@ -1578,24 +1576,24 @@ if (typeof window === 'undefined') {
 	
     }
     
-    Neo.Mixture.GMM.prototype.initParams = function(X){
+    Tempura.Mixture.GMM.prototype.initParams = function(X){
 	var n_features = X.cols
 	this.weights = new $M(1, this.n_components).zeros( 1.0 / this.n_components );
 	this.means = [];
 	this.covars = [];
 	
-	var kmeans = new Neo.Cluster.Kmeans(this.n_components, "kmeans++");
+	var kmeans = new Tempura.Cluster.Kmeans(this.n_components, "kmeans++");
 	kmeans.fit(X)
 	var init_means = kmeans.cluster_centers_;
 	for(var k=0; k<this.n_components; k++){
 	    var mean = $M.extract(init_means, k, 0, 1, n_features).t();
 	    this.means.push(mean);
-	    var covar = $M.add(Neo.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
+	    var covar = $M.add(Tempura.Utils.Statistics.cov(X), $M.eye(n_features).times(this.min_covar));
 	    this.covars.push(covar);
 	}	
     }
     
-    Neo.Mixture.GMM.prototype.showParams= function(){
+    Tempura.Mixture.GMM.prototype.showParams= function(){
 	for(var k=0; k<this.n_components; k++){
 	    console.log("component " + k);
 	    console.log("weight :" + this.weights.data[k])
@@ -1621,24 +1619,25 @@ if (typeof window === 'undefined') {
 	}
 	return false
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 /* end : mixture/gmm.js */
 
 /* begin : neighbors/neighbors.js */
-(function(nodejs, $M, Neo) {
-	Neo.Neighbors = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura) {
+	Tempura.Neighbors = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+
 /* end : neighbors/neighbors.js */
 
 /* begin : neighbors/nearest_neighbors.js */
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	
 	if (nodejs) {
 		
 	}
 	
-	Neo.Neighbors.NearestNeighbors = function(args) {
+	Tempura.Neighbors.NearestNeighbors = function(args) {
 		if (typeof args === 'undefined') args = {};
 		this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5	  : args.n_neighbors;
 		this.radius	  = typeof args.radius	  === 'undefined' ? 1.0	: args.radius;
@@ -1646,7 +1645,7 @@ if (typeof window === 'undefined') {
 		this.leaf_size   = typeof args.leaf_size   === 'undefined' ? 30	 : args.leaf_size;
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
+	Tempura.Neighbors.NearestNeighbors.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
 		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 		this._fit_X = X;
@@ -1662,7 +1661,7 @@ if (typeof window === 'undefined') {
 		return this;
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
+	Tempura.Neighbors.NearestNeighbors.prototype.kneighbors = function(X, args) {
 		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 
 		if (typeof args === 'undefined') args = {};
@@ -1670,7 +1669,7 @@ if (typeof window === 'undefined') {
 		if (typeof args.return_distance === 'undefined') args.return_distance = true;
 
 		if (this._fit_method === 'brute') {
-			dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+			dist = Tempura.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
 			// initialize indices arrays
 			var indices = new Array(dist.rows);
@@ -1707,14 +1706,14 @@ if (typeof window === 'undefined') {
 
 	}
 
-	Neo.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
+	Tempura.Neighbors.NearestNeighbors.prototype.radius_neighbors = function(X, radius, return_distance) {
 		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 		if (typeof radius === 'undefined') radius = this.radius;
 		if (typeof return_distance === 'undefined') return_distance = true;
 
 		throw new Error('Not implemented');
 		if (this._fit_method === 'brute') {
-			dist = Neo.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
+			dist = Tempura.Metrics.Pairwise.euclidean_distances(X, this._fit_X, true); // TODO: Remove the restrict of metrics (euclidean_distances() is only supported now) and select metric dynamically
 
 			// select indices whose distances are smaller than radius
 			for (var row=0 ; row<dist.rows ; row++){
@@ -1728,20 +1727,21 @@ if (typeof window === 'undefined') {
 			throw new Error('Invalid algorithm specified');
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+
 /* end : neighbors/nearest_neighbors.js */
 
 /* begin : neighbors/classification.js */
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	if (nodejs) {
 		
 		
 	}
 	
-	Neo.Neighbors.KNeighborsClassifier = function(args) {
+	Tempura.Neighbors.KNeighborsClassifier = function(args) {
 		if (typeof args === 'undefined') args = {};
 
-		Neo.Neighbors.NearestNeighbors.apply(this);
+		Tempura.Neighbors.NearestNeighbors.apply(this);
 
 		this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5		 : args.n_neighbors;
 		this.algorithm   = typeof args.algorithm   === 'undefined' ? 'auto'	: args.algorithm;
@@ -1749,16 +1749,16 @@ if (typeof window === 'undefined') {
 		this.weights	 = typeof args.weights	 === 'undefined' ? 'uniform' : args.weights;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype = Object.create(Neo.Neighbors.NearestNeighbors.prototype, {
+	Tempura.Neighbors.KNeighborsClassifier.prototype = Object.create(Tempura.Neighbors.NearestNeighbors.prototype, {
 		constructor: {
-			value: Neo.Neighbors.KNeighborsClassifier,
+			value: Tempura.Neighbors.KNeighborsClassifier,
 			enumerabule: false,
 			writable: true,
 			configurable: true
 		}
 	});
 
-	Neo.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
 		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
 		if (typeof y === 'undefined') throw new Error('y must be set');
@@ -1776,7 +1776,7 @@ if (typeof window === 'undefined') {
 		return this;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
 		var neigh = this.kneighbors(X);
 		var weights = this._get_weights(neigh[0], this.weights);
 
@@ -1792,7 +1792,7 @@ if (typeof window === 'undefined') {
 		return res;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
 		var ones = (new $M(dist.rows, dist.cols)).setEach(function(){ return 1;});
 		if (weights === 'uniform' || weights === null || typeof weights === 'undefined') {
 			return ones;
@@ -1803,14 +1803,14 @@ if (typeof window === 'undefined') {
 			throw TypeError('Unsupported weight type: ' + weights);
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 
 /* end : neighbors/classification.js */
 
 /* begin : utils/linspace.js */
-(function(nodejs, $M, Neo){
-	Neo.Utils.linspace = function(start, end, args){
+(function(nodejs, $M, Tempura){
+	Tempura.Utils.linspace = function(start, end, args){
 		if (typeof args === 'undefined') args = {};
 		var num        = typeof args.num      === 'undefined' ? 50      : args.num;
 		var endpoint   = typeof args.endpoint === 'undefined' ? true    : args.endpoint;
@@ -1825,12 +1825,13 @@ if (typeof window === 'undefined') {
 
 		return ret;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+
 /* end : utils/linspace.js */
 
 /* begin : utils/meshgrid.js */
-(function(nodejs, $M, Neo){
-	Neo.Utils.meshgrid = function(xlist, ylist){
+(function(nodejs, $M, Tempura){
+	Tempura.Utils.meshgrid = function(xlist, ylist){
 		var x_len = xlist.rows, y_len = ylist.rows;
 		var mesh = new $M(x_len*y_len, 2);
 		var i=0;
@@ -1844,5 +1845,6 @@ if (typeof window === 'undefined') {
 
 		return mesh;
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
+
 /* end : utils/meshgrid.js */

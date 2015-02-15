@@ -1,9 +1,9 @@
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	if (nodejs) {
 		require('./metrics');
 	}
 	
-	Neo.Metrics.Pairwise = {
+	Tempura.Metrics.Pairwise = {
 		euclidean_distances : function (X, Y, squared){
 		    if(typeof squared === 'undefined') squared = false;
 		    
@@ -15,8 +15,8 @@
 			Y = $M.fromArray([$M.toArray(Y)]);
 		    }
 		    
-		    var XX = Neo.Metrics.Pairwise.row_norms(X, true);
-		    var YY = Neo.Metrics.Pairwise.row_norms(Y, true);
+		    var XX = Tempura.Metrics.Pairwise.row_norms(X, true);
+		    var YY = Tempura.Metrics.Pairwise.row_norms(Y, true);
 		    var distances = $M.mul(X, Y.t());
 		    distances.times(-2);
 		    distances = $M.add(distances, XX)
@@ -25,7 +25,7 @@
 		    
 		    if(squared == false){
 			distances = distances.map(Math.sqrt);
-			//throw new Error("Neo.Metrics.euclidean_distances with option squared=false is not implemented");
+			//throw new Error("Tempura.Metrics.euclidean_distances with option squared=false is not implemented");
 		    }
 		    return distances
 		},
@@ -34,7 +34,7 @@
 			if (typeof squared === 'undefined') squared = false;
 			var norms = $M.sumEachRow($M.mulEach(X, X));
 			if(squared == false){
-				//throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
+				//throw new Error("Tempura.Metrics.row_norms with option squared=false is not implemented");
 			norms = norms.map(Math.sqrt);
 			}
 			return norms
@@ -44,7 +44,7 @@
 			if (typeof squared === 'undefined') squared = false;
 			var norms = $M.sumEachCol($M.mulEach(X, X));
 			if(squared == false){
-				//throw new Error("Neo.Metrics.row_norms with option squared=false is not implemented");
+				//throw new Error("Tempura.Metrics.row_norms with option squared=false is not implemented");
 			norms = norms.map(Math.sqrt);
 			}
 			return norms
@@ -52,5 +52,5 @@
 
 
 	};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 

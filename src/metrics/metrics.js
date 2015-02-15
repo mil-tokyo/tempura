@@ -1,5 +1,5 @@
-(function(nodejs, $M, Neo) {
-	Neo.Metrics = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura) {
+	Tempura.Metrics = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 

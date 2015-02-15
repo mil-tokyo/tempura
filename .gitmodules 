@@ -1,0 +1,3 @@
+[submodule "agent_smith"]
+	path = agent_smith
+	url = https://github.com/mil-tokyo/agent_smith.git

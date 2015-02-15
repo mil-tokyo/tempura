@@ -1,14 +1,14 @@
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     if (nodejs) {
     	require('./decomposition');
     }
 
-    Neo.Decomposition.PCA = function(n_components, whiten) {
+    Tempura.Decomposition.PCA = function(n_components, whiten) {
 	this.n_components = typeof n_components === "undefined" ? 1.0 : n_components;
 	this.whiten = typeof whiten === "undefined" ? false : whiten
     };
 
-    Neo.Decomposition.PCA.prototype.fit = function(X){
+    Tempura.Decomposition.PCA.prototype.fit = function(X){
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	this.mean_ = $M.sumEachCol(X).times(1.0 / n_samples).toRowWise();
@@ -69,7 +69,7 @@
 	this.n_components_ = n_components
     }
     
-    Neo.Decomposition.PCA.prototype.transform = function(X){
+    Tempura.Decomposition.PCA.prototype.transform = function(X){
 	if(typeof this.mean_ !== "undefined"){
             X = $M.sub(X,this.mean_);
 	}
@@ -83,4 +83,4 @@
 	throw new Error("not implemented");
     }
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

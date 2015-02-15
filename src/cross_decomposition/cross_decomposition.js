@@ -1,5 +1,5 @@
-(function(nodejs, $M, Neo){
-    Neo.CrossDecomposition = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.CrossDecomposition = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 
 

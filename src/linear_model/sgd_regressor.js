@@ -1,6 +1,6 @@
 /* --- SGDRegressor --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
 		require('../utils/utils.js');
@@ -11,12 +11,12 @@
     }
 
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.SGDRegressor = function(args) {
+    Tempura.LinearModel.SGDRegressor = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.algorithm = (typeof args.algorithm === 'undefined') ? 'sgdsvm' : args.algorithm;
 	this.lambda = (typeof args.lambda === 'undefined') ? -1.0 : args.lambda; // expects 0 <= lambda
@@ -24,7 +24,7 @@
 	this.t_zero = (typeof args.t_zero === 'undefined') ? 1.0 : args.t_zero; // to decide step size alpha
 	this.aver = (typeof args.aver === 'undefined') ? true : args.aver;
     };
-    var $SGDRegressor = Neo.LinearModel.SGDRegressor.prototype;
+    var $SGDRegressor = Tempura.LinearModel.SGDRegressor.prototype;
     
     
     // fit
@@ -158,4 +158,4 @@
 	return pred
     };
     
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

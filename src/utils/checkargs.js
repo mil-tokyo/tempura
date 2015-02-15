@@ -1,13 +1,13 @@
 /* --- util statistic --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
     	require('./utils');
     }
     
     // init
-    Neo.Utils.Check = {};
-    var $C = Neo.Utils.Check;
+    Tempura.Utils.Check = {};
+    var $C = Tempura.Utils.Check;
 
     
     /* check arguments */
@@ -70,4 +70,4 @@
 	    }
 	}
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);

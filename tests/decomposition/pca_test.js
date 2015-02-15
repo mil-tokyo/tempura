@@ -4,7 +4,7 @@ if (nodejs) {
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
 	
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/neo');
 	require('../../src/decomposition/decomposition');
 	require('../../src/decomposition/pca');
 }
@@ -25,7 +25,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 1,  1, -1, -2,  1],
 					  [-1,  2,  3,  2,  1]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=4);
+		    var pca = new Tempura.Decomposition.PCA(n_components=4);
 		    pca.fit(X);
 		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
@@ -64,7 +64,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 1,  1, -1, -2,  1],
 					  [-1,  2,  3,  2,  1]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=2, copy=false, whiten=true);
+		    var pca = new Tempura.Decomposition.PCA(n_components=2, copy=false, whiten=true);
 		    pca.fit(X);
 
 		    var res = $M.fromArray([[-0.1239425 , -0.09113768, -0.04696256, -0.14208669, -0.14388662],
@@ -113,7 +113,7 @@ TestMain.Tester.addTest('PCATest', [
 						   [ 2,  3,  4,  1,  9],
 						   [-1, -6,  1,  1, -2]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=2);
+		    var pca = new Tempura.Decomposition.PCA(n_components=2);
 		    pca.fit(X);
 		    trans_res = pca.transform(test_data);
 		    var res = $M.fromArray([[ 3.10080672, -2.95470944],
@@ -155,7 +155,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 3,  4,  6,  6,  2,  0,  3,  4, -2,  2],
 					  [ 4,  2,  8,  5,  5, -1,  2,  3,  1,  1]]).t();
 
-		    var pca = new Neo.Decomposition.PCA(n_components=4);
+		    var pca = new Tempura.Decomposition.PCA(n_components=4);
 		    pca.fit(X);
 		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],

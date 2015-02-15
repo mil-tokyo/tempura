@@ -1,4 +1,4 @@
-(function(nodejs, $M, Neo){
-    Neo.Cluster = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Cluster = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
 

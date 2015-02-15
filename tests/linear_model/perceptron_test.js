@@ -3,7 +3,7 @@ if (nodejs) {
 	var TestMain = require('../main');
 	var AgentSmith = require('../../agent_smith/src/agent_smith');
 	require('../../agent_smith/src/agent_smith_cl');
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/neo');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base.js');
 	require('../../src/linear_model/perceptron');
@@ -14,7 +14,7 @@ TestMain.Tester.addTest('PerceptronTest', [
 										   name : 'Perceptron',
 											   test : function(callback) {
 											   var $M = AgentSmith.Matrix;
-											   var perceptron = new Neo.LinearModel.Perceptron();
+											   var perceptron = new Tempura.LinearModel.Perceptron();
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

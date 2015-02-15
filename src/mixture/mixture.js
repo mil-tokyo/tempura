@@ -1,3 +1,3 @@
-(function(nodejs, $M, Neo){
-    Neo.Mixture = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Mixture = {};
+})(typeof window === 'undefined', AgentSmith.Matrix, Tempura);
