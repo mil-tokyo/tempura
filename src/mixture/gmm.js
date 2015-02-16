@@ -83,6 +83,7 @@
     }
     
     Tempura.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+	var _beta = Math.pow(0.1,12);
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var Nk = $M.sumEachCol(responsibility);
@@ -115,6 +116,7 @@
 	
 	for(var k=0; k<this.n_components; k++){
 	    this.covars[k].times( 1.0 / Nk.data[k]);
+	    this.covars[k].add($M.eye(n_features).times(_beta))
 	}
 	
     }

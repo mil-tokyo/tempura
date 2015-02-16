@@ -1,3 +1,14 @@
+/* begin : neo.js */
+var Tempura = {};
+
+if (typeof window === 'undefined') {
+	(('global', eval)('this')).Tempura = Tempura;
+	
+	module.exports = Tempura;
+}
+
+/* end : neo.js */
+
 /* begin : tempura.js */
 var Tempura = {};
 
@@ -1540,6 +1551,7 @@ if (typeof window === 'undefined') {
     }
     
     Tempura.Mixture.GMM.prototype.maximizationStep = function(X, responsibility){
+	var _beta = Math.pow(0.1,12);
 	var n_samples = X.rows;
 	var n_features = X.cols;
 	var Nk = $M.sumEachCol(responsibility);
@@ -1572,6 +1584,7 @@ if (typeof window === 'undefined') {
 	
 	for(var k=0; k<this.n_components; k++){
 	    this.covars[k].times( 1.0 / Nk.data[k]);
+	    this.covars[k].add($M.eye(n_features).times(_beta))
 	}
 	
     }
