@@ -1,7 +1,7 @@
-var Trinity = {};
+var Soba = {};
 
 (function($M){
-	Trinity = function(selector) {
+	Soba = function(selector) {
 		this.selector = selector;
 		this.padding = {
 			left: 30,
@@ -16,8 +16,8 @@ var Trinity = {};
 			bottom: 0,
 		};
 		var parent = d3.select(selector);
-		this.w = Trinity.getStyle(parent[0][0], 'width');
-		this.h = Trinity.getStyle(parent[0][0], 'height');
+		this.w = Soba.getStyle(parent[0][0], 'width');
+		this.h = Soba.getStyle(parent[0][0], 'height');
 		this.w = this.w.replace('px', '');
 		this.h = this.h.replace('px', '');
 		var svg = parent
@@ -29,7 +29,7 @@ var Trinity = {};
 		this.clf();
 	};
 
-	Trinity.prototype = {
+	Soba.prototype = {
 		clf: function() {
 			this.elements = [];
 			this.surroundings = [];
@@ -37,12 +37,12 @@ var Trinity = {};
 		},
 
 		plot: function(x, y, option) {
-			var obj = new Trinity.Plot(x.clone(), y.clone(), option);
+			var obj = new Soba.Plot(x.clone(), y.clone(), option);
 			this.elements.push(obj);
 		},
 
 		scatter: function(x, y, color) {
-			var obj = new Trinity.Scatter(x.clone(), y.clone(), color instanceof $M ? color.clone() : color);
+			var obj = new Soba.Scatter(x.clone(), y.clone(), color instanceof $M ? color.clone() : color);
 			this.elements.push(obj);
 		},
 
@@ -56,7 +56,7 @@ var Trinity = {};
 				var args = func;
 			}
 			
-			var obj = new Trinity.ContourDesicionFunction(x_min, x_max, y_min, y_max, decision_func, args);
+			var obj = new Soba.ContourDesicionFunction(x_min, x_max, y_min, y_max, decision_func, args);
 			this.elements.push(obj);
 		},
 
@@ -75,26 +75,26 @@ var Trinity = {};
 		},
 
 		xlabel: function(title, options) {
-			var obj = new Trinity.Label(title, options, 0);
+			var obj = new Soba.Label(title, options, 0);
 			var g = this._reserveSurrounding('bottom', 40);
 			this.surroundings.push([obj, g]);
 		},
 
 		ylabel: function(title, options) {
-			var obj = new Trinity.Label(title, options, 270);
+			var obj = new Soba.Label(title, options, 270);
 			var g = this._reserveSurrounding('left', 40);
 			this.surroundings.push([obj, g]);
 		},
 
 		legend: function(titles, location) {
-			var obj = new Trinity.Legend(this.elements, titles, location ? location : null, this.padding, this.margin);
+			var obj = new Soba.Legend(this.elements, titles, location ? location : null, this.padding, this.margin);
 			this.elements.push(obj);
 		},
 		
 		colorbar: function() {
 			this.elements.forEach(function(d){
-				if (d instanceof Trinity.ContourDesicionFunction) {
-					var obj = new Trinity.Colorbar(d);
+				if (d instanceof Soba.ContourDesicionFunction) {
+					var obj = new Soba.Colorbar(d);
 					var g = this._reserveSurrounding('right', 50);
 					this.surroundings.push([obj, g]);
 				}
@@ -224,7 +224,7 @@ var Trinity = {};
 	};
 
 	/* Static methods */
-	Trinity.getStyle = function(el, prop) {
+	Soba.getStyle = function(el, prop) {
 		if (el.currentStyle) {
 			return el.currentStyle[prop];
 		} else if (window.getComputedStyle) {
@@ -234,7 +234,7 @@ var Trinity = {};
 	};
 	
 	/* Sub classes */
-	Trinity.Util = {
+	Soba.Util = {
 		parseColorOption: function(option) {
 			if (!option) return 'blue';
 			var colors = {
@@ -256,12 +256,12 @@ var Trinity = {};
 		}
 	};
 
-	Trinity.Plot = function(x, y, option){
+	Soba.Plot = function(x, y, option){
 		this.x = x;
 		this.y = y;
 		this.option = option;
 	};
-	Trinity.Plot.prototype = {
+	Soba.Plot.prototype = {
 		x_range: function(){
 			if (!this._x_range) {
 				this._x_range = [$M.min(this.x), $M.max(this.x)];
@@ -392,16 +392,16 @@ var Trinity = {};
 		},
 
 		_parseColor: function(option) {
-			return Trinity.Util.parseColorOption(option);
+			return Soba.Util.parseColorOption(option);
 		},
 	};
 	
-	Trinity.Scatter = function(x, y, color){
+	Soba.Scatter = function(x, y, color){
 		this.x = x;
 		this.y = y;
 		this.color = color;
 	};
-	Trinity.Scatter.prototype = {
+	Soba.Scatter.prototype = {
 		x_range: function(){
 			if (!this._x_range) {
 				this._x_range = [$M.min(this.x), $M.max(this.x)];
@@ -483,7 +483,7 @@ var Trinity = {};
 		}
 	};
 	
-	Trinity.ContourDesicionFunction = function(x_min, x_max, y_min, y_max, decision_func, args){
+	Soba.ContourDesicionFunction = function(x_min, x_max, y_min, y_max, decision_func, args){
 		this.x_min = x_min;
 		this.x_max = x_max;
 		this.y_min = y_min;
@@ -491,7 +491,7 @@ var Trinity = {};
 		this.decision_func = decision_func;
 		this.args = args;
 	};
-	Trinity.ContourDesicionFunction.prototype = {
+	Soba.ContourDesicionFunction.prototype = {
 		x_range: function(){
 			return [this.x_min, this.x_max];
 		},
@@ -580,7 +580,7 @@ var Trinity = {};
 
 				var domain = this.domain();
 				if (args.colors) {
-					var level_color = args.colors instanceof Array ? Trinity.Util.parseColorOption(args.colors[level_i % args.colors.length]) : Trinity.Util.parseColorOption(args.colors);
+					var level_color = args.colors instanceof Array ? Soba.Util.parseColorOption(args.colors[level_i % args.colors.length]) : Soba.Util.parseColorOption(args.colors);
 				} else {
 					var level_color =  this.color((level-domain[0])/(domain[1]-domain[0]));
 				}
@@ -687,7 +687,7 @@ var Trinity = {};
 				if (level_i > 0) return; //Todo
 
 				if (args.colors) {
-					var level_color = args.colors instanceof Array ? Trinity.Util.parseColorOption(args.colors[level_i % args.colors.length]) : Trinity.Util.parseColorOption(args.colors);
+					var level_color = args.colors instanceof Array ? Soba.Util.parseColorOption(args.colors[level_i % args.colors.length]) : Soba.Util.parseColorOption(args.colors);
 				} else {
 					var level_color =  this.color((level-domain[0])/(domain[1]-domain[0]));
 				}
@@ -728,12 +728,12 @@ var Trinity = {};
 		},
 	};
 	
-	Trinity.Label = function(title, options, orientation){
+	Soba.Label = function(title, options, orientation){
 		this.title = title;
 		this.options = options ? options : {};
 		this.orientation = orientation ? orientation : 0;
 	};
-	Trinity.Label.prototype = {
+	Soba.Label.prototype = {
 		show: function(g){
 			var title = this.title;
 			var options = this.options;
@@ -756,14 +756,14 @@ var Trinity = {};
 		}
 	};
 	
-	Trinity.Legend = function(elements, titles, location, padding, margin){
+	Soba.Legend = function(elements, titles, location, padding, margin){
 		this.elements = elements;
 		this.titles = titles;
 		this.location = location;
 		this.padding = padding;
 		this.margin = margin;
 	};
-	Trinity.Legend.prototype = {
+	Soba.Legend.prototype = {
 		show: function(svg){
 			var base = svg
 			.append('g')
@@ -820,12 +820,12 @@ var Trinity = {};
 		}
 	};
 	
-	Trinity.Colorbar = function(contour_obj) {
+	Soba.Colorbar = function(contour_obj) {
 		this.contour = contour_obj;
-		Trinity.Colorbar.count++;
+		Soba.Colorbar.count++;
 	}
-	Trinity.Colorbar.count = 0;
-	Trinity.Colorbar.prototype = {
+	Soba.Colorbar.count = 0;
+	Soba.Colorbar.prototype = {
 		show: function(g) {
 			var g_w = g.attr('width'), g_h = g.attr('height');
 			
@@ -843,7 +843,7 @@ var Trinity = {};
 				.range([0, h]);
 			
 			var defs = g.append('svg:defs');
-			var id_prefix = 'cl_' + Trinity.Colorbar.count + '_';
+			var id_prefix = 'cl_' + Soba.Colorbar.count + '_';
 			for (var i=0 ; i<n_divs ; i++) {
 				var id = id_prefix + i;
 				var gradient = defs
@@ -899,4 +899,4 @@ var Trinity = {};
 		},
 	};
 
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);

@@ -1,10 +1,10 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
 	
-	var Neo = require('../../src/neo');
+	var Tempura = require('../../src/tempura');
 	require('../../src/decomposition/decomposition');
 	require('../../src/decomposition/pca');
 }
@@ -13,7 +13,7 @@ TestMain.Tester.addTest('PCATest', [
 	{
 		name : 'PCA n_component number',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
+		    var $M = Sushi.Matrix;
 		    var X = $M.fromArray([[ 1,  2,  6,  3,  4],
 					  [ 3,  4,  5,  4,  2],
 					  [ 3,  5,  1,  6,  8],
@@ -25,7 +25,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 1,  1, -1, -2,  1],
 					  [-1,  2,  3,  2,  1]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=4);
+		    var pca = new Tempura.Decomposition.PCA(n_components=4);
 		    pca.fit(X);
 		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
@@ -52,7 +52,7 @@ TestMain.Tester.addTest('PCATest', [
     {
 		name : 'PCA whitening',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
+		    var $M = Sushi.Matrix;
 		    var X = $M.fromArray([[ 1,  2,  6,  3,  4],
 					  [ 3,  4,  5,  4,  2],
 					  [ 3,  5,  1,  6,  8],
@@ -64,7 +64,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 1,  1, -1, -2,  1],
 					  [-1,  2,  3,  2,  1]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=2, copy=false, whiten=true);
+		    var pca = new Tempura.Decomposition.PCA(n_components=2, copy=false, whiten=true);
 		    pca.fit(X);
 
 		    var res = $M.fromArray([[-0.1239425 , -0.09113768, -0.04696256, -0.14208669, -0.14388662],
@@ -90,7 +90,7 @@ TestMain.Tester.addTest('PCATest', [
     {
 		name : 'PCA transform',
 		test : function(callback) {
-		    var $M = AgentSmith.Matrix;
+		    var $M = Sushi.Matrix;
 		    var X = $M.fromArray([[ 1,  2,  6,  3,  4],
 					  [ 3,  4,  5,  4,  2],
 					  [ 3,  5,  1,  6,  8],
@@ -113,7 +113,7 @@ TestMain.Tester.addTest('PCATest', [
 						   [ 2,  3,  4,  1,  9],
 						   [-1, -6,  1,  1, -2]])
 		    
-		    var pca = new Neo.Decomposition.PCA(n_components=2);
+		    var pca = new Tempura.Decomposition.PCA(n_components=2);
 		    pca.fit(X);
 		    trans_res = pca.transform(test_data);
 		    var res = $M.fromArray([[ 3.10080672, -2.95470944],
@@ -130,6 +130,42 @@ TestMain.Tester.addTest('PCATest', [
 		    for(var i=0; i<res.rows; i++){
 			var a = $M.extract(res, i, 0, 1, res.cols);
 			var b = $M.extract(trans_res, i, 0, 1, trans_res.cols);
+			if(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)){
+			    cnt += 1
+			}
+		    }
+
+		    if(cnt == res.rows){
+			return true
+		    }
+		    else{
+			return false
+		    }
+		}
+	},
+{
+		name : 'PCA n_component number',
+		test : function(callback) {
+		    var $M = Sushi.Matrix;
+
+
+		    var X = $M.fromArray([[ 1,  3,  3,  2,  3, -5, -1,  2,  1, -1],
+					  [ 2,  4,  5,  5, -1,  2, -2,  2,  1,  2],
+					  [ 6,  5,  1,  4, -3,  1,  5, -2, -1,  3],
+					  [ 3,  4,  6,  6,  2,  0,  3,  4, -2,  2],
+					  [ 4,  2,  8,  5,  5, -1,  2,  3,  1,  1]]).t();
+
+		    var pca = new Tempura.Decomposition.PCA(n_components=4);
+		    pca.fit(X);
+		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
+					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
+					    [ 0.29016429, -0.88217383,  0.30243265, -0.00462311,  0.21467914],
+					    [-0.72480776, -0.23331985, -0.2046507 ,  0.5249886 ,  0.32050059]])
+
+		    var cnt = 0;
+		    for(var i=0; i<res.rows; i++){
+			var a = $M.extract(res, i, 0, 1, res.cols);
+			var b = $M.extract(pca.components_, i, 0, 1, pca.components_.cols);
 			if(a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)){
 			    cnt += 1
 			}

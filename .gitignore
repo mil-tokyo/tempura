@@ -10,3 +10,4 @@ dataset/mnist/train-labels-idx1-ubyte
 
 .project
 .settings
+.pydevproject

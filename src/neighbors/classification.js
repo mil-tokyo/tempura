@@ -1,14 +1,13 @@
-(function(nodejs, $M, Neo) {
+(function(nodejs, $M, Tempura) {
 	if (nodejs) {
-		var Neo = require('../neo');
 		require('./neighbors.js');
 		require('./nearest_neighbors.js');
 	}
 	
-	Neo.Neighbors.KNeighborsClassifier = function(args) {
+	Tempura.Neighbors.KNeighborsClassifier = function(args) {
 		if (typeof args === 'undefined') args = {};
 
-		Neo.Neighbors.NearestNeighbors.apply(this);
+		Tempura.Neighbors.NearestNeighbors.apply(this);
 
 		this.n_neighbors = typeof args.n_neighbors === 'undefined' ? 5		 : args.n_neighbors;
 		this.algorithm   = typeof args.algorithm   === 'undefined' ? 'auto'	: args.algorithm;
@@ -16,20 +15,20 @@
 		this.weights	 = typeof args.weights	 === 'undefined' ? 'uniform' : args.weights;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype = Object.create(Neo.Neighbors.NearestNeighbors.prototype, {
+	Tempura.Neighbors.KNeighborsClassifier.prototype = Object.create(Tempura.Neighbors.NearestNeighbors.prototype, {
 		constructor: {
-			value: Neo.Neighbors.KNeighborsClassifier,
+			value: Tempura.Neighbors.KNeighborsClassifier,
 			enumerabule: false,
 			writable: true,
 			configurable: true
 		}
 	});
 
-	Neo.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype.fit = function(X, y) {
 		if (typeof X === 'undefined') throw new Error('X must be set');
-		if (!(X instanceof $M)) throw new TypeError('X must be an instance of AgentSmith.Matrix');
+		if (!(X instanceof $M)) throw new TypeError('X must be an instance of Sushi.Matrix');
 		if (typeof y === 'undefined') throw new Error('y must be set');
-		if (!(y instanceof $M)) throw new TypeError('y must be an instance of AgentSmith.Matrix');
+		if (!(y instanceof $M)) throw new TypeError('y must be an instance of Sushi.Matrix');
 		this._fit_X = X;
 		this.y = y;
 
@@ -43,7 +42,7 @@
 		return this;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype.predict = function(X) {
 		var neigh = this.kneighbors(X);
 		var weights = this._get_weights(neigh[0], this.weights);
 
@@ -59,7 +58,7 @@
 		return res;
 	}
 
-	Neo.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
+	Tempura.Neighbors.KNeighborsClassifier.prototype._get_weights = function(dist, weights) {
 		var ones = (new $M(dist.rows, dist.cols)).setEach(function(){ return 1;});
 		if (weights === 'uniform' || weights === null || typeof weights === 'undefined') {
 			return ones;
@@ -70,5 +69,5 @@
 			throw TypeError('Unsupported weight type: ' + weights);
 		}
 	}
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 

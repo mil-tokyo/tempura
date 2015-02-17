@@ -1,8 +1,4 @@
-(function(nodejs, $M, Neo){
-    if (nodejs) {
-	var Neo = require('../neo');
-    }
-
-    Neo.LinearModel = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.LinearModel = {};
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 

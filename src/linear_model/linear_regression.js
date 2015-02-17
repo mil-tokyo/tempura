@@ -1,28 +1,25 @@
 /* --- linear regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
+		require('../utils/utils.js');
+		require('../utils/statistics.js');
+		require('../utils/checkargs.js');
+		require('./linear_model');
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
 
     // init
-    Neo.LinearModel.LinearRegression = function(args) {
+    Tempura.LinearModel.LinearRegression = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.normalize = (typeof args.normalize === 'undefined') ? true : args.normalize;
 	this.solver = (typeof args.solver === 'undefined') ? 'qr' : args.solver;
     };
-    var $LinReg = Neo.LinearModel.LinearRegression.prototype;
+    var $LinReg = Tempura.LinearModel.LinearRegression.prototype;
     
     // fit
     $LinReg.fit = function(X, y) {
@@ -83,4 +80,4 @@
 	return pred
     };
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

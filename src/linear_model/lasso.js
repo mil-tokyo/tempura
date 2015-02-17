@@ -1,23 +1,21 @@
 /* --- lasso regression --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('../utils/utils.js');
-	require('../utils/statistics.js');
-	require('../utils/checkargs.js');
-	require('./linear_model');
-	require('./base');
+		require('../utils/utils.js');
+		require('../utils/statistics.js');
+		require('../utils/checkargs.js');
+		require('./linear_model');
+		require('./base');
     }
     
     // alias
-    var $S = Neo.Utils.Statistics;
-    var $C = Neo.Utils.Check;
-    var $Base = Neo.LinearModel.Base;
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
     
     // init
-    Neo.LinearModel.Lasso = function(args) {
+    Tempura.LinearModel.Lasso = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.lambda = (typeof args.lambda === 'undefined') ? 1.0 : args.lambda;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
@@ -25,7 +23,7 @@
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 1000 : args.n_iter;
 	this.tolerance = (typeof args.tolerance === 'undefined') ? 0.0001 : args.tolerance;
     };
-    var $Lasso = Neo.LinearModel.Lasso.prototype;
+    var $Lasso = Tempura.LinearModel.Lasso.prototype;
     
     // fit
     $Lasso.fit = function(X, y) {
@@ -63,4 +61,4 @@
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
 	return pred
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

@@ -1,16 +1,13 @@
 /* --- base --- */
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./linear_model');
+    	require('./linear_model');
     }
         
     // init
-    Neo.LinearModel.Base = {};
-    var $Base = Neo.LinearModel.Base;
+    Tempura.LinearModel.Base = {};
+    var $Base = Tempura.LinearModel.Base;
 
     
     /* algorithms */
@@ -75,4 +72,4 @@
 	return output;
     }
 
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

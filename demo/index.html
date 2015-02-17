@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Neo demo page</title>
+		<title>Tempura demo page</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width">
-		<!--  AgentSmith -->
-		<script src="../agent_smith/src/agent_smith.js"></script>
-		<script src="../agent_smith/src/agent_smith_cl.js"></script>
+		<!--  Sushi -->
+		<script src="../sushi/src/sushi.js"></script>
+		<script src="../sushi/src/sushi_cl.js"></script>
 		
-		<!-- AgentSmithML Main Libraries -->
-		<script src="../src/neo.js"></script>
+		<!-- Tempura Main Libraries -->
+		<script src="../src/tempura.js"></script>
 		<script src="../src/utils/utils.js"></script>
 		<script src="../src/utils/statistics.js"></script>
 		<script src="../src/utils/checkargs.js"></script>
@@ -29,10 +29,10 @@
 		<script src="../src/mixture/mixture.js"></script>
 		<script src="../src/mixture/gmm.js"></script>
 		
-		<!-- Trinity Libraries and dependencies -->
+		<!-- Soba Libraries and dependencies -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-		<script src="http://mil-tokyo.github.io/trinity/src/trinity.js"></script>
+		<script src="./js/soba.js"></script>
 		
 		<!-- bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -46,7 +46,7 @@
 		<script src="./js/demos/nearest_neighbor_classifier.js"></script>
 		<script src="./js/demos/gmm.js"></script>
 		
-		<link rel="stylesheet" href="./css/trinity.css">
+		<link rel="stylesheet" href="./css/soba.css">
 		<link rel="stylesheet" href="./css/demo.css">
 	</head>
 
@@ -55,7 +55,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Neo demos</a>
+      <a class="navbar-brand" href="#">Tempura demos</a>
     </div>
   </div><!-- /.container-fluid -->
 </nav>
@@ -109,11 +109,11 @@ No method selected.
 		
 		<script>
 			$(function(){
-				AgentSmithDemo.setDrawArea($("#content"));
+				SushiDemo.setDrawArea($("#content"));
 				
 				var name;
 				var $menu = $("#menu").append("<ul>").addClass("list-group");
-				AgentSmithDemo.getDemoNames().forEach(function(name){
+				SushiDemo.getDemoNames().forEach(function(name){
 					$menu.append(
 						$("<li>").addClass("list-group-item").text(name).click(function(){
 							name = $(this).text();
@@ -124,18 +124,18 @@ No method selected.
 								$("<h2>").text(name)
 							)
 							.append(
-								$("<div>").html(AgentSmithDemo.getDescription(name))
+								$("<div>").html(SushiDemo.getDescription(name))
 							)
 							;
 
-							$("#code").empty().text(AgentSmithDemo.getCode(name));
+							$("#code").empty().text(SushiDemo.getCode(name));
 							
-							AgentSmithDemo.runDemo(name);
+							SushiDemo.runDemo(name);
 							
-							AgentSmithDemo.setArgsInput($("#args-input"), name);
+							SushiDemo.setArgsInput($("#args-input"), name);
 							
 							$("#run-demo-with-args").unbind().click(function(){
-								AgentSmithDemo.runDemoByInput($("#args-input"), name);
+								SushiDemo.runDemoByInput($("#args-input"), name);
 							});
 						})
 					);

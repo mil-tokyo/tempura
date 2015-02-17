@@ -1,7 +1,7 @@
-var AgentSmithDemo = {};
+var SushiDemo = {};
 
 (function($M, $T, $){
-	AgentSmithDemo = {
+	SushiDemo = {
 		demos: {},
 		class_input_wrapper: "input-group",
 		class_arg_name: "arg-name",
@@ -72,7 +72,7 @@ var AgentSmithDemo = {};
 			this.$draw_area.empty();
 			var plt = new $T("#" + this.$draw_area.attr("id"));
 			
-			var args = AgentSmithDemo.getArgsFromInput($input, name);
+			var args = SushiDemo.getArgsFromInput($input, name);
 			this.demos[name].demo(plt, args);
 		},
 		
@@ -139,5 +139,5 @@ var AgentSmithDemo = {};
 		}
 	}
 	
-})(AgentSmith.Matrix, Trinity, jQuery);
+})(Sushi.Matrix, Soba, jQuery);
 	

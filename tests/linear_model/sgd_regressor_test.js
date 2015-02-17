@@ -1,9 +1,9 @@
 var nodejs = (typeof window === 'undefined');
 if (nodejs) {
 	var TestMain = require('../main');
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	require('../../agent_smith/src/agent_smith_cl');
-	var Neo = require('../../src/neo');
+	var Sushi = require('../../sushi/src/sushi');
+	require('../../sushi/src/sushi_cl');
+	var Tempura = require('../../src/tempura');
 	require('../../src/utils/statistics');
 	require('../../src/linear_model/linear_model');
 	require('../../src/linear_model/base.js');
@@ -14,9 +14,9 @@ TestMain.Tester.addTest('SGDRegressorTest', [
 									   {
 										   name : 'SVM',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
+											   var $M = Sushi.Matrix;
 											   // regularization term seems better to use 1/N
-											   var sgdr = new Neo.LinearModel.SGDRegressor({algorithm:'sgdsvm'});
+											   var sgdr = new Tempura.LinearModel.SGDRegressor({algorithm:'sgdsvm'});
 											   var X = $M.fromArray([
 																	 [ 1.4949318 ,  3.85848832],
 																	 [ 1.42613574,  0.0456529 ],
@@ -76,9 +76,9 @@ TestMain.Tester.addTest('SGDRegressorTest', [
 									   {
 										   name : 'Perceptron',
 											   test : function(callback) {
-											   var $M = AgentSmith.Matrix;
+											   var $M = Sushi.Matrix;
 											   // aver:false is required for perceptron (cuz this method will normalize features before fitting)
-											   var sgdr = new Neo.LinearModel.SGDRegressor({algorithm:'perceptron', aver:false, lambda:0.0});
+											   var sgdr = new Tempura.LinearModel.SGDRegressor({algorithm:'perceptron', aver:false, lambda:0.0});
 
 											   var X = $M.fromArray( [[0, 4, 3],
 																	  [1, 5, 1],

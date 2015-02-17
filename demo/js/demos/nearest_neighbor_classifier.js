@@ -1,5 +1,5 @@
 (function($M){
-	AgentSmithDemo.addDemo('Nearest neighbor classifier',
+	SushiDemo.addDemo('Nearest neighbor classifier',
 		'A classifier based on nearest neighbor', {
 			X: {
 				type: 'matrix',
@@ -44,7 +44,7 @@
 			var k = args.k;
 
 			// Fit classifier
-			var clf = new Neo.Neighbors.KNeighborsClassifier({n_neighbors: k});
+			var clf = new Tempura.Neighbors.KNeighborsClassifier({n_neighbors: k});
 			clf.fit(samples, labels);
 
 			// Plot samples
@@ -62,4 +62,4 @@
 			plt.legend(['Data points (2 classes)', 'Decision boundary']);
 			plt.show();
 		});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);

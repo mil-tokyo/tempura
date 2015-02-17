@@ -1,6 +1,6 @@
 (function($M){
-	AgentSmithDemo.addDemo('Visualizer demo',
-	'In this demo, sine curves are drawn in several ways by visualize tool "Trinity"',
+	SushiDemo.addDemo('Visualizer demo',
+	'In this demo, sine curves are drawn in several ways by visualize tool "Soba"',
 	function(plt){x
 		var x_min = -10;
 		var x_max = 10;
@@ -31,5 +31,5 @@
 		plt.legend(['y=sin(x)', 'y=sin(x-0.5)', 'y=sin(x-1.0)', 'y=sin(x-1.5)', 'y=sin(x-2.0)', 'y=sin(x-2.5)'], 'right bottom');
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);
 

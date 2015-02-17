@@ -1,42 +1,45 @@
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
 
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./cluster');
+    	require('./cluster');
+    	require('../utils/utils');
+    	require('../utils/statistics');
     }
 
-    var $S = Neo.Utils.Statistics;
+    var $S = Tempura.Utils.Statistics;
 
     function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
-	X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
+	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
 	
-	x_squared_norms = Neo.Metrics.Pairwise.row_norms(X, squared=true);
+	var x_squared_norms = Tempura.Metrics.Pairwise.row_norms(X, true);
 
 	if(n_jobs=1){
-	    results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
-	    cluster_centers_ = results.cluster_centers_;
-	    labels_ = results.labels_;
+	    var results = _kmeans_single(X, n_clusters, x_squared_norms, init, maxiter, tol);
+	    var cluster_centers_ = results.cluster_centers_;
+	    var labels_ = results.labels_;
 	}
 	else{
 	    throw new Error("not implemented");
 	}
+	cluster_centers_ = $M.add(cluster_centers_,X_mean);
 	return { cluster_centers_ : cluster_centers_, labels_: labels_}
     }
 
     function _kmeans_single(X, n_clusters, squared_norms, init, maxiter, tol){
 	var n_features = X.cols;
 	var init_results = _init_centroids(X, n_clusters, init);
+
 	var centers = init_results.centers;
 	var labels = init_results.labels;
+
 	var centers_old = new $M(n_clusters, n_features).zeros();
 	
 	
 	for(var i=0; i<maxiter; i++){
 	    labels = _labels_inertia(X, centers);
 	    centers = _calc_centers(X, labels, n_clusters);
-	    if(Neo.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= tol){
+	    if(Tempura.Metrics.Pairwise.row_norms($M.sub(centers, centers_old)) <= tol){
 		break
 	    }
 	    centers_old = centers;
@@ -49,12 +52,12 @@
     function _labels_inertia(X, centers){
 	var n_samples = X.rows
 	var k = centers.rows
-	var all_distances = Neo.Metrics.Pairwise.euclidean_distances(centers, X, squared=true);
+	var all_distances = Tempura.Metrics.Pairwise.euclidean_distances(centers, X, true);
 	var mindist = new $M(n_samples, 1).zeros(100000);
 	var labels = new $M(n_samples, 1).zeros(-1);
 
 	for(var center_id=0; center_id<k; center_id++){
-	    dist = $M.getRow(all_distances, center_id);
+	    var dist = $M.getRow(all_distances, center_id);
 	    for(var i=0; i<n_samples; i++){
 		if(dist.data[i] < mindist.data[i]){
 		    mindist.data[i] = dist.data[i];
@@ -88,7 +91,7 @@
     }
 
 
-    Neo.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
+    Tempura.Cluster.Kmeans = function(n_clusters, init, n_jobs, maxiter, tol) {
 	if(n_clusters === undefined) n_clusters = 8;
 	if(init === undefined) init = "kmeans++";
 	if(n_jobs === undefined) n_jobs = 1;
@@ -103,16 +106,16 @@
     };
 
 
-    Neo.Cluster.Kmeans.prototype.fit = function(X){
+    Tempura.Cluster.Kmeans.prototype.fit = function(X){
 	X = this._check_fit_data(X);
-	results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
+	var results = k_means(X, this.n_clusters, this.init, this.n_jobs, this.maxiter, this.tol);
 	this.cluster_centers_ = results["cluster_centers_"];
 	this.labels_ = results["labels_"];
 	return this;
     }
 
     
-    Neo.Cluster.Kmeans.prototype._check_fit_data = function(X){
+    Tempura.Cluster.Kmeans.prototype._check_fit_data = function(X){
 	'Verify that the number of samples given is larger than k'
 	if(X.rows < this.n_clusters){
 	    throw new Error('n_samples=' + X.rows + ' should be >= n_clusters='  + this.n_clusters);
@@ -138,17 +141,20 @@
 	}
 
 	else if(init == "kmeans++"){
-	    var old_index = $S.choice(new $M(n_clusters, 1).range());
-	    var all_distances = Neo.Metrics.Pairwise.euclidean_distances(X, X);
+	    var old_index = $S.choice(new $M(n_samples, 1).range());
+	    var all_distances = Tempura.Metrics.Pairwise.euclidean_distances(X, X);
+
 	    for(var c=0; c<n_clusters; c++){
 		setCol(all_distances, new $M(all_distances.rows, 1).zeros(), old_index);
+		
 		var dist = $M.getRow(all_distances, old_index);
-		dist.times($M.sum(dist));
+		dist.times(1.0/$M.sum(dist));
+		
 		var random_value = Math.random();
 		var dist_cumsum = 0;
 		for(var i=0; i<dist.length; i++){
 		dist_cumsum += dist.data[i];
-		    if(random_value < dist_cumsum){
+		    if(random_value <= dist_cumsum){
 			index = i;
 			break;
 		    }
@@ -162,8 +168,8 @@
 	else{
             throw new Error("the init parameter for the k-means should be 'k-means++' or 'random'" + init + "was passed.");
 	}
-	
 	return {centers : centers, labels : labels}
+	
     }
 
 
@@ -194,6 +200,6 @@
 	
 	return X
     }
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 
 

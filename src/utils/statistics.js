@@ -1,17 +1,14 @@
 /* --- util statistic --- */
 
-(function(nodejs, $M, Neo){
+(function(nodejs, $M, Tempura){
     // node
-    var nodejs = (typeof window === 'undefined');
     if (nodejs) {
-	var AgentSmith = require('../../agent_smith/src/agent_smith');
-	var Neo = require('../neo');
-	require('./utils');
+    	require('./utils');
     }
     
     // init
-    Neo.Utils.Statistics = {};
-    var $S = Neo.Utils.Statistics;
+    Tempura.Utils.Statistics = {};
+    var $S = Tempura.Utils.Statistics;
     
     
     /* preprocessing */
@@ -57,7 +54,7 @@
     
     // randperm
     $S.randperm = function(N) {
-	array = Array.apply(null, {length: N}).map(Number.call, Number);
+	var array = Array.apply(null, {length: N}).map(Number.call, Number);
 	var last_ind = N, val, ind;
 	while (last_ind) {
 	    ind = Math.floor(Math.random() * last_ind--);
@@ -125,6 +122,11 @@
     $S.exp = function(X) {
 	return X.clone().map(Math.exp);
     }
+
+    // exp
+    $S.log = function(X) {
+	return X.clone().map(Math.log);
+    }
     
     // frac
     $S.frac = function(X){
@@ -134,8 +136,6 @@
     }
     
     
-
-
     /* activation funcs */
     
     // sigmoid
@@ -196,4 +196,4 @@
 	}
     return newM
     };
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);

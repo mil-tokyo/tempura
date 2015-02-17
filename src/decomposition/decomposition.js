@@ -1,10 +1,6 @@
-(function(nodejs, $M, Neo){
-    if (nodejs) {
-        var Neo = require('../neo');
-    }
-
-    Neo.Decomposition = {};
-})(typeof window === 'undefined', AgentSmith.Matrix, Neo);
+(function(nodejs, $M, Tempura){
+    Tempura.Decomposition = {};
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
 
 
 

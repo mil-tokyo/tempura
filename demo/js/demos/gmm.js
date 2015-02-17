@@ -1,5 +1,5 @@
 (function($M){
-	AgentSmithDemo.addDemo('GMM',
+	SushiDemo.addDemo('GMM',
 	'In this demo, data points are given which are sampled from some probabilistic distribution and Gaussian Mixtures are estimated for that by EM algorithm',
 	{
 		X: {
@@ -24,7 +24,7 @@
 		var X = args.X;
 
 		// Estimate GMM
-		var gmm = new Neo.Mixture.GMM(2, 100, 0.0000001);
+		var gmm = new Tempura.Mixture.GMM(2, 100, 0.0000001);
 		gmm.fit(X);
 
 		// Plot data points
@@ -44,5 +44,5 @@
 		plt.colorbar();
 		plt.show();
 	});
-})(AgentSmith.Matrix);
+})(Sushi.Matrix);
 
