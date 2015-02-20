@@ -71,6 +71,7 @@
     // substitution (effective linear algebra solution for triangle matrix)
     $S.fbSubstitution = function( triangle, target ) {
 	var w = new $M( triangle.cols, target.cols );
+	var alpha = Math.pow(10,-12);
 	// forward substitution (ie. the triangle has lower shape)
 	if ( triangle.get(0,triangle.cols-1) === 0 ) {
 	    for (var t = 0; t<target.cols; t++) {
@@ -79,17 +80,19 @@
 		    for (var col=0; col<row; col++) {
 			tmp = tmp - w.get(col,t) * triangle.get(row,col);
 		    }
-				w.set( row, t, tmp / triangle.get(row,row) );
+		    //console.log(tmp / triangle.get(row,row));
+		    w.set( row, t, tmp / (triangle.get(row,row)+alpha));
 		}
 	    }
-	} else { // backward substitution
+	} else {
+	    // backward substitution
 	    for (var t = 0; t<target.cols; t++) {
 		for (var row = target.rows-1; -1<row; row--) {
 		    var tmp = target.get(row,t);
 		    for (var col=triangle.cols-1; row<col; col--) {
 			tmp = tmp - w.get(col,t) * triangle.get(row,col);
 		    }
-		    w.set( row, t, tmp / triangle.get(row,row) );
+		    w.set( row, t, tmp / (triangle.get(row,row)+alpha) );
 			}
 	    }
 	}
