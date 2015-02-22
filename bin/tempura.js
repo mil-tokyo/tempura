@@ -923,13 +923,6 @@ if (typeof window === 'undefined') {
 	    } else {
 		var qr = $M.qr(meanStd.X.t());
 		var r1 = $M.extract( qr.R, 0, 0, X.rows, X.rows);
-		console.log("=======ka======")
-		qr.R.print();
-		qr.Q.print();
-		console.log("r1:")
-		r1.print();
-		console.log("target:")
-		meanStd.y.print();
 		var tmp = $S.fbSubstitution( r1.t(), meanStd.y );
 		var zeromat = new $M(X.cols-X.rows,y.cols); zeromat.zeros();
 		var w = $M.mul( qr.Q, $M.vstack([tmp, zeromat]) );
