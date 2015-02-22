@@ -41,7 +41,7 @@ if (typeof window === 'undefined') {
     
     // center and normalize
     $S.meanStd = function( center, normalize, X, y, ddof) {
-    var ddof = (typeof ddof === "undefined") ? X.rows - 1 : ddof;
+    var ddof = (typeof ddof === "undefined") ? 1 : ddof;
 	if (center) {
 	    var X_mean = $M.sumEachCol(X).times( 1.0 / X.rows );
 	    var tmpX = $M.sub( X, X_mean );
@@ -925,11 +925,6 @@ if (typeof window === 'undefined') {
 		var U = svd.V; var V = svd.U
 		var pseudo_inv = $M.mul($M.mul(V, $M.diag($S.frac(svd.S))), U.t());
 		var w = $M.mul(pseudo_inv, meanStd.y);
-		// var qr = $M.qr(meanStd.X.t());
-		// var r1 = $M.extract( qr.R, 0, 0, X.rows, X.rows);
-		// var tmp = $S.fbSubstitution( r1.t(), meanStd.y );
-		// var zeromat = new $M(X.cols-X.rows,y.cols); zeromat.zeros();
-		// var w = $M.mul( qr.Q, $M.vstack([tmp, zeromat]) );
 	    }
 	} else {
 	    throw new Error('solver should be lsqr or qr, and others have not implemented');

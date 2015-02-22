@@ -15,7 +15,7 @@
     
     // center and normalize
     $S.meanStd = function( center, normalize, X, y, ddof) {
-    var ddof = (typeof ddof === "undefined") ? X.rows - 1 : ddof;
+    var ddof = (typeof ddof === "undefined") ? 1 : ddof;
 	if (center) {
 	    var X_mean = $M.sumEachCol(X).times( 1.0 / X.rows );
 	    var tmpX = $M.sub( X, X_mean );
