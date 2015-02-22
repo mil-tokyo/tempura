@@ -144,7 +144,7 @@ TestMain.Tester.addTest('KmeansTest', [
 	    kmeans.fit(X);
 	    var result = kmeans.labels_;
 	    result.print();
-	    if (result.nearlyEquals($M.fromArray([[1],[1],[1],[1]])) === false && result.nearlyEquals($M.fromArray([0],[0],[0],[0])) === false ){
+	    if (result.nearlyEquals($M.fromArray([[1],[1],[1],[1]])) === false && result.nearlyEquals($M.fromArray([[0],[0],[0],[0]])) === false ){
                 return true;
 	    }
 	    return false;
