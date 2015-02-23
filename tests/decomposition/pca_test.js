@@ -25,7 +25,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 1,  1, -1, -2,  1],
 					  [-1,  2,  3,  2,  1]])
 		    
-		    var pca = new Tempura.Decomposition.PCA(n_components=4);
+		    var pca = new Tempura.Decomposition.PCA(4);
 		    pca.fit(X);
 		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],
@@ -49,7 +49,7 @@ TestMain.Tester.addTest('PCATest', [
 		    }
 		}
 	},
-	/*
+	
     {
 		name : 'PCA whitening',
 		test : function(callback) {
@@ -60,8 +60,7 @@ TestMain.Tester.addTest('PCATest', [
 					[ -1, -2, 5, 3, 2 ], [ 2, 2, -2, 4, 3 ],
 					[ 1, 1, -1, -2, 1 ], [ -1, 2, 3, 2, 1 ] ])
 
-			var pca = new Tempura.Decomposition.PCA(n_components = 2,
-					copy = false, whiten = true);
+			var pca = new Tempura.Decomposition.PCA(2, true);
 			pca.fit(X);
 
 			var res = $M.fromArray([
@@ -71,17 +70,13 @@ TestMain.Tester.addTest('PCATest', [
 							0.07599887 ] ])
 
 			var cnt = 0;
-			pca.components_.print();
 			for (var i = 0; i < res.rows; i++) {
 				var a = $M.extract(res, i, 0, 1, res.cols);
-				var b = $M.extract(pca.components_, i, 0, 1,
-						pca.components_.cols);
+				var b = $M.extract(pca.components_, i, 0, 1, pca.components_.cols);
 				if (a.nearlyEquals(b) || a.times(-1).nearlyEquals(b)) {
 					cnt += 1
 				}
 			}
-			console.log(cnt);
-			console.log(res.rows);
 			if (cnt == res.rows) {
 				return true
 			} else {
@@ -89,7 +84,7 @@ TestMain.Tester.addTest('PCATest', [
 			}
 		}
 	},
-	*/
+	
     {
 		name : 'PCA transform',
 		test : function(callback) {
@@ -116,7 +111,7 @@ TestMain.Tester.addTest('PCATest', [
 						   [ 2,  3,  4,  1,  9],
 						   [-1, -6,  1,  1, -2]])
 		    
-		    var pca = new Tempura.Decomposition.PCA(n_components=2);
+		    var pca = new Tempura.Decomposition.PCA(2);
 		    pca.fit(X);
 		    trans_res = pca.transform(test_data);
 		    var res = $M.fromArray([[ 3.10080672, -2.95470944],
@@ -158,7 +153,7 @@ TestMain.Tester.addTest('PCATest', [
 					  [ 3,  4,  6,  6,  2,  0,  3,  4, -2,  2],
 					  [ 4,  2,  8,  5,  5, -1,  2,  3,  1,  1]]).t();
 
-		    var pca = new Tempura.Decomposition.PCA(n_components=4);
+		    var pca = new Tempura.Decomposition.PCA(4);
 		    pca.fit(X);
 		    var res = $M.fromArray([[-0.47967258, -0.35271391, -0.18175084, -0.54989279, -0.55685875],
 					    [ 0.31349581, -0.14488228, -0.8973768 , -0.12932263,  0.24232218],

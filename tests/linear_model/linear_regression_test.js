@@ -84,7 +84,6 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 					[2, 8, 2]] );
 	    
 	    linReg.fit(X,y);
-	    linReg.weight.print();
 	    
 	    var pred = linReg.predict(sample);
 	    pred.print();

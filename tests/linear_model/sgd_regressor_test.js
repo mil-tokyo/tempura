@@ -90,9 +90,9 @@ TestMain.Tester.addTest('SGDRegressorTest', [
 																	  [0, 1, 0],
 																	  [0, 1, 0],
 																	  [0, 0, 1]] );
-											   var sample = $M.fromArray( [[3, 3, 6],
-																	  [2, 8, 2],
-																	  [-2, 6, -3]] );
+											   var sample = $M.fromArray( [[0.5, 4.5, 2],
+																	  [2.5, 6.5, 4],
+																	  [-1, -4, 5]] );
 
 											   sgdr.fit(X,y);
 											   var pred = sgdr.predict(sample);
@@ -101,9 +101,9 @@ TestMain.Tester.addTest('SGDRegressorTest', [
 											   var ans = $M.argmaxEachRow( pred );
 											   ans.print();
 											   // $Base.binaryActivation( pred ).print();
-											   if ( ans.nearlyEquals($M.fromArray( [[1],
+											   if ( ans.nearlyEquals($M.fromArray( [[0],
 																					[1],
-																					[0]] ))) {
+																					[2]] ))) {
 												   return true;
 											   }
 											   return false;
