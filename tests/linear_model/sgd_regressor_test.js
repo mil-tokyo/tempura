@@ -67,48 +67,47 @@ TestMain.Tester.addTest('SGDRegressorTest', [
 																							   $M.fromArray( [[-0.037, 0.119]] ))) {
 												   return true;
 											   }
-											   return false;
-
-										   }
-									   },
-
-
-									   {
-										   name : 'Perceptron',
-											   test : function(callback) {
-											   var $M = Sushi.Matrix;
-											   // aver:false is required for perceptron (cuz this method will normalize features before fitting)
-											   var sgdr = new Tempura.LinearModel.SGDRegressor({algorithm:'perceptron', aver:false, lambda:0.0});
-
-											   var X = $M.fromArray( [[0, 4, 3],
-																	  [1, 5, 1],
-																	  [2, 8, 2],
-																	  [3, 5, 6],
-																	  [-1, -4, 5]] );
-											   var y = $M.fromArray( [[1, 0, 0],
-																	  [1, 0, 0],
-																	  [0, 1, 0],
-																	  [0, 1, 0],
-																	  [0, 0, 1]] );
-											   var sample = $M.fromArray( [[0.5, 4.5, 2],
-																	  [2.5, 6.5, 4],
-																	  [-1, -4, 5]] );
-
-											   sgdr.fit(X,y);
-											   var pred = sgdr.predict(sample);
-											   console.log('weight');
-											   sgdr.weight.print();
-											   var ans = $M.argmaxEachRow( pred );
-											   ans.print();
-											   // $Base.binaryActivation( pred ).print();
-											   if ( ans.nearlyEquals($M.fromArray( [[0],
-																					[1],
-																					[2]] ))) {
-												   return true;
+											       return false;
+											       
 											   }
-											   return false;
-
-										   }
 									   },
 
-												 ]);
+
+    {
+	name : 'Perceptron',
+	test : function(callback) {
+	    var $M = Sushi.Matrix;
+	    // aver:false is required for perceptron (cuz this method will normalize features before fitting)
+	    var sgdr = new Tempura.LinearModel.SGDRegressor({algorithm:'perceptron', aver:false, lambda:0.0});
+	    var X = $M.fromArray( [[0, 4, 3], 
+				   [1, 5, 1],
+				   [2, 8, 2],
+				   [3, 5, 6],
+				   [-1, -4, 5]] );
+	    var y = $M.fromArray( [[1, 0, 0],
+				   [1, 0, 0],
+				   [0, 1, 0],
+				   [0, 1, 0],
+				   [0, 0, 1]] );
+	    var sample = $M.fromArray( [[0.5, 4.5, 2],
+					[2.5, 6.5, 4],
+					[-1, -4, 5]] );
+	    
+	    sgdr.fit(X,y);
+	    var pred = sgdr.predict(sample);
+	    console.log('weight');
+	    sgdr.weight.print();
+	    var ans = $M.argmaxEachRow( pred );
+	    ans.print();
+	    // $Base.binaryActivation( pred ).print();
+	    if ( ans.nearlyEquals($M.fromArray( [[0],
+						 [1],
+						 [2]] ))) {
+		return true;
+	    }
+	    return false;
+	    
+	}
+    },
+    
+]);
