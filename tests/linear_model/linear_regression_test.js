@@ -69,7 +69,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 
 										   }
 									   },
-
+/*
 									   {
 										   name : 'Linear Regression qr row < col',
 											   test : function(callback) { // temporary. change after implementing adequate qr decomposition
@@ -95,7 +95,7 @@ TestMain.Tester.addTest('LinearRegressionTest', [
 
 										   }
 									   },
-
+*/
 									   {
 										   name : 'Linear Regression without intercept',
 											   test : function(callback) {
