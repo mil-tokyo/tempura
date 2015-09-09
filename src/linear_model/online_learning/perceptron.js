@@ -3,11 +3,11 @@
 (function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
-		require('../utils/utils.js');
-		require('../utils/statistics.js');
-		require('../utils/checkargs.js');
-		require('./linear_model');
-		require('./base');
+		require('../../utils/utils.js');
+		require('../../utils/statistics.js');
+		require('../../utils/checkargs.js');
+		require('../linear_model');
+		require('../base');
     }
     
     // alias
@@ -16,13 +16,13 @@
     var $Base = Tempura.LinearModel.Base;
     
     // init
-    Tempura.LinearModel.Perceptron = function(args) {
+    Tempura.LinearModel.OnlineLearning.Perceptron = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
 	this.eta = (typeof args.eta === 'undefined') ? 1.0 : args.eta;
 	this.center = (typeof args.center === 'undefined') ? true : args.center;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Perceptron = Tempura.LinearModel.Perceptron.prototype;
+    var $Perceptron = Tempura.LinearModel.OnlineLearning.Perceptron.prototype;
     
     // fit
     /* target y as a matrix of [n_samples, 1] */
