@@ -1,13 +1,13 @@
-/* --- perceptron --- */
+/* --- passive aggressive --- */
 
 (function(nodejs, $M, Tempura){
     // node
     if (nodejs) {
-		require('../utils/utils.js');
-		require('../utils/statistics.js');
-		require('../utils/checkargs.js');
-		require('./linear_model');
-		require('./base');
+		require('../../utils/utils.js');
+		require('../../utils/statistics.js');
+		require('../../utils/checkargs.js');
+		require('../linear_model');
+		require('../base');
     }
     
     // alias
@@ -16,17 +16,17 @@
     var $Base = Tempura.LinearModel.Base;
     
     // init
-    Tempura.LinearModel.Perceptron = function(args) {
+    Tempura.LinearModel.OnlineLearning.PassiveAggressive = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
-	this.eta = (typeof args.eta === 'undefined') ? 1.0 : args.eta;
-	this.center = (typeof args.center === 'undefined') ? true : args.center;
+	this.C = (typeof args.eta === 'undefined') ? 1.0 : args.C;
+	this.mode = (typeof args.center === 'undefined') ? 'PA2' : args.mode;
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
-    var $Perceptron = Tempura.LinearModel.Perceptron.prototype;
+    var $PassiveAggressive = Tempura.LinearModel.OnlineLearning.PassiveAggressive.prototype;
     
     // fit
     /* target y as a matrix of [n_samples, 1] */
-    $Perceptron.fit = function(X, y) {
+    $PassiveAggressive.fit = function(X, y) {
 	// check data property
 	var inst_list = [X,y];
 	$C.checkArgc( arguments.length, 2 );
@@ -40,14 +40,16 @@
 	for (var iter=0; iter<this.n_iter; iter++) {
 	    var flag = true;
 	    for (var row=0; row<X.rows; row++) {
-		var tmp = $M.getRow(meanStd.X,row).t();
-		var pred = $M.dot(tmp, w);
+		var x = $M.getRow(meanStd.X,row).t();
+		var pred = $M.dot(x, w);
 		var target = y.get(row,0);
-		if (pred*target > 0) { // correct
+		var hingeloss = 1 - pred*target;
+		if (hingeloss < 0) { // correct
 		    continue;
 		} else { // mistake
 		    flag = false;
-		    w.add( tmp.times( this.eta * target ) );
+		    var tau = this.mode === 'PA1' ? Math.min(this.C, hingeloss / $M.dot(x, x)) : hingeloss / ($M.dot(x, x) + 1.0 / 2*this.C)
+		    w.add( x.times( tau * target) );
 		}
 	    }
 	    // check convergence
@@ -57,6 +59,7 @@
 	    }
 	    if (iter == this.n_iter-1) {
 		console.log('train finished (max_iteration has done)');
+		break
 	    }
 	}
 	this.weight = w;
@@ -71,7 +74,7 @@
     };
     
     // predict
-    $Perceptron.predict = function(X) {
+    $PassiveAggressive.predict = function(X) {
 	// check data property
 	var inst_list = [X];
 	$C.checkInstance( inst_list );
@@ -83,7 +86,7 @@
 	return pred
     };
     
-    $Perceptron.decisionFunction = function(X) {
+    $PassiveAggressive.decisionFunction = function(X) {
 	// check data property
 	var inst_list = [X];
 	$C.checkInstance( inst_list );
