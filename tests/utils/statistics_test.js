@@ -76,5 +76,16 @@ TestMain.Tester.addTest('StatisticsTest', [
             return output.equals(res);
         }
     },
+    {
+	name : 'normsInv',
+        test : function() {
+	    var input = 0.5
+            var res = Tempura.Utils.Statistics.normsInv(input);
+	    var output = 0;
+	    console.log(res);
+            return output==res;
+        }
+    },
+
 
 ]);

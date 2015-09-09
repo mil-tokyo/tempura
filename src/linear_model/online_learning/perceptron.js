@@ -6,8 +6,7 @@
 		require('../../utils/utils.js');
 		require('../../utils/statistics.js');
 		require('../../utils/checkargs.js');
-		require('../linear_model');
-		require('../base');
+		require('./online_learning');
     }
     
     // alias
