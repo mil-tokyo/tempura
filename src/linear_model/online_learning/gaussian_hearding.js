@@ -1,0 +1,104 @@
+/* --- gaussian hearding --- */
+
+(function(nodejs, $M, Tempura){
+    // node
+    if (nodejs) {
+		require('../../utils/utils.js');
+		require('../../utils/statistics.js');
+		require('../../utils/checkargs.js');
+		require('./online_learning');
+    }
+    
+    // alias
+    var $S = Tempura.Utils.Statistics;
+    var $C = Tempura.Utils.Check;
+    var $Base = Tempura.LinearModel.Base;
+    
+    // init
+    Tempura.LinearModel.OnlineLearning.GaussianHearding = function(args) {
+	if (typeof args === 'undefined') { var args = {}; }
+	this.C = (typeof args.eta === 'undefined') ? 0.1 : args.C;
+	this.center = (typeof args.center === 'undefined') ? true : args.center;
+	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
+    };
+    var $GaussianHearding = Tempura.LinearModel.OnlineLearning.GaussianHearding.prototype;
+    
+    // fit
+    /* target y as a matrix of [n_samples, 1] */
+    $GaussianHearding.fit = function(X, y) {
+	// check data property
+	var inst_list = [X,y];
+	$C.checkArgc( arguments.length, 2 );
+	$C.checkInstance( inst_list );
+	$C.checkSampleNum( inst_list );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
+	// train
+	var meanStd = $S.meanStd( this.center, false, X, y );
+	var w = new $M(X.cols,1); w.zeros();
+	var sigma = new $M(X.cols,1); sigma.zeros(1);
+	for (var iter=0; iter<this.n_iter; iter++) {
+	    var flag = true;
+	    for (var row=0; row<X.rows; row++) {
+		var x = $M.getRow(meanStd.X,row).t();
+		var pred = $M.dot(x, w);
+		var target = y.get(row,0);
+		hingeloss = 1 - pred * target;
+		if (hingeloss < 0) { // correct
+		    continue;
+		} else { // mistake
+		    flag = false;
+		    var x_2 = $M.mulEach(x, x);
+		    var c = $M.dot(sigma, x_2);
+		    w.add( $M.mulEach(sigma, x).times( target * (hingeloss/c + this.C) ) );
+		    sigma = $S.frac($M.add($S.frac(sigma), x_2.clone().times(Math.pow(this.C, 2)*c + 2 * this.C )));
+		}
+	    }
+	    // check convergence
+	    if (flag) {
+		console.log('train finished (all samples are classified correctly)');
+		break;
+	    }
+	    if (iter == this.n_iter-1) {
+		console.log('train finished (max_iteration has done)');
+	    }
+	}
+	this.weight = w;
+	this.cov = sigma;
+	// store variables
+	if (this.center) {
+	    this.intercept = $M.sub(meanStd.y_mean, $M.mul(meanStd.X_mean, this.weight));
+	} else {
+	    var tmp = new $M( 1, y.cols );
+	    this.intercept = tmp.zeros();
+	}
+	return this
+    };
+    
+    // predict
+    $GaussianHearding.predict = function(X) {
+	// check data property
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
+	// estimate
+	var pred = $Base.binaryActivation( $M.add( $M.mul( X, this.weight ),  this.intercept ) );
+	return pred
+    };
+    
+    $GaussianHearding.decisionFunction = function(X) {
+	// check data property
+	var inst_list = [X];
+	$C.checkInstance( inst_list );
+	$C.checkDataDim( X, this.weight );
+	$C.checkHasData( inst_list );
+	$C.checkHasNan( inst_list );
+	// estimate
+	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
+	
+	return pred
+	
+    };
+})(typeof window === 'undefined', Sushi.Matrix, Tempura);
