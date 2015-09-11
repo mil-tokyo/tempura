@@ -43,14 +43,10 @@
 		var r1 = $M.extract( qr.R, 0, 0, X.cols, X.cols);
 		var w = $S.fbSubstitution( r1, $M.mul( q1.t(), meanStd.y) );
 	    } else {
-		var qr = $M.qr(meanStd.X.t());
-		var r1 = $M.extract( qr.R, 0, 0, X.rows, X.rows);
-		qr.R.print();
-		qr.Q.print();
-		r1.print();
-		var tmp = $S.fbSubstitution( r1.t(), meanStd.y );
-		var zeromat = new $M(X.cols-X.rows,y.cols); zeromat.zeros();
-		var w = $M.mul( qr.Q, $M.vstack([tmp, zeromat]) );
+		var svd = $M.svd(X.t());
+		var U = svd.V; var V = svd.U
+		var pseudo_inv = $M.mul($M.mul(V, $M.diag($S.frac(svd.S))), U.t());
+		var w = $M.mul(pseudo_inv, meanStd.y);
 	    }
 	} else {
 	    throw new Error('solver should be lsqr or qr, and others have not implemented');

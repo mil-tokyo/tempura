@@ -1,20 +1,8 @@
-/* begin : neo.js */
-var Tempura = {};
-
-if (typeof window === 'undefined') {
-	(('global', eval)('this')).Tempura = Tempura;
-	
-	module.exports = Tempura;
-}
-
-/* end : neo.js */
-
 /* begin : tempura.js */
 var Tempura = {};
 
 if (typeof window === 'undefined') {
 	(('global', eval)('this')).Tempura = Tempura;
-	
 	module.exports = Tempura;
 }
 
@@ -47,7 +35,6 @@ if (typeof window === 'undefined') {
     // init
     Tempura.Utils.Statistics = {};
     var $S = Tempura.Utils.Statistics;
-    
     
     /* preprocessing */
     
@@ -109,6 +96,7 @@ if (typeof window === 'undefined') {
     // substitution (effective linear algebra solution for triangle matrix)
     $S.fbSubstitution = function( triangle, target ) {
 	var w = new $M( triangle.cols, target.cols );
+	var alpha = Math.pow(10,-12);
 	// forward substitution (ie. the triangle has lower shape)
 	if ( triangle.get(0,triangle.cols-1) === 0 ) {
 	    for (var t = 0; t<target.cols; t++) {
@@ -117,17 +105,19 @@ if (typeof window === 'undefined') {
 		    for (var col=0; col<row; col++) {
 			tmp = tmp - w.get(col,t) * triangle.get(row,col);
 		    }
-				w.set( row, t, tmp / triangle.get(row,row) );
+		    //console.log(tmp / triangle.get(row,row));
+		    w.set( row, t, tmp / (triangle.get(row,row)+alpha));
 		}
 	    }
-	} else { // backward substitution
+	} else {
+	    // backward substitution
 	    for (var t = 0; t<target.cols; t++) {
 		for (var row = target.rows-1; -1<row; row--) {
 		    var tmp = target.get(row,t);
 		    for (var col=triangle.cols-1; row<col; col--) {
 			tmp = tmp - w.get(col,t) * triangle.get(row,col);
 		    }
-		    w.set( row, t, tmp / triangle.get(row,row) );
+		    w.set( row, t, tmp / (triangle.get(row,row)+alpha) );
 			}
 	    }
 	}
@@ -930,14 +920,10 @@ if (typeof window === 'undefined') {
 		var r1 = $M.extract( qr.R, 0, 0, X.cols, X.cols);
 		var w = $S.fbSubstitution( r1, $M.mul( q1.t(), meanStd.y) );
 	    } else {
-		var qr = $M.qr(meanStd.X.t());
-		var r1 = $M.extract( qr.R, 0, 0, X.rows, X.rows);
-		qr.R.print();
-		qr.Q.print();
-		r1.print();
-		var tmp = $S.fbSubstitution( r1.t(), meanStd.y );
-		var zeromat = new $M(X.cols-X.rows,y.cols); zeromat.zeros();
-		var w = $M.mul( qr.Q, $M.vstack([tmp, zeromat]) );
+		var svd = $M.svd(X.t());
+		var U = svd.V; var V = svd.U
+		var pseudo_inv = $M.mul($M.mul(V, $M.diag($S.frac(svd.S))), U.t());
+		var w = $M.mul(pseudo_inv, meanStd.y);
 	    }
 	} else {
 	    throw new Error('solver should be lsqr or qr, and others have not implemented');
