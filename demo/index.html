@@ -7,7 +7,7 @@
 		<!--  Sushi -->
 		<script src="../sushi/src/sushi.js"></script>
 		<script src="../sushi/src/sushi_cl.js"></script>
-		
+
 		<!-- Tempura Main Libraries -->
 		<script src="../src/tempura.js"></script>
 		<script src="../src/utils/utils.js"></script>
@@ -17,7 +17,7 @@
 		<script src="../src/utils/meshgrid.js"></script>
 		<script src="../src/linear_model/linear_model.js"></script>
 		<script src="../src/linear_model/base.js"></script>
-		<script src="../src/linear_model/perceptron.js"></script>
+		<script src="../src/linear_model/online_learning/perceptron.js"></script>
 		<script src="../src/linear_model/sgd_regressor.js"></script>
 		<script src="../src/metrics/metrics.js"></script>
 		<script src="../src/metrics/pairwise.js"></script>
@@ -28,16 +28,16 @@
 		<script src="../src/cluster/k_means.js"></script>
 		<script src="../src/mixture/mixture.js"></script>
 		<script src="../src/mixture/gmm.js"></script>
-		
+
 		<!-- Soba Libraries and dependencies -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 		<script src="./js/soba.js"></script>
-		
+
 		<!-- bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-		
+
 		<!-- Demo -->
 		<script src="./js/demo.js"></script>
 		<script src="./js/demos/visualizer.js"></script>
@@ -45,7 +45,7 @@
 		<script src="./js/demos/sgd_regressor.js"></script>
 		<script src="./js/demos/nearest_neighbor_classifier.js"></script>
 		<script src="./js/demos/gmm.js"></script>
-		
+
 		<link rel="stylesheet" href="./css/soba.css">
 		<link rel="stylesheet" href="./css/demo.css">
 	</head>
@@ -106,11 +106,11 @@ No method selected.
 				</div>
 			</div>
 		</div>
-		
+
 		<script>
 			$(function(){
 				SushiDemo.setDrawArea($("#content"));
-				
+
 				var name;
 				var $menu = $("#menu").append("<ul>").addClass("list-group");
 				SushiDemo.getDemoNames().forEach(function(name){
@@ -129,18 +129,18 @@ No method selected.
 							;
 
 							$("#code").empty().text(SushiDemo.getCode(name));
-							
+
 							SushiDemo.runDemo(name);
-							
+
 							SushiDemo.setArgsInput($("#args-input"), name);
-							
+
 							$("#run-demo-with-args").unbind().click(function(){
 								SushiDemo.runDemoByInput($("#args-input"), name);
 							});
 						})
 					);
 				});
-				
+
 			});
 		</script>
 	</body>
