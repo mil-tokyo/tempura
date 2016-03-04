@@ -37,7 +37,7 @@
 		var labels = args.labels;
 
 		// Learn perceptron
-		var perceptron = new Tempura.LinearModel.Perceptron({center:true});
+		var perceptron = new Tempura.LinearModel.OnlineLearning.Perceptron({center:true});
 		perceptron.fit(samples,labels.t());
 		perceptron.weight.print();
 
