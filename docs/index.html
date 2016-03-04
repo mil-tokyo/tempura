@@ -4,7 +4,7 @@
   <meta charset='utf-8'>
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <meta name="description" content="Mil-tokyo.GitHub.io : ">
-  
+
   <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
   <title>Mil-tokyo.GitHub.io</title>
     <script>
@@ -42,8 +42,13 @@
 	<li><a href="#Lasso">Tempura.LinearModel.Lasso(lambda, center, normalize, n_iter, tolerance)</a></li>
 	<li><a href="#Ridge">Tempura.LinearModel.Ridge(lambda, center, normalize, solver, n_iter, tolerance)</a></li>
 	<li><a href="#Log">Tempura.LinearModel.Logistic(eta, alpha, center, n_iter)</a></li>
-	<li><a href="#Perceptron">Tempura.LinearModel.Perceptron(eta, center, n_iter)</a></li>
 	<li><a href="#SGDReg">Tempura.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</a></li>
+	<li><a href="#Perceptron">Tempura.LinearModel.OnlineLearning.Perceptron(eta, center, n_iter)</a></li>
+	<li><a href="#PA">Tempura.LinearModel.OnlineLearnig.PassiveAggressive(C, mode, n_iter)</a></li>
+	<li><a href="#AROW">Tempura.LinearModel.OnlineLearnig.AdaptiveRegularizationOfWeight(C, center, n_iter)</a></li>
+	<li><a href="#GHEARD">Tempura.LinearModel.OnlineLearnig.GaussianHearding(C, center, n_iter)</a></li>
+	<li><a href="#CW">Tempura.LinearModel.OnlineLearnig.ConfidenceWeighted(eta, center, n_iter)</a></li>
+	<li><a href="#SCW">Tempura.LinearModel.OnlineLearnig.SoftConfidenceWeighted(eta, C, center, n_iter)</a></li>
 	</ul>
 
 <h1 class="classname" id="kmeans">Tempura.Cluster.Kmeans(n_clusters, init, n_jobs, maxiter, tol)</h1>
@@ -55,12 +60,12 @@
     </td>
     <td class="data">
       <p><b>n_clusters</b> : int, default 8, number of clusters
-      <p><b>init</b> : string, default "kmeans++", algorithm of initialization of clusters. 
+      <p><b>init</b> : string, default "kmeans++", algorithm of initialization of clusters.
       <small>*<b>init</b> should be "kmeans++" or "random".</small>
       <p><b>n_jobs</b> : int, default 1. the number of process when calculating k-means.
 	<small>*<b>n_jobs</b> > 1 is not implemented now.</small>
-      <p><b>maxiter</b> : int, default 300, max iteration of Expectation and Maximization step of EM algorithm. 
-      <p><b>tol</b> : float, default 0.001, convergence criterion. 
+      <p><b>maxiter</b> : int, default 300, max iteration of Expectation and Maximization step of EM algorithm.
+      <p><b>tol</b> : float, default 0.001, convergence criterion.
     </td>
   </tr>
 </table>
@@ -93,8 +98,8 @@
     </td>
     <td class="data">
       <p><b>n_components</b> : int, default 1, the number of component of gmm
-      <p><b>n_iter</b> : int, default 100, max iteration of Expectation and Maximization step of EM algorithm. 
-      <p><b>thresh</b> : float, default 0.01, convergence criterion. 
+      <p><b>n_iter</b> : int, default 100, max iteration of Expectation and Maximization step of EM algorithm.
+      <p><b>thresh</b> : float, default 0.01, convergence criterion.
       <p><b>min_covar</b> : float, default 0.01, floor on the diagonal of the covariance matrix to prevent overfitting
     </td>
   </tr>
@@ -218,7 +223,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_features], training samples of domain 1 
+      <p><b>X</b> : array [n_samples, n_features], training samples of domain 1
       <p><b>Y</b> : array [n_samples, n_features], training samples of domain 2
       <small><p>*the number of samples of X and Y should be the same.</small>
     </td>
@@ -280,8 +285,8 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], training data matrix. each row corresponds to a single data point. 
-      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
+      <p><b>X</b> : array [n_samples, n_feature], training data matrix. each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.
     </td>
   </tr>
   <tr>
@@ -337,8 +342,8 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point. 
-      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
+      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.
     </td>
   </tr>
   <tr>
@@ -366,7 +371,7 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
     </td>
   </tr>
 </table>
@@ -394,8 +399,8 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point. 
-      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
+      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.
     </td>
   </tr>
   <tr>
@@ -423,7 +428,7 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
     </td>
   </tr>
 </table>
@@ -454,8 +459,8 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. Each row corresponds to a single data point. 
-      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
+      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.
     </td>
   </tr>
   <tr>
@@ -483,7 +488,7 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
     </td>
   </tr>
 </table>
@@ -496,7 +501,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>eta</b> : float, default 0.01, learning ratio for delta Error
+      <p><b>eta</b> : float, default 0.01, learning rate for delta Error
       <p><b>alpha</b> : float, default 0.015, l2-regularization strength
       <p><b>center</b> : boolean, default true, whether data is centerized or not
 	<small>*<b>center</b> is not implemented.</small>
@@ -512,8 +517,8 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point. 
-      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.  
+      <p><b>X</b> : array [n_samples, n_feature], data matrix for training. each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], target vector. i-th element corresponds to the target value of i-th data of X.
     </td>
   </tr>
   <tr>
@@ -541,68 +546,11 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
     </td>
   </tr>
 </table>
 <p>
-<h1 class="classname", id="Perceptron">Tempura.LinearModel.Perceptron(eta, center, n_iter)</h1>
-<p>
-<table class="datatable">
-  <tr>
-    <td class="title">
-      <dt>parameters:</dt>
-    </td>
-    <td class="data">
-      <p><b>eta</b> : float, default 1.0, learning ratio 
-      <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
-    </td>
-  </tr>
-</table>
-
-<h2 class="methodname">fit(X, y)</h2>
-<p>
-<table class="datatable">
-  <tr>
-    <td class="title">
-      <dt>parameters:</dt>
-    </td>
-    <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
-      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X. 
-    </td>
-  </tr>
-  <tr>
-    <td class="title">
-      <dt>returns:</dt>
-    </td>
-    <td class="data">
-      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
-    </td>
-  </tr>
-</table>
-<p>
-  <h2 class="methodname">predict(X)</h2>
-<table class="datatable">
-  <tr>
-    <td class="title">
-      <dt>parameters:</dt>
-    </td>
-    <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
-    </td>
-  </tr>
-  <tr>
-    <td class="title">
-      <dt>returns:</dt>
-    </td>
-    <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
-    </td>
-  </tr>
-</table>
-
 <p>
 <h1 class="classname" id="SGDReg">Tempura.LinearModel.SGDRegressor(algorithm, n_iter, t_zero, aver)</h1>
 <p>
@@ -615,7 +563,7 @@
       <p><b>algorithm</b> : string, default 'sgdsvm', algorithm for online training
       <p><small>*<b>algorithm</b> should be "sgdsvm" or "perceptron".</small>
       <p><b>n_iter</b> : int, default 1000, the number of iteration
-      <p><b>t_zero</b> : float, default 1.0, value to decide step size alpha   
+      <p><b>t_zero</b> : float, default 1.0, value to decide step size alpha
       <p><b>aver</b> : boolean, default true, whether averaging is used or not
     </td>
   </tr>
@@ -659,14 +607,356 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.  
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+<h1 class="classname", id="Perceptron">Tempura.LinearModel.OnlineLearning.Perceptron(eta, center, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>eta</b> : float, default 1.0, learning rate
+      <p><b>center</b> : boolean, default true, whether data is centerized or not
+      <p><b>n_iter</b> : int, default 100, the number of iteration
     </td>
   </tr>
 </table>
 
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+
+<h1 class="classname", id="PA">Tempura.LinearModel.OnlineLearning.PassiveAggressive(C, mode, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>C</b> : float, default 1.0, parameter which controls the influence of the regularization term
+      <p><b>mode</b> : string, default "PA2", mode of passive aggressive
+      <small>*<b>mode</b> should be "PA1" or "PA2".</small>
+      <p><b>n_iter</b> : int, default 100, the number of iteration
+    </td>
+  </tr>
+</table>
+
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+
+<h1 class="classname", id="AROW">Tempura.LinearModel.OnlineLearning.AdaptiveRegularizationOfWeight(C, mode, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
+      <p><b>center</b> : boolean, default true, whether data is centerized or not
+      <p><b>n_iter</b> : int, default 100, the number of iteration
+    </td>
+  </tr>
+</table>
+
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+
+<h1 class="classname", id="GHEARD">Tempura.LinearModel.OnlineLearning.GaussianHearding(C, center, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
+      <p><b>center</b> : boolean, default true, whether data is centerized or not
+      <p><b>n_iter</b> : int, default 100, the number of iteration
+    </td>
+  </tr>
+</table>
+
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+
+<h1 class="classname", id="CW">Tempura.LinearModel.OnlineLearning.ConfidenceWeighted(eta, center, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>eta</b> : float, default 0.9, probability that the sample is correctly classified
+      <p><b>center</b> : boolean, default true, whether data is centerized or not
+      <p><b>n_iter</b> : int, default 100, the number of iteration
+    </td>
+  </tr>
+</table>
+
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
+
+<h1 class="classname", id="SCW">Tempura.LinearModel.OnlineLearning.SoftConfidenceWeighted(eta, C, center, n_iter)</h1>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>eta</b> : float, default 0.9, probability that the sample is correctly classified
+      <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
+      <p><b>center</b> : boolean, default true, whether data is centerized or not
+      <p><b>n_iter</b> : int, default 100, the number of iteration
+    </td>
+  </tr>
+</table>
+
+<h2 class="methodname">fit(X, y)</h2>
+<p>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix of training samples. Each row corresponds to a single data point.
+      <p><b>y</b> : array [n_samples, 1], label vector of training samples. i-th element corresponds to the target value of i-th data of X.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>this</b> : instance of Perceptron, which has fitted parameters.
+    </td>
+  </tr>
+</table>
+<p>
+  <h2 class="methodname">predict(X)</h2>
+<table class="datatable">
+  <tr>
+    <td class="title">
+      <dt>parameters:</dt>
+    </td>
+    <td class="data">
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
+    </td>
+  </tr>
+  <tr>
+    <td class="title">
+      <dt>returns:</dt>
+    </td>
+    <td class="data">
+      <p><b>pred</b> : array [n_samples, 1], i-th element corresponds to the target value of i-th data of test data.
+    </td>
+  </tr>
+</table>
 <p>
 <p>
-  
+
       </section>
     </div>
 
@@ -677,7 +967,6 @@
         <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    
+
 </body>
 </html>
-
