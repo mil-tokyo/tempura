@@ -1,3 +1,25 @@
+// The MIT License (MIT)
+
+// Copyright (c) 2014 Machine Intelligence Laboratory (The University of Tokyo)
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 (function(nodejs, $M, Tempura){
 
     if (nodejs) {
@@ -11,7 +33,7 @@
     function k_means(X, n_clusters, init, n_jobs, maxiter, tol){
 	var X_mean = $M.sumEachCol(X).times(1.0 / X.rows);
 	X = $M.sub(X, X_mean);
-	
+
 	var x_squared_norms = Tempura.Metrics.Pairwise.row_norms(X, true);
 
 	if(n_jobs=1){
@@ -34,8 +56,8 @@
 	var labels = init_results.labels;
 
 	var centers_old = new $M(n_clusters, n_features).zeros();
-	
-	
+
+
 	for(var i=0; i<maxiter; i++){
 	    labels = _labels_inertia(X, centers);
 	    centers = _calc_centers(X, labels, n_clusters);
@@ -65,7 +87,7 @@
 		}
 	    }
 	}
-	return labels   
+	return labels
     }
 
 
@@ -78,7 +100,7 @@
 	    var means = new $M(1, n_features);
 	    for(var i=0; i<n_samples; i++){
 		if(labels.data[i] == k){
-		    means = $M.add(means, $M.getRow(X, i));  
+		    means = $M.add(means, $M.getRow(X, i));
 		    n += 1;
 		}
 	    }
@@ -97,7 +119,7 @@
 	if(n_jobs === undefined) n_jobs = 1;
 	if(maxiter === undefined) maxiter = 300;
 	if(tol === undefined) tol = 0.001;
-	
+
 	this.n_clusters = n_clusters;
 	this.init = init;
 	this.n_jobs = n_jobs;
@@ -114,7 +136,7 @@
 	return this;
     }
 
-    
+
     Tempura.Cluster.Kmeans.prototype._check_fit_data = function(X){
 	'Verify that the number of samples given is larger than k'
 	if(X.rows < this.n_clusters){
@@ -133,7 +155,7 @@
 
 	if(init == "random"){
 	    var init_sample_ind = $S.randperm(n_clusters);
-	    for(var c=0; c<n_clusters; c++){ 
+	    for(var c=0; c<n_clusters; c++){
 		var index = init_sample_ind[c];
 		labels.data[index] = c;
 		set_row(centers, $M.getRow(X, index), c);
@@ -146,10 +168,10 @@
 
 	    for(var c=0; c<n_clusters; c++){
 		setCol(all_distances, new $M(all_distances.rows, 1).zeros(), old_index);
-		
+
 		var dist = $M.getRow(all_distances, old_index);
 		dist.times(1.0/$M.sum(dist));
-		
+
 		var random_value = Math.random();
 		var dist_cumsum = 0;
 		for(var i=0; i<dist.length; i++){
@@ -169,7 +191,7 @@
             throw new Error("the init parameter for the k-means should be 'k-means++' or 'random'" + init + "was passed.");
 	}
 	return {centers : centers, labels : labels}
-	
+
     }
 
 
@@ -197,9 +219,7 @@
     else{
 	throw new Error("not implemented")
     }
-	
+
 	return X
     }
 })(typeof window === 'undefined', Sushi.Matrix, Tempura);
-
-

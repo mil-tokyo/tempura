@@ -1,3 +1,25 @@
+// The MIT License (MIT)
+
+// Copyright (c) 2014 Machine Intelligence Laboratory (The University of Tokyo)
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 (function(nodejs, $M, Tempura){
     if (nodejs) {
     	require('./decomposition');
@@ -25,7 +47,7 @@
 	else{
             var components_ = V;
 	}
-	
+
 	var n_components = this.n_components;
 	if( isNaN(n_components) ){
 	    n_components = n_features;
@@ -53,7 +75,7 @@
 		}
 	    }
 	}
-	
+
 	if(n_components < n_features){
 	    var noise_variance_ = $M.extract(explained_variance_, 0, n_components, 0, explained_variance_.cols - n_components);
 	    this.noise_variance_ = $M.sumEachCol(noise_variance_).times( 1.0 / noise_variance_.rows)
@@ -61,26 +83,26 @@
 	else{
 	    this.noise_variance_ = 0;
 	}
-	
+
 	this.n_samples_ = n_samples;
-	this.components_ = $M.extract(components_, 0, 0, n_components, components_.cols); 
+	this.components_ = $M.extract(components_, 0, 0, n_components, components_.cols);
 	this.explained_variance_ = $M.extract(explained_variance_, 0, 0, n_components, explained_variance_.cols);
 	this.explained_variance_ratio_ = $M.extract(explained_variance_ratio_, 0, 0, n_components, explained_variance_ratio_.cols);
 	this.n_components_ = n_components
     }
-    
+
     Tempura.Decomposition.PCA.prototype.transform = function(X){
 	if(typeof this.mean_ !== "undefined"){
             X = $M.sub(X,this.mean_);
 	}
-	
+
 	X = $M.mul(X, this.components_.t())
 	return X;
     }
 
-    
+
     function _infer_dimension_(explained_variance_, n_samples, n_features){
 	throw new Error("not implemented");
     }
-    
+
 })(typeof window === 'undefined', Sushi.Matrix, Tempura);

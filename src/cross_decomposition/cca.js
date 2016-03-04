@@ -1,3 +1,25 @@
+// The MIT License (MIT)
+
+// Copyright (c) 2014 Machine Intelligence Laboratory (The University of Tokyo)
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 (function(nodejs, $M, Tempura){
     if (nodejs) {
 		require('./cross_decomposition');
@@ -14,13 +36,13 @@
 	if(X_features > Y_features){
 	    throw new Error("X_features should be greater than Y_features");
 	}
-	
+
 	var covs = $S.cov($M.hstack([X, Y]), false);
 	var cov11 = $M.extract(covs, 0, 0, X_features, X_features);
 	var cov12 = $M.extract(covs, 0, X_features, X_features, Y_features);
 	var cov21 = cov12.t();
 	var cov22 = $M.extract(covs, X_features, X_features, Y_features, Y_features);
-	
+
 	var R11 = $S.chomskyDecomposition(cov11);
 	var R22 = $S.chomskyDecomposition(cov22);
 
@@ -29,7 +51,7 @@
 
 	var A = $M.mul(R11.t().inverse(), svd_results_A.V);
 	var B = $M.mul(cov22.inverse(), $M.mul(cov21, $M.divEach(A, lambda)));
-    
+
 	return { U : A, V : B, lambda : lambda }
     }
 
@@ -72,15 +94,15 @@
 	return this;
     }
 
-    Tempura.CrossDecomposition.CCA.prototype.transform = function(X, Y){	
+    Tempura.CrossDecomposition.CCA.prototype.transform = function(X, Y){
 	if(X.rows != Y.rows){
 	    throw new Error("the number of samples in X and Y should be the same.");
 	}
-	
+
 	if(X.cols != this.X_projection.rows || Y.cols != this.Y_projection.rows){
 	    throw new Error("dimension of data is different from projection matrix");
 	}
-	
+
 	if(this.scale){
 	    X = $M.divEach($M.sub(X, this.X_mean), this.X_std);
 	    Y = $M.divEach($M.sub(Y, this.Y_mean), this.Y_std);

@@ -1,3 +1,25 @@
+// The MIT License (MIT)
+
+// Copyright (c) 2014 Machine Intelligence Laboratory (The University of Tokyo)
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 /* --- soft confidence weighted --- */
 
 (function(nodejs, $M, Tempura){
@@ -8,12 +30,12 @@
 		require('../../utils/checkargs.js');
 		require('./online_learning');
     }
-    
+
     // alias
     var $S = Tempura.Utils.Statistics;
     var $C = Tempura.Utils.Check;
     var $Base = Tempura.LinearModel.Base;
-    
+
     // init
     Tempura.LinearModel.OnlineLearning.SoftConfidenceWeighted = function(args) {
 	if (typeof args === 'undefined') { var args = {}; }
@@ -23,7 +45,7 @@
 	this.n_iter = (typeof args.n_iter === 'undefined') ? 100 : args.n_iter;
     };
     var $SoftConfidenceWeighted = Tempura.LinearModel.OnlineLearning.SoftConfidenceWeighted.prototype;
-    
+
     // fit
     /* target y as a matrix of [n_samples, 1] */
     $SoftConfidenceWeighted.fit = function(X, y) {
@@ -55,7 +77,7 @@
 		    var sub_alpha = -margin* ( 1 + Math.pow(phi, 2)/2);
 		    var alpha = Math.min(this.C, Math.max(0,(sub_alpha + Math.sqrt(Math.pow(margin, 2)*Math.pow(phi,4)/4+x_sigma_x*Math.pow(phi, 2)* (1+Math.pow(phi, 2))))
 					 /( x_sigma_x * (1 + Math.pow(phi, 2)) )));
-		    
+
 		    var sigma_factor = 2/(-x_sigma_x+Math.sqrt( Math.pow(x_sigma_x, 2) + 4*x_sigma_x/Math.pow(alpha*phi, 2) ));
 		    var sigma_update = x_2.clone().times(sigma_factor);
 		    w.add($M.mulEach(sigma, x).times(target * alpha));
@@ -82,7 +104,7 @@
 	}
 	return this
     };
-    
+
     // predict
     $SoftConfidenceWeighted.predict = function(X) {
 	// check data property
@@ -95,7 +117,7 @@
 	var pred = $Base.binaryActivation( $M.add( $M.mul( X, this.weight ),  this.intercept ) );
 	return pred
     };
-    
+
     $SoftConfidenceWeighted.decisionFunction = function(X) {
 	// check data property
 	var inst_list = [X];
@@ -105,8 +127,8 @@
 	$C.checkHasNan( inst_list );
 	// estimate
 	var pred = $M.add( $M.mul( X, this.weight ),  this.intercept );
-	
+
 	return pred
-	
+
     };
 })(typeof window === 'undefined', Sushi.Matrix, Tempura);
