@@ -59,6 +59,8 @@ ol, ul {
 td.title {
     width: 100px;
     border: 1px  #c8c8c8 solid;
+    font-size: large;
+    font-weight: bold;
 }
 
 td.data {

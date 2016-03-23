@@ -60,7 +60,7 @@
     </td>
     <td class="data">
       <p><b>n_clusters</b> : int, default 8, number of clusters
-      <p><b>init</b> : string, default "kmeans++", algorithm of initialization of clusters.
+      <p><b>init</b> : string, default "kmeans++", algorithm for initialization of clusters.
       <small>*<b>init</b> should be "kmeans++" or "random".</small>
       <p><b>n_jobs</b> : int, default 1. the number of process when calculating k-means.
 	<small>*<b>n_jobs</b> > 1 is not implemented now.</small>
@@ -97,7 +97,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>n_components</b> : int, default 1, the number of component of gmm
+      <p><b>n_components</b> : int, default 1, the number of components of gmm
       <p><b>n_iter</b> : int, default 100, max iteration of Expectation and Maximization step of EM algorithm.
       <p><b>thresh</b> : float, default 0.01, convergence criterion.
       <p><b>min_covar</b> : float, default 0.01, floor on the diagonal of the covariance matrix to prevent overfitting
@@ -113,7 +113,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix used for trainig gmm. Each row corresponds to a single data point.
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for training gmm. Each row corresponds to a single data point.
     </td>
   </tr>
   <tr>
@@ -187,7 +187,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix that dimension reduction is applied. Each row corresponds to a single data point.
+      <p><b>X</b> : array [n_samples, n_feature], data matrix to which dimension reduction is applied. Each row corresponds to a single data point.
     </td>
   </tr>
   <tr>
@@ -306,7 +306,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>X</b> : array [n_samples, n_feature], data matrix usef for prediction.
+      <p><b>X</b> : array [n_samples, n_feature], data matrix used for prediction.
     </td>
   </tr>
   <tr>
@@ -314,7 +314,7 @@
       <dt>returns:</dt>
     </td>
     <td class="data">
-      <p><b>res</b> : array [n_samples, n_class], (i, j) element corresponds to predicted value of i-th sample to j-th class.
+      <p><b>res</b> : array [n_samples, n_class], (i, j) element corresponds to predicted probability of i-th sample belonging j-th class.
     </td>
   </tr>
 </table>
@@ -384,7 +384,7 @@
       <dt>parameters:</dt>
     </td>
     <td class="data">
-      <p><b>lambda</b> : float, default 1.0, constant value for avoiding overfit
+      <p><b>lambda</b> : float, default 1.0, constant value to avoid overfitting
       <p><b>center</b> : boolean, default true, whether data is centerized or not
       <p><b>normalize</b> : boolean, default true, whether data is normalized or not
       <p><b>n_iter</b> : int, default 1000, the number of iteration
@@ -446,7 +446,7 @@
       <p><b>normalize</b> : boolean, default true, whether data is normalized or not
       <p><b>solver</b> : string, default 'cd', solver used to calculate parameter
       <p><small>*<b>solver</b> should be "lrqr" or "cd" (coordinate decent).</small>
-      <p><b>n_iter</b> : int, default 1000, the number of iteration
+      <p><b>n_iter</b> : int, default 1000, the number of iterations
       <p><b>tolerance</b> : int, default 0.0001, convergence criterion of cooridate decent.
     </td>
   </tr>
@@ -505,7 +505,7 @@
       <p><b>alpha</b> : float, default 0.015, l2-regularization strength
       <p><b>center</b> : boolean, default true, whether data is centerized or not
 	<small>*<b>center</b> is not implemented.</small>
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -562,7 +562,7 @@
     <td class="data">
       <p><b>algorithm</b> : string, default 'sgdsvm', algorithm for online training
       <p><small>*<b>algorithm</b> should be "sgdsvm" or "perceptron".</small>
-      <p><b>n_iter</b> : int, default 1000, the number of iteration
+      <p><b>n_iter</b> : int, default 1000, the number of iterations
       <p><b>t_zero</b> : float, default 1.0, value to decide step size alpha
       <p><b>aver</b> : boolean, default true, whether averaging is used or not
     </td>
@@ -621,7 +621,7 @@
     <td class="data">
       <p><b>eta</b> : float, default 1.0, learning rate
       <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -679,7 +679,7 @@
       <p><b>C</b> : float, default 1.0, parameter which controls the influence of the regularization term
       <p><b>mode</b> : string, default "PA2", mode of passive aggressive
       <small>*<b>mode</b> should be "PA1" or "PA2".</small>
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -736,7 +736,7 @@
     <td class="data">
       <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
       <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -793,7 +793,7 @@
     <td class="data">
       <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
       <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -850,7 +850,7 @@
     <td class="data">
       <p><b>eta</b> : float, default 0.9, probability that the sample is correctly classified
       <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
@@ -908,7 +908,7 @@
       <p><b>eta</b> : float, default 0.9, probability that the sample is correctly classified
       <p><b>C</b> : float, default 0.1, parameter which controls the influence of the regularization term
       <p><b>center</b> : boolean, default true, whether data is centerized or not
-      <p><b>n_iter</b> : int, default 100, the number of iteration
+      <p><b>n_iter</b> : int, default 100, the number of iterations
     </td>
   </tr>
 </table>
